@@ -10,7 +10,7 @@
 3. **SEGUIMIENTO** - Tracking tiempo real
 4. **REPORTES** - Análisis completo
 
-**Ver plan detallado en:** [PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md](./PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md)
+**Ver plan detallado en:** [PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md](../documentacion-proyecto/PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md)
 
 ---
 
