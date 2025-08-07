@@ -27,10 +27,54 @@
 - **Anti-patrones identificados** para mantener consistencia
 - **Sistema escalable** para futuras implementaciones
 
-### Próximos Refinamientos UI
-- Ajustes finales de CSS según feedback específico
-- Optimizaciones de micro-interacciones
-- Validación de accesibilidad y usabilidad
+## 🚨 PROBLEMA ARQUITECTÓNICO CRÍTICO IDENTIFICADO
+**Fecha**: 07/08/2025 - **Estado**: BLOQUEADOR
+
+### 📋 **Situación Actual**
+Durante el refinamiento del dashboard se descubrió que **faltan módulos completos de logística** que existían en el MVP funcional anterior. El sistema actual solo implementa gestión básica (productos, clientes, pedidos, stock) pero carece de la funcionalidad operativa crítica.
+
+### ❌ **Módulos Faltantes Críticos**
+1. **🚛 VEHÍCULOS** - Gestión de flota con capacidades y estados
+2. **📋 PLANIFICACIÓN** - Asignación de pedidos a vehículos/rutas por calendario
+3. **📍 SEGUIMIENTO** - Dashboard de entregas en tiempo real con estados
+4. **📊 REPORTES** - Sección completa de análisis y reportes
+
+### 🔍 **Impacto del Problema**
+- **Dashboard inconsistente**: Métricas como "Entregas Hoy" y "Pendientes Entrega" no tienen backend real
+- **Flujo operativo incompleto**: No se puede completar el ciclo pedido → planificación → entrega
+- **CTAs sin destino**: Botones del dashboard no pueden dirigir a funcionalidades inexistentes
+- **Estados de pedidos**: Nuevo estado "Listo para enviar" implementado pero sin flujo logístico
+
+### 📱 **Evidencia del MVP Anterior**
+Screenshots del sistema funcional anterior muestran:
+- Planificación semanal con asignación de vehículos
+- Vista de seguimiento con métricas en tiempo real  
+- Gestión completa de flota con capacidades específicas
+- Estados de entrega con porcentajes de efectividad
+
+### 🎯 **Próximos Pasos Críticos**
+1. **Auditoría completa**: Comparar sistema actual vs MVP funcional
+2. **Implementación urgente**: Desarrollar módulos faltantes antes de continuar UI
+3. **Reestructuración**: Ajustar dashboard para conectar con funcionalidades reales
+4. **Testing integral**: Validar flujo completo operativo
+
+### ⚠️ **Decisión Arquitectónica**
+Se decidió **Opción A**: Implementar estructura faltante completa en lugar de simplificar dashboard. Esto asegura que el sistema sea 100% funcional y comparable al MVP anterior.
+
+---
+
+### 🔄 **Refinamientos UI Completados**
+#### ✅ **Dashboard - Fase 1**
+- **Compactación visual** - Espaciado optimizado (space-y-6 → space-y-4)
+- **Quinta métrica agregada** - "Pendientes Entrega" con nuevo estado "Listo para enviar"  
+- **Grid expandido** - De 4 a 5 columnas para métricas
+- **Badges optimizados** - Reducción de espaciado en indicadores de tendencia
+- **Estados de pedidos** - Agregado "Listo para enviar" con colores púrpura
+
+#### 🚧 **Pendiente Post-Implementación Logística**
+- **Conectar métricas a backend real** de vehículos y planificación
+- **CTAs funcionales** que dirijan a módulos implementados
+- **Responsividad mobile** después de completar funcionalidades core
 
 ---
 

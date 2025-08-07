@@ -41,7 +41,7 @@
     </div>
     
     <!-- Metrics Grid con espaciado consistente -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
       <MetricCard
         v-for="metric in metrics"
         :key="metric.id"
@@ -242,7 +242,8 @@ import {
   CurrencyDollarIcon,
   ShoppingCartIcon,
   UserGroupIcon,
-  TruckIcon
+  TruckIcon,
+  ClockIcon
 } from '@heroicons/vue/24/outline'
 import MetricCard from '@/components/dashboard/MetricCard.vue'
 
@@ -299,6 +300,14 @@ const metrics = ref([
     trend: 'up',
     trendValue: '+25.0%',
     icon: TruckIcon
+  },
+  {
+    id: 5,
+    title: 'Pendientes Entrega',
+    value: '7',
+    trend: 'down',
+    trendValue: '-15.2%',
+    icon: ClockIcon
   }
 ])
 
@@ -337,7 +346,7 @@ const recentOrders = ref([
     product: 'Mix Productos BAMBU',
     items: 35, 
     total: '27,300.00', 
-    status: 'Preparando', 
+    status: 'Listo para enviar', 
     date: 'Hoy, 10:00' 
   },
   { 
@@ -346,7 +355,7 @@ const recentOrders = ref([
     product: 'Jabón líquido BAMBU (Bidón 5L)',
     items: 12, 
     total: '9,360.00', 
-    status: 'Entregado', 
+    status: 'Listo para enviar', 
     date: 'Ayer, 18:45' 
   },
   { 
@@ -364,6 +373,7 @@ const getStatusClasses = (status: string) => {
   const classes = {
     'Entregado': 'bg-green-500/20 text-green-400 border-green-500/30',
     'En camino': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    'Listo para enviar': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
     'Preparando': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
     'Pendiente de armado': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
     'Cancelado': 'bg-red-500/20 text-red-400 border-red-500/30'

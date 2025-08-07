@@ -14,7 +14,7 @@
       <!-- Badge de tendencia con tipografía consistente -->
       <span 
         v-if="trendValue"
-        class="text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1.5"
+        class="text-xs font-semibold px-2 py-1 rounded-md flex items-center gap-1"
         :class="trendBadgeClass"
       >
         <svg v-if="trend === 'up'" class="w-3 h-3 fill-current" viewBox="0 0 12 12">
@@ -63,6 +63,8 @@ const iconBgClass = computed(() => {
       return 'bg-purple-500/20'
     case 'Entregas Hoy':
       return 'bg-orange-500/20'
+    case 'Pendientes Entrega':
+      return 'bg-amber-500/20'
     default:
       return 'bg-slate-500/20'
   }
@@ -78,6 +80,8 @@ const iconColorClass = computed(() => {
       return 'text-purple-400'
     case 'Entregas Hoy':
       return 'text-orange-400'
+    case 'Pendientes Entrega':
+      return 'text-amber-400'
     default:
       return 'text-slate-400'
   }
