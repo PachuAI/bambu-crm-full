@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductoController;
 use App\Http\Controllers\Api\ClienteController;
 use App\Http\Controllers\Api\ConfiguracionController;
+use App\Http\Controllers\Api\StockController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -35,4 +36,15 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::post('/configuraciones', [ConfiguracionController::class, 'store']);
     Route::put('/configuraciones/{id}', [ConfiguracionController::class, 'update']);
     Route::delete('/configuraciones/{id}', [ConfiguracionController::class, 'destroy']);
+    
+    // Gestión de Stock (para CRM)
+    Route::prefix('stock')->group(function () {
+        Route::get('/', [StockController::class, 'index']);
+        Route::post('/ajustar', [StockController::class, 'ajustar']);
+        Route::post('/ingreso', [StockController::class, 'ingreso']);
+        Route::get('/alertas', [StockController::class, 'alertas']);
+        Route::get('/para-fabricar', [StockController::class, 'paraFabricar']);
+        Route::get('/historial/{producto}', [StockController::class, 'historial']);
+        Route::post('/marcar-fabricar/{producto}', [StockController::class, 'marcarFabricar']);
+    });
 });

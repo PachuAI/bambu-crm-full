@@ -27,7 +27,9 @@
 |-----------|-----------|
 | **[🛠️ STACK_TECH.md](./STACK_TECH.md)** ⭐ | Stack consolidado Laravel+Vue |
 | **[🏗️ ARQUITECTURA_TECNICA_2025.md](./ARQUITECTURA_TECNICA_2025.md)** | Decisiones arquitectónicas |
-| **[📝 DECISIONES_ARQUITECTONICAS_ADR.md](./DECISIONES_ARQUITECTONICAS_ADR.md)** | Lecciones aprendidas MVP |
+| **[📊 ESQUEMA_BASE_DATOS.md](./ESQUEMA_BASE_DATOS.md)** ⭐ | **BD PostgreSQL + Sistema Stock** |
+| **[🌐 API_ENDPOINTS.md](./API_ENDPOINTS.md)** ⭐ | **22+ endpoints con Stock APIs** |
+| **[📝 ADR_NUEVAS_DECISIONES_2025.md](./ADR_NUEVAS_DECISIONES_2025.md)** | Lecciones aprendidas MVP |
 
 ### 🎨 **Diseño y UX/UI**
 | Documento | Propósito |
@@ -53,13 +55,16 @@
 **FUENTE ÚNICA DE VERDAD** → [📊 STATUS.md](../STATUS.md)
 
 ### 🔄 Próxima Tarea
-**Instalar Filament Admin Panel v3** según STATUS.md
+**Desarrollo Frontend Vue SPA** según STATUS.md
 
 ### ✅ Logros Completados
 - Stack Laravel 11 + PostgreSQL + Vue 3 ✅
-- 35/35 tests pasando ✅  
+- Sistema Stock con auditoría completa ✅
+- 72+ tests pasando ✅  
+- Filament Admin Panel con alertas stock ✅
 - UX/UI Guidelines completas ✅
-- Documentación consolidada ✅
+- 22+ API endpoints operativos ✅
+- Documentación actualizada ✅
 
 ---
 

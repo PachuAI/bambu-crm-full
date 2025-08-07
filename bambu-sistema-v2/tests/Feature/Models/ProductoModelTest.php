@@ -178,8 +178,8 @@ class ProductoModelTest extends TestCase
             'stock_actual' => 10,
         ]);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $producto->movimientosStock());
-        $this->assertCount(0, $producto->movimientosStock);
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $producto->stockMovimientos());
+        $this->assertCount(0, $producto->stockMovimientos);
     }
 
     public function test_soft_deletes_funcionan(): void
