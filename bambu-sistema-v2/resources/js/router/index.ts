@@ -113,6 +113,34 @@ const routes: RouteRecordRaw[] = [
         path: 'configuracion',
         name: 'configuracion',
         component: () => import('@/views/configuracion/ConfiguracionIndex.vue')
+      },
+      
+      // Vehículos
+      {
+        path: 'vehiculos',
+        name: 'vehiculos',
+        component: () => import('@/views/vehiculos/VehiculosIndex.vue')
+      },
+      
+      // Planificación
+      {
+        path: 'planificacion',
+        name: 'planificacion',
+        component: () => import('@/views/planificacion/PlanificacionIndex.vue')
+      },
+      
+      // Seguimiento
+      {
+        path: 'seguimiento',
+        name: 'seguimiento',
+        component: () => import('@/views/seguimiento/SeguimientoIndex.vue')
+      },
+      
+      // Reportes
+      {
+        path: 'reportes',
+        name: 'reportes',
+        component: () => import('@/views/reportes/ReportesIndex.vue')
       }
     ]
   },

@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\ProductoController;
 use App\Http\Controllers\Api\ClienteController;
 use App\Http\Controllers\Api\ConfiguracionController;
 use App\Http\Controllers\Api\StockController;
+use App\Http\Controllers\Api\VehiculoController;
+use App\Http\Controllers\Api\RepartoController;
+use App\Http\Controllers\Api\ReporteController;
 
 // Authentication routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -53,5 +56,25 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/para-fabricar', [StockController::class, 'paraFabricar']);
         Route::get('/historial/{producto}', [StockController::class, 'historial']);
         Route::post('/marcar-fabricar/{producto}', [StockController::class, 'marcarFabricar']);
+    });
+    
+    // Gestión de Vehículos
+    Route::apiResource('vehiculos', VehiculoController::class);
+    Route::get('/vehiculos-disponibles', [VehiculoController::class, 'disponibles']);
+    Route::patch('/vehiculos/{vehiculo}/activar', [VehiculoController::class, 'activar']);
+    Route::patch('/vehiculos/{vehiculo}/desactivar', [VehiculoController::class, 'desactivar']);
+    
+    // Gestión de Repartos (Planificación y Seguimiento)
+    Route::apiResource('repartos', RepartoController::class);
+    Route::patch('/repartos/{reparto}/estado', [RepartoController::class, 'cambiarEstado']);
+    Route::get('/planificacion-semanal', [RepartoController::class, 'planificacionSemanal']);
+    Route::get('/seguimiento-tiempo-real', [RepartoController::class, 'seguimientoTiempoReal']);
+    
+    // Reportes y Análisis
+    Route::prefix('reportes')->group(function () {
+        Route::get('/dashboard', [ReporteController::class, 'dashboard']);
+        Route::get('/vehiculos', [ReporteController::class, 'reporteVehiculos']);
+        Route::get('/entregas', [ReporteController::class, 'reporteEntregas']);
+        Route::get('/operativo', [ReporteController::class, 'reporteOperativo']);
     });
 });
