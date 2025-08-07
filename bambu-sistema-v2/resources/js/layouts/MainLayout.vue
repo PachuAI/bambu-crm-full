@@ -20,19 +20,59 @@
       
       <!-- Navigation -->
       <nav class="p-4 space-y-1">
-        <router-link
-          v-for="item in menuItems"
-          :key="item.path"
-          :to="item.path"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 cursor-pointer group"
-          :class="isActiveRoute(item.path) ? 
-            'bg-indigo-600 text-white' : 
-            'text-slate-400 hover:bg-slate-800 hover:text-white'"
-          :title="sidebarCollapsed ? item.label : ''"
-        >
-          <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
-          <span v-if="!sidebarCollapsed" class="truncate">{{ item.label }}</span>
-        </router-link>
+        <template v-for="item in menuItems" :key="item.label">
+          <!-- Dropdown Item (Repartos) -->
+          <div v-if="item.isDropdown">
+            <button
+              @click="toggleRepartos"
+              class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-150 cursor-pointer group"
+              :class="isRepartosActive() ? 
+                'bg-indigo-600 text-white' : 
+                'text-slate-400 hover:bg-slate-800 hover:text-white'"
+              :title="sidebarCollapsed ? item.label : ''"
+            >
+              <div class="flex items-center gap-3">
+                <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
+                <span v-if="!sidebarCollapsed" class="truncate">{{ item.label }}</span>
+              </div>
+              <ChevronDownIcon 
+                v-if="!sidebarCollapsed"
+                class="w-4 h-4 transition-transform"
+                :class="{ 'rotate-180': repartosExpanded }"
+              />
+            </button>
+            
+            <!-- Subitems -->
+            <div v-if="repartosExpanded && !sidebarCollapsed" class="mt-1 space-y-1 pl-8">
+              <router-link
+                v-for="subItem in item.subItems"
+                :key="subItem.path"
+                :to="subItem.path"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150 cursor-pointer group text-sm"
+                :class="isActiveRoute(subItem.path) ? 
+                  'bg-indigo-600/50 text-white' : 
+                  'text-slate-400 hover:bg-slate-800 hover:text-white'"
+              >
+                <component :is="subItem.icon" class="w-4 h-4 flex-shrink-0" />
+                <span class="truncate">{{ subItem.label }}</span>
+              </router-link>
+            </div>
+          </div>
+          
+          <!-- Regular Item -->
+          <router-link
+            v-else
+            :to="item.path"
+            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 cursor-pointer group"
+            :class="isActiveRoute(item.path) ? 
+              'bg-indigo-600 text-white' : 
+              'text-slate-400 hover:bg-slate-800 hover:text-white'"
+            :title="sidebarCollapsed ? item.label : ''"
+          >
+            <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
+            <span v-if="!sidebarCollapsed" class="truncate">{{ item.label }}</span>
+          </router-link>
+        </template>
         
         <!-- Cotizador Button -->
         <router-link
@@ -130,7 +170,7 @@
       
       <!-- Page Content -->
       <main class="flex-1 overflow-auto">
-        <div class="p-8">
+        <div class="p-6">
           <router-view v-slot="{ Component }">
             <transition name="fade" mode="out-in">
               <component :is="Component" />
@@ -164,7 +204,8 @@ import {
   XMarkIcon,
   CalendarDaysIcon,
   MapPinIcon,
-  ClipboardDocumentListIcon
+  ClipboardDocumentListIcon,
+  ChevronDownIcon
 } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
@@ -173,9 +214,14 @@ const { isDark, toggleTheme } = useTheme()
 
 // Sidebar collapse state
 const sidebarCollapsed = ref(false)
+const repartosExpanded = ref(false)
 
 const toggleSidebar = () => {
   sidebarCollapsed.value = !sidebarCollapsed.value
+}
+
+const toggleRepartos = () => {
+  repartosExpanded.value = !repartosExpanded.value
 }
 
 const menuItems = [
@@ -183,10 +229,18 @@ const menuItems = [
   { path: '/productos', label: 'Productos', icon: CubeIcon },
   { path: '/clientes', label: 'Clientes', icon: UserGroupIcon },
   { path: '/pedidos', label: 'Pedidos', icon: DocumentTextIcon },
-  { path: '/stock', label: 'Stock', icon: ClipboardDocumentListIcon },
-  { path: '/vehiculos', label: 'Vehículos', icon: TruckIcon },
-  { path: '/planificacion', label: 'Planificación', icon: CalendarDaysIcon },
-  { path: '/seguimiento', label: 'Seguimiento', icon: MapPinIcon },
+  { 
+    path: null, 
+    label: 'Repartos', 
+    icon: TruckIcon,
+    isDropdown: true,
+    expanded: false,
+    subItems: [
+      { path: '/vehiculos', label: 'Vehículos', icon: TruckIcon },
+      { path: '/planificacion', label: 'Planificación', icon: CalendarDaysIcon },
+      { path: '/seguimiento', label: 'Seguimiento', icon: MapPinIcon }
+    ]
+  },
   { path: '/reportes', label: 'Reportes', icon: ChartBarIcon },
   { path: '/configuracion', label: 'Configuración', icon: Cog6ToothIcon },
 ]
@@ -198,6 +252,13 @@ const userInitials = computed(() => {
 
 const isActiveRoute = (path: string) => {
   return route.path === path || route.path.startsWith(path + '/')
+}
+
+const isRepartosActive = () => {
+  const repartosRoutes = ['/vehiculos', '/planificacion', '/seguimiento']
+  return repartosRoutes.some(routePath => 
+    route.path === routePath || route.path.startsWith(routePath + '/')
+  )
 }
 
 const handleLogout = async () => {

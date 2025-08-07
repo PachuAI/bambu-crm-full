@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-3">
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -299,7 +299,7 @@ const metrics = ref([
     title: 'Entregas Hoy',
     value: '12',
     trend: 'up',
-    trendValue: '+25.0%',
+    trendValue: '8 completadas',
     icon: TruckIcon
   },
   {
@@ -400,7 +400,7 @@ const fetchDashboardData = async () => {
     metrics.value[2].trendValue = `+${data.clientes_nuevos || 0} nuevos`
     
     metrics.value[3].value = data.entregas_hoy?.toString() || '0'
-    metrics.value[3].trendValue = `${data.efectividad || 0}% efectividad`
+    metrics.value[3].trendValue = `${data.entregas_completadas || 0} completadas`
     
     metrics.value[4].value = data.vehiculos_disponibles?.toString() || '0'
     metrics.value[4].trendValue = `de ${data.vehiculos_totales || 0} total`
