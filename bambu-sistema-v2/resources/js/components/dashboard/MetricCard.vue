@@ -1,68 +1,57 @@
 <template>
   <div 
-    class="rounded-lg p-6 relative transition-all duration-150"
-    style="background-color: var(--bg-secondary); 
-           border: 1px solid var(--surface-1)"
-    @mouseover="$event.target.style.borderColor = 'var(--surface-2)'; $event.target.style.backgroundColor = 'var(--bg-tertiary)'"
-    @mouseleave="$event.target.style.borderColor = 'var(--surface-1)'; $event.target.style.backgroundColor = 'var(--bg-secondary)'"
+    class="rounded-xl bg-slate-800 border border-slate-700 p-8 relative transition-all duration-200 hover:border-slate-600 hover:shadow-lg min-h-[160px]"
   >
     <div class="flex justify-between items-start mb-4">
-      <h3 class="text-sm font-medium" style="color: var(--text-secondary)">{{ title }}</h3>
+      <h3 class="text-sm font-medium text-slate-400">{{ title }}</h3>
       <span 
         v-if="trendValue"
-        class="text-xs font-semibold px-2 py-1 rounded-full inline-flex items-center gap-1"
-        :style="trend === 'up' ? 
-          'background-color: rgba(34, 197, 94, 0.15); color: var(--success-light)' : 
-          'background-color: rgba(239, 68, 68, 0.15); color: var(--danger-light)'"
+        :class="[
+          'text-xs font-semibold px-2 py-1 rounded-full inline-flex items-center gap-1',
+          trend === 'up' ? 
+            'bg-green-900/30 text-green-400' : 
+            'bg-red-900/30 text-red-400'
+        ]"
       >
-        <span v-if="trend === 'up'">+</span>
-        <span v-else>-</span>
-        {{ trendValue.replace(/^[+-]/, '') }}
+        <span v-if="trend === 'up'">↗</span>
+        <span v-else>↘</span>
+        {{ trendValue }}
       </span>
     </div>
     
-    <div 
-      class="text-3xl font-bold mb-1"
-      style="color: var(--text-primary); font-variant-numeric: tabular-nums; line-height: 1.1"
-    >
+    <div class="text-3xl font-bold mb-1 text-white font-mono">
       <template v-if="!loading">
         {{ value }}
       </template>
       <template v-else>
-        <div class="h-8 w-24 rounded animate-pulse" style="background-color: var(--surface-1)"></div>
+        <div class="h-8 w-24 rounded animate-pulse bg-slate-700"></div>
       </template>
     </div>
     
     <div class="flex items-end justify-between mt-4">
-      <component :is="icon" class="w-5 h-5" style="color: var(--text-muted)" />
-      <div class="h-10 flex-1 ml-4">
-        <!-- Mini chart integration - Sparkline style -->
-        <svg class="w-full h-full" viewBox="0 0 100 40">
+      <component :is="icon" class="w-5 h-5 text-slate-500" />
+      <div class="h-8 flex-1 ml-4">
+        <!-- Mini sparkline chart -->
+        <svg class="w-full h-full" viewBox="0 0 100 32">
           <defs>
-            <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" :style="`stop-color: var(--primary); stop-opacity: 0.3`" />
-              <stop offset="100%" :style="`stop-color: var(--primary); stop-opacity: 0`" />
+            <linearGradient id="sparklineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" class="text-indigo-500" stop-opacity="0.4" />
+              <stop offset="100%" class="text-indigo-500" stop-opacity="0" />
             </linearGradient>
           </defs>
           <path
-            d="M 0,30 L 20,25 L 40,28 L 60,20 L 80,15 L 100,18"
-            stroke="var(--primary)"
+            d="M 0,24 L 20,20 L 40,22 L 60,16 L 80,12 L 100,14"
+            stroke="rgb(99, 102, 241)"
             stroke-width="2"
             fill="none"
           />
           <path
-            d="M 0,30 L 20,25 L 40,28 L 60,20 L 80,15 L 100,18 L 100,40 L 0,40 Z"
-            fill="url(#areaGradient)"
+            d="M 0,24 L 20,20 L 40,22 L 60,16 L 80,12 L 100,14 L 100,32 L 0,32 Z"
+            fill="url(#sparklineGradient)"
           />
         </svg>
       </div>
     </div>
-    
-    <!-- Status indicator -->
-    <div 
-      class="absolute top-4 right-4 w-1.5 h-1.5 rounded-full opacity-40"
-      style="background-color: var(--primary)"
-    ></div>
   </div>
 </template>
 

@@ -1,20 +1,20 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-slate-900">
-    <div class="max-w-md w-full space-y-8 px-4">
+    <div class="max-w-md w-full space-y-8 px-6">
       <!-- Logo and Title -->
       <div class="text-center">
-        <h1 class="text-4xl font-bold mb-2 text-indigo-400">BAMBU</h1>
-        <h2 class="text-2xl font-semibold text-white">Iniciar Sesión</h2>
-        <p class="mt-2 text-slate-400">
+        <h1 class="text-4xl font-bold mb-4 text-indigo-400">BAMBU</h1>
+        <h2 class="text-2xl font-semibold text-white mb-3">Iniciar Sesión</h2>
+        <p class="text-slate-400">
           Ingresa a tu cuenta para continuar
         </p>
       </div>
 
       <!-- Login Form -->
       <form @submit.prevent="handleLogin" class="mt-8 space-y-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-lg p-6 space-y-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-lg p-6 space-y-6">
           <!-- Email Field -->
-          <div class="space-y-1">
+          <div class="space-y-2">
             <label for="email" class="block text-sm font-medium text-slate-300">
               Correo Electrónico
             </label>
@@ -23,14 +23,14 @@
               v-model="form.email"
               type="email"
               required
-              class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
+              class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
               placeholder="admin@bambu.com"
               :disabled="authStore.loading"
             />
           </div>
 
           <!-- Password Field -->
-          <div class="space-y-1">
+          <div class="space-y-2">
             <label for="password" class="block text-sm font-medium text-slate-300">
               Contraseña
             </label>
@@ -39,14 +39,14 @@
               v-model="form.password"
               type="password"
               required
-              class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
+              class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
               placeholder="••••••••"
               :disabled="authStore.loading"
             />
           </div>
 
           <!-- Remember Me -->
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between pt-2">
             <label class="flex items-center">
               <input
                 v-model="form.remember"

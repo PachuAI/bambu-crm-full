@@ -1,21 +1,16 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-8">
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold" style="color: var(--text-primary)">Dashboard</h1>
-        <p class="mt-1" style="color: var(--text-secondary)">Resumen de tu negocio en tiempo real</p>
+        <h1 class="text-3xl font-bold text-white">Dashboard</h1>
+        <p class="mt-2 text-slate-400">Resumen de tu negocio en tiempo real</p>
       </div>
       
       <!-- Date Range Selector -->
       <div class="flex items-center gap-2">
         <button 
-          class="px-4 py-2 rounded-md font-medium text-sm inline-flex items-center gap-2 transition-all duration-150"
-          style="background-color: transparent; 
-                 color: var(--text-secondary); 
-                 border: 1px solid var(--surface-1)"
-          @mouseover="$event.target.style.backgroundColor = 'var(--surface-1)'; $event.target.style.color = 'var(--text-primary)'"
-          @mouseleave="$event.target.style.backgroundColor = 'transparent'; $event.target.style.color = 'var(--text-secondary)'"
+          class="px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2 transition-all duration-150 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white"
         >
           <CalendarIcon class="w-4 h-4" />
           <span>Últimos 30 días</span>
@@ -25,7 +20,7 @@
     </div>
     
     <!-- Metrics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <MetricCard
         v-for="metric in metrics"
         :key="metric.id"
@@ -39,52 +34,36 @@
     </div>
     
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Sales Chart (2/3 width) -->
-      <div class="lg:col-span-2 rounded-lg" style="background-color: var(--bg-secondary); border: 1px solid var(--surface-1)">
-        <div class="p-6">
+      <div class="lg:col-span-2 rounded-xl bg-slate-800 border border-slate-700">
+        <div class="p-8">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold" style="color: var(--text-primary)">Ventas del Mes</h2>
+            <h2 class="text-lg font-semibold text-white">Ventas del Mes</h2>
             <div class="flex gap-2">
-              <button 
-                class="px-3 py-1 text-xs rounded-md text-white"
-                style="background-color: var(--primary)"
-              >
+              <button class="px-3 py-1 text-xs rounded-md text-white bg-indigo-600">
                 Mensual
               </button>
-              <button 
-                class="px-3 py-1 text-xs rounded-md transition-colors"
-                style="color: var(--text-secondary)"
-                @mouseover="$event.target.style.backgroundColor = 'var(--surface-1)'"
-                @mouseleave="$event.target.style.backgroundColor = 'transparent'"
-              >
+              <button class="px-3 py-1 text-xs rounded-md text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
                 Semanal
               </button>
-              <button 
-                class="px-3 py-1 text-xs rounded-md transition-colors"
-                style="color: var(--text-secondary)"
-                @mouseover="$event.target.style.backgroundColor = 'var(--surface-1)'"
-                @mouseleave="$event.target.style.backgroundColor = 'transparent'"
-              >
+              <button class="px-3 py-1 text-xs rounded-md text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
                 Diario
               </button>
             </div>
           </div>
           
           <!-- Placeholder for chart -->
-          <div 
-            class="h-64 flex items-center justify-center rounded-lg"
-            style="background-color: var(--surface-1)"
-          >
-            <p style="color: var(--text-muted)">Gráfico de ventas</p>
+          <div class="h-64 flex items-center justify-center rounded-lg bg-slate-900">
+            <p class="text-slate-500">Gráfico de ventas</p>
           </div>
         </div>
       </div>
       
       <!-- Products Distribution (1/3 width) -->
-      <div class="rounded-lg" style="background-color: var(--bg-secondary); border: 1px solid var(--surface-1)">
-        <div class="p-6">
-          <h2 class="text-lg font-semibold mb-4" style="color: var(--text-primary)">Productos Más Vendidos</h2>
+      <div class="rounded-xl bg-slate-800 border border-slate-700">
+        <div class="p-8">
+          <h2 class="text-lg font-semibold mb-4 text-white">Productos Más Vendidos</h2>
           
           <!-- Product list -->
           <div class="space-y-3">
@@ -92,38 +71,31 @@
               <div class="flex items-center gap-3">
                 <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: product.color }"></div>
                 <div>
-                  <p class="text-sm font-medium" style="color: var(--text-primary)">{{ product.name }}</p>
-                  <p class="text-xs" style="color: var(--text-muted)">{{ product.quantity }} unidades</p>
+                  <p class="text-sm font-medium text-white">{{ product.name }}</p>
+                  <p class="text-xs text-slate-400">{{ product.quantity }} unidades</p>
                 </div>
               </div>
-              <span class="text-sm font-semibold" style="color: var(--text-primary)">
+              <span class="text-sm font-semibold text-white">
                 {{ product.percentage }}%
               </span>
             </div>
           </div>
           
           <!-- Placeholder for donut chart -->
-          <div 
-            class="mt-4 h-32 flex items-center justify-center rounded-lg"
-            style="background-color: var(--surface-1)"
-          >
-            <p class="text-sm" style="color: var(--text-muted)">Gráfico circular</p>
+          <div class="mt-4 h-32 flex items-center justify-center rounded-lg bg-slate-900">
+            <p class="text-sm text-slate-500">Gráfico circular</p>
           </div>
         </div>
       </div>
     </div>
     
     <!-- Recent Activity Table -->
-    <div class="rounded-lg" style="background-color: var(--bg-secondary); border: 1px solid var(--surface-1)">
-      <div 
-        class="px-6 py-4 flex items-center justify-between"
-        style="border-bottom: 1px solid var(--surface-1)"
-      >
-        <h2 class="text-lg font-semibold" style="color: var(--text-primary)">Pedidos Recientes</h2>
+    <div class="rounded-xl bg-slate-800 border border-slate-700">
+      <div class="px-8 py-6 flex items-center justify-between border-b border-slate-700">
+        <h2 class="text-lg font-semibold text-white">Pedidos Recientes</h2>
         <router-link 
           to="/pedidos" 
-          class="text-sm hover:opacity-80"
-          style="color: var(--primary)"
+          class="text-sm hover:opacity-80 text-indigo-400"
         >
           Ver todos →
         </router-link>
@@ -132,46 +104,48 @@
       <div class="overflow-x-auto">
         <table class="w-full">
           <thead>
-            <tr style="border-bottom: 1px solid var(--surface-1)">
-              <th class="text-left p-4 text-sm font-medium" style="color: var(--text-secondary)">#Pedido</th>
-              <th class="text-left p-4 text-sm font-medium" style="color: var(--text-secondary)">Cliente</th>
-              <th class="text-left p-4 text-sm font-medium" style="color: var(--text-secondary)">Productos</th>
-              <th class="text-left p-4 text-sm font-medium" style="color: var(--text-secondary)">Total</th>
-              <th class="text-left p-4 text-sm font-medium" style="color: var(--text-secondary)">Estado</th>
-              <th class="text-left p-4 text-sm font-medium" style="color: var(--text-secondary)">Fecha</th>
+            <tr class="border-b border-slate-700">
+              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">#Pedido</th>
+              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Cliente</th>
+              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Productos</th>
+              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Total</th>
+              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Estado</th>
+              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Fecha</th>
             </tr>
           </thead>
           <tbody>
             <tr 
               v-for="order in recentOrders" 
               :key="order.id" 
-              class="transition-colors"
-              style="border-bottom: 1px solid var(--surface-1)"
-              @mouseover="$event.target.style.backgroundColor = 'var(--surface-1)'"
-              @mouseleave="$event.target.style.backgroundColor = 'transparent'"
+              class="border-b border-slate-700 hover:bg-slate-800/50 transition-colors"
             >
-              <td class="p-4">
-                <span class="text-sm font-medium" style="color: var(--text-primary)">#{{ order.id }}</span>
+              <td class="px-8 py-4">
+                <span class="text-sm font-medium text-white">#{{ order.id }}</span>
               </td>
-              <td class="p-4">
-                <span class="text-sm" style="color: var(--text-primary)">{{ order.customer }}</span>
+              <td class="px-8 py-4">
+                <span class="text-sm text-white">{{ order.customer }}</span>
               </td>
-              <td class="p-4">
-                <span class="text-sm" style="color: var(--text-secondary)">{{ order.items }} items</span>
+              <td class="px-8 py-4">
+                <span class="text-sm text-slate-400">{{ order.items }} items</span>
               </td>
-              <td class="p-4">
-                <span class="text-sm font-semibold" style="color: var(--text-primary)">${{ order.total }}</span>
+              <td class="px-8 py-4">
+                <span class="text-sm font-semibold text-white">${{ order.total }}</span>
               </td>
-              <td class="p-4">
+              <td class="px-8 py-4">
                 <span 
-                  class="px-2 py-1 text-xs font-medium rounded-full"
-                  :style="getStatusStyle(order.status)"
+                  class="px-3 py-1.5 text-xs font-medium rounded-full"
+                  :class="{
+                    'bg-green-900/30 text-green-400': order.status === 'Entregado',
+                    'bg-blue-900/30 text-blue-400': order.status === 'En camino',
+                    'bg-yellow-900/30 text-yellow-400': order.status === 'Preparando',
+                    'bg-red-900/30 text-red-400': order.status === 'Cancelado'
+                  }"
                 >
                   {{ order.status }}
                 </span>
               </td>
-              <td class="p-4">
-                <span class="text-sm" style="color: var(--text-secondary)">{{ order.date }}</span>
+              <td class="px-8 py-4">
+                <span class="text-sm text-slate-400">{{ order.date }}</span>
               </td>
             </tr>
           </tbody>

@@ -101,6 +101,13 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/stock/MovimientosIndex.vue')
       },
       
+      // Cotizador
+      {
+        path: 'cotizador',
+        name: 'cotizador',
+        component: () => import('@/views/CotizadorView.vue')
+      },
+      
       // Configuración
       {
         path: 'configuracion',
