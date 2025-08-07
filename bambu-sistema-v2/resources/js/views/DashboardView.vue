@@ -4,18 +4,39 @@
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-        <p class="mt-2 text-slate-400">Control operativo BAMBU - Alto Valle</p>
+        <div class="mt-2 space-y-1">
+          <p class="text-slate-400">Control operativo BAMBU - Alto Valle</p>
+          <p class="text-xs text-slate-500 flex items-center gap-2">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
+            </svg>
+            Última actualización: {{ lastUpdated }}
+          </p>
+        </div>
       </div>
       
-      <!-- Date Range Selector -->
-      <div class="flex items-center gap-2">
+      <!-- Date Range Selector and User Avatar -->
+      <div class="flex items-center gap-4">
         <button 
-          class="px-4 py-2 rounded font-medium text-sm inline-flex items-center gap-2 transition-all duration-150 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white"
+          class="px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2 transition-all duration-150 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white"
         >
           <CalendarIcon class="w-4 h-4" />
           <span>Últimos 30 días</span>
           <ChevronDownIcon class="w-4 h-4" />
         </button>
+        
+        <!-- User Avatar -->
+        <div class="flex items-center gap-3 pl-4 border-l border-slate-600">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-semibold">
+              {{ userInitials }}
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-white">{{ userName }}</p>
+              <p class="text-xs text-slate-400">Administrador</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -33,69 +54,125 @@
       />
     </div>
     
-    <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-      <!-- Sales Chart (2/3 width) -->
-      <div class="lg:col-span-2 rounded-lg bg-slate-800 border border-slate-700">
-        <div class="p-5">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-lg font-semibold text-white">Facturación del Mes</h2>
-            <div class="flex gap-2">
-              <button class="px-3 py-1 text-xs rounded text-white bg-indigo-600">
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Facturación Chart (2/3 width) -->
+      <div class="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-lg font-semibold text-white">Facturación del Mes</h2>
+              <p class="text-sm text-slate-400 mt-1">Evolución de ventas</p>
+            </div>
+            <div class="flex gap-1 bg-slate-900 rounded-lg p-1">
+              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-white bg-indigo-600">
                 Mensual
               </button>
-              <button class="px-3 py-1 text-xs rounded text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-white transition-colors">
                 Semanal
               </button>
-              <button class="px-3 py-1 text-xs rounded text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-white transition-colors">
                 Diario
               </button>
             </div>
           </div>
           
-          <!-- Placeholder for chart -->
-          <div class="h-56 flex items-center justify-center rounded bg-slate-900">
-            <p class="text-slate-500">Gráfico de facturación</p>
+          <!-- Chart with integrated mini stats -->
+          <div class="h-64 rounded-lg bg-slate-900/50 border border-slate-700/50 relative p-4">
+            <!-- Mock chart bars -->
+            <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between h-48">
+              <div v-for="(height, index) in chartData" :key="index" 
+                   class="bg-indigo-500 rounded-t flex-1 mx-0.5 transition-all duration-300 hover:bg-indigo-400"
+                   :style="{ height: height + '%', opacity: 0.8 }">
+              </div>
+            </div>
+            <div class="relative z-10 flex items-center justify-center h-full">
+              <div class="text-center">
+                <div class="text-3xl font-bold text-white">$2,847,650</div>
+                <div class="text-sm text-slate-400 mt-1">Total del mes</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Quick stats below chart -->
+          <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-sm font-semibold text-green-400">+18.3%</div>
+              <div class="text-xs text-slate-500">vs mes anterior</div>
+            </div>
+            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-sm font-semibold text-white">$94,922</div>
+              <div class="text-xs text-slate-500">promedio diario</div>
+            </div>
+            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-sm font-semibold text-blue-400">284</div>
+              <div class="text-xs text-slate-500">pedidos totales</div>
+            </div>
           </div>
         </div>
       </div>
       
-      <!-- Products Distribution (1/3 width) -->
-      <div class="rounded-lg bg-slate-800 border border-slate-700">
-        <div class="p-5">
-          <h2 class="text-lg font-semibold mb-3 text-white">Productos Más Vendidos</h2>
+      <!-- Top Products (1/3 width) -->
+      <div class="bg-slate-800 rounded-lg border border-slate-700">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-white">Productos Destacados</h2>
+            <span class="text-xs text-slate-500">Este mes</span>
+          </div>
           
-          <!-- Product list -->
-          <div class="space-y-2">
-            <div v-for="product in topProducts" :key="product.id" class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: product.color }"></div>
-                <div>
-                  <p class="text-sm font-medium text-white">{{ product.name }}</p>
+          <!-- Compact product list -->
+          <div class="space-y-3">
+            <div 
+              v-for="(product, index) in topProducts" 
+              :key="product.id" 
+              class="flex items-center justify-between p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 transition-colors duration-200"
+            >
+              <div class="flex items-center gap-3 flex-1">
+                <div class="flex-shrink-0">
+                  <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: product.color }"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-white truncate">{{ product.name }}</p>
                   <p class="text-xs text-slate-400">{{ product.quantity }} unidades</p>
                 </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span class="text-sm font-semibold text-white">{{ product.percentage }}%</span>
+                  <!-- Mini progress indicator -->
+                  <div class="w-8 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                    <div 
+                      class="h-full rounded-full transition-all duration-300" 
+                      :style="{ 
+                        width: `${product.percentage}%`, 
+                        backgroundColor: product.color 
+                      }"
+                    ></div>
+                  </div>
+                </div>
               </div>
-              <span class="text-sm font-semibold text-white">
-                {{ product.percentage }}%
-              </span>
             </div>
           </div>
           
-          <!-- Placeholder for donut chart -->
-          <div class="mt-3 h-28 flex items-center justify-center rounded bg-slate-900">
-            <p class="text-sm text-slate-500">Gráfico circular</p>
+          <!-- Summary at bottom -->
+          <div class="mt-4 pt-4 border-t border-slate-700/50">
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-400">Total vendido:</span>
+              <span class="text-white font-semibold">455 unidades</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Recent Activity Table -->
-    <div class="rounded-lg bg-slate-800 border border-slate-700">
-      <div class="px-5 py-3 flex items-center justify-between border-b border-slate-700">
-        <h2 class="text-lg font-semibold text-white">Pedidos Recientes</h2>
+    <!-- Recent Orders Table -->
+    <div class="bg-slate-800 rounded-lg border border-slate-700">
+      <div class="px-6 py-4 flex items-center justify-between border-b border-slate-700">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Pedidos Recientes</h2>
+          <p class="text-sm text-slate-400 mt-1">Últimas transacciones</p>
+        </div>
         <router-link 
           to="/pedidos" 
-          class="text-sm hover:text-indigo-300 text-indigo-400 transition-colors duration-150"
+          class="text-sm hover:text-indigo-300 text-indigo-400 transition-colors duration-150 font-medium"
         >
           Ver todos →
         </router-link>
@@ -104,47 +181,46 @@
       <div class="overflow-x-auto">
         <table class="w-full">
           <thead>
-            <tr class="border-b border-slate-700">
-              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">#Pedido</th>
-              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Cliente</th>
-              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Productos</th>
-              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Total</th>
-              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Estado</th>
-              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Fecha</th>
+            <tr class="border-b border-slate-700/50 bg-slate-900/20">
+              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">#</th>
+              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
+              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Producto</th>
+              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Total</th>
+              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Estado</th>
+              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
             </tr>
           </thead>
           <tbody>
             <tr 
               v-for="order in recentOrders" 
               :key="order.id" 
-              class="border-b border-slate-700 hover:bg-slate-750/30 transition-all duration-150 hover:scale-[1.005]"
+              class="border-b border-slate-700/50 hover:bg-slate-900/30 transition-colors duration-150 cursor-pointer"
+              @click="navigateToOrder(order.id)"
             >
-              <td class="px-5 py-2">
+              <td class="px-6 py-4">
                 <span class="text-sm font-medium text-white">#{{ order.id }}</span>
               </td>
-              <td class="px-5 py-2">
+              <td class="px-6 py-4">
                 <span class="text-sm text-white">{{ order.customer }}</span>
               </td>
-              <td class="px-5 py-2">
-                <span class="text-sm text-slate-400">{{ order.items }} items</span>
+              <td class="px-6 py-4">
+                <div>
+                  <p class="text-sm text-white">{{ order.product }}</p>
+                  <p class="text-xs text-slate-400">{{ order.items }} items</p>
+                </div>
               </td>
-              <td class="px-5 py-2">
+              <td class="px-6 py-4">
                 <span class="text-sm font-semibold text-white">${{ order.total }}</span>
               </td>
-              <td class="px-5 py-2">
+              <td class="px-6 py-4">
                 <span 
-                  class="px-2 py-1 text-xs font-medium rounded"
-                  :class="{
-                    'bg-green-900/30 text-green-400': order.status === 'Entregado',
-                    'bg-blue-900/30 text-blue-400': order.status === 'En flete',
-                    'bg-yellow-900/30 text-yellow-400': order.status === 'Preparando',
-                    'bg-red-900/30 text-red-400': order.status === 'Cancelado'
-                  }"
+                  class="px-2.5 py-1 text-xs font-semibold rounded-full border"
+                  :class="getStatusClasses(order.status)"
                 >
                   {{ order.status }}
                 </span>
               </td>
-              <td class="px-5 py-2">
+              <td class="px-6 py-4">
                 <span class="text-sm text-slate-400">{{ order.date }}</span>
               </td>
             </tr>
@@ -156,7 +232,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { 
   CalendarIcon, 
   ChevronDownIcon,
@@ -167,12 +244,31 @@ import {
 } from '@heroicons/vue/24/outline'
 import MetricCard from '@/components/dashboard/MetricCard.vue'
 
+const router = useRouter()
 const loading = ref(false)
+const lastUpdated = ref('')
+const userName = ref('Juan Pérez')
+const userInitials = ref('JP')
+
+const navigateToOrder = (orderId: string) => {
+  router.push(`/pedidos/${orderId}`)
+}
+
+const updateLastUpdated = () => {
+  const now = new Date()
+  lastUpdated.value = now.toLocaleString('es-AR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
 
 const metrics = ref([
   {
     id: 1,
-    title: 'Facturación Mensual',
+    title: 'Ventas Totales',
     value: '$2,847,650',
     trend: 'up',
     trendValue: '+18.3%',
@@ -180,7 +276,7 @@ const metrics = ref([
   },
   {
     id: 2,
-    title: 'Pedidos del Mes',
+    title: 'Pedidos',
     value: '284',
     trend: 'up',
     trendValue: '+12.7%',
@@ -188,7 +284,7 @@ const metrics = ref([
   },
   {
     id: 3,
-    title: 'Clientes Activos',
+    title: 'Clientes',
     value: '147',
     trend: 'up',
     trendValue: '+5.8%',
@@ -196,7 +292,7 @@ const metrics = ref([
   },
   {
     id: 4,
-    title: 'Fletes Hoy',
+    title: 'Entregas Hoy',
     value: '12',
     trend: 'up',
     trendValue: '+25.0%',
@@ -204,33 +300,76 @@ const metrics = ref([
   }
 ])
 
+const chartData = ref([45, 65, 35, 78, 52, 89, 45, 67, 73, 82, 69, 91])
+
 const topProducts = ref([
-  { id: 1, name: 'Detergente BAMBU (Bidón 5L)', quantity: 145, percentage: 32, color: '#6366f1' },
-  { id: 2, name: 'Desinfectante BAMBU (Bidón 5L)', quantity: 128, percentage: 28, color: '#8b5cf6' },
+  { id: 1, name: 'Detergente BAMBU (Bidón 5L)', quantity: 145, percentage: 32, color: '#10b981' },
+  { id: 2, name: 'Desinfectante BAMBU (Bidón 5L)', quantity: 128, percentage: 28, color: '#6366f1' },
   { id: 3, name: 'Limpiador de pisos BAMBU (Bidón 5L)', quantity: 96, percentage: 21, color: '#06b6d4' },
-  { id: 4, name: 'Jabón líquido BAMBU (Bidón 5L)', quantity: 86, percentage: 19, color: '#10b981' }
+  { id: 4, name: 'Jabón líquido BAMBU (Bidón 5L)', quantity: 86, percentage: 19, color: '#f59e0b' }
 ])
 
 const recentOrders = ref([
-  { id: '2847', customer: 'Supermercado Don Juan - General Roca', items: 24, total: '18,720.00', status: 'En flete', date: 'Hoy, 14:30' },
-  { id: '2846', customer: 'Limpieza Pro S.A. - Neuquén', items: 16, total: '12,480.00', status: 'Entregado', date: 'Hoy, 12:15' },
-  { id: '2845', customer: 'Municipalidad de Villa Regina', items: 35, total: '27,300.00', status: 'Preparando', date: 'Hoy, 10:00' },
-  { id: '2844', customer: 'Minimercado Avenida - Cipolletti', items: 12, total: '9,360.00', status: 'Entregado', date: 'Ayer, 18:45' },
-  { id: '2843', customer: 'María Beltrán - Fernández Oro', items: 8, total: '6,240.00', status: 'Cancelado', date: 'Ayer, 16:20' }
+  { 
+    id: '2847', 
+    customer: 'Supermercado Don Juan - General Roca', 
+    product: 'Detergente BAMBU (Bidón 5L) + Limpiador',
+    items: 24, 
+    total: '18,720.00', 
+    status: 'En camino', 
+    date: 'Hoy, 14:30' 
+  },
+  { 
+    id: '2846', 
+    customer: 'Limpieza Pro S.A. - Neuquén', 
+    product: 'Desinfectante BAMBU (Bidón 5L)',
+    items: 16, 
+    total: '12,480.00', 
+    status: 'Entregado', 
+    date: 'Hoy, 12:15' 
+  },
+  { 
+    id: '2845', 
+    customer: 'Municipalidad de Villa Regina', 
+    product: 'Mix Productos BAMBU',
+    items: 35, 
+    total: '27,300.00', 
+    status: 'Preparando', 
+    date: 'Hoy, 10:00' 
+  },
+  { 
+    id: '2844', 
+    customer: 'Minimercado Avenida - Cipolletti', 
+    product: 'Jabón líquido BAMBU (Bidón 5L)',
+    items: 12, 
+    total: '9,360.00', 
+    status: 'Entregado', 
+    date: 'Ayer, 18:45' 
+  },
+  { 
+    id: '2843', 
+    customer: 'María Beltrán - Fernández Oro', 
+    product: 'Limpiador de pisos BAMBU',
+    items: 8, 
+    total: '6,240.00', 
+    status: 'Pendiente de armado', 
+    date: 'Ayer, 16:20' 
+  }
 ])
 
-const getStatusStyle = (status: string) => {
-  const styles: Record<string, string> = {
-    'Entregado': 'background-color: rgba(34, 197, 94, 0.2); color: var(--success)',
-    'En camino': 'background-color: rgba(99, 102, 241, 0.2); color: var(--primary)',
-    'Preparando': 'background-color: rgba(245, 158, 11, 0.2); color: var(--warning)',
-    'Cancelado': 'background-color: rgba(239, 68, 68, 0.2); color: var(--danger)'
+const getStatusClasses = (status: string) => {
+  const classes = {
+    'Entregado': 'bg-green-500/20 text-green-400 border-green-500/30',
+    'En camino': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    'Preparando': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    'Pendiente de armado': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+    'Cancelado': 'bg-red-500/20 text-red-400 border-red-500/30'
   }
-  return styles[status] || 'background-color: var(--surface-1); color: var(--text-secondary)'
+  return classes[status] || 'bg-slate-500/20 text-slate-400 border-slate-500/30'
 }
 
 onMounted(() => {
-  // Load dashboard data
-  // This would typically fetch from API
+  updateLastUpdated()
+  setInterval(updateLastUpdated, 5 * 60 * 1000)
 })
 </script>

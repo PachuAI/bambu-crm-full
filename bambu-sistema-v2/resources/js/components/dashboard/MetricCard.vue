@@ -1,47 +1,50 @@
 <template>
   <div 
-    class="rounded-lg bg-slate-800 border border-slate-700 p-5 relative transition-all duration-200 hover:border-slate-600 hover:shadow-lg hover:shadow-slate-900/20 min-h-[120px]"
+    class="bg-slate-800 rounded-lg border border-slate-700 p-4 hover:border-slate-600 transition-colors duration-200 h-[100px] flex flex-col justify-between"
   >
-    <div class="flex justify-between items-start mb-3">
-      <h3 class="text-sm font-medium text-slate-400">{{ title }}</h3>
+    <!-- Header compacto -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="p-1.5 rounded-md" :class="iconBgClass">
+          <component :is="icon" class="w-4 h-4" :class="iconColorClass" />
+        </div>
+        <h3 class="text-sm font-medium text-slate-400">{{ title }}</h3>
+      </div>
+      
+      <!-- Badge de tendencia compacto -->
       <span 
         v-if="trendValue"
-        :class="[
-          'text-xs font-semibold px-2 py-1 rounded inline-flex items-center gap-1',
-          trend === 'up' ? 
-            'bg-green-900/20 text-green-400 border border-green-800/30' : 
-            'bg-red-900/20 text-red-400 border border-red-800/30'
-        ]"
+        class="text-xs font-semibold px-2 py-1 rounded-md flex items-center gap-1"
+        :class="trendBadgeClass"
       >
-        <span v-if="trend === 'up'">↗</span>
-        <span v-else>↘</span>
+        <svg v-if="trend === 'up'" class="w-3 h-3 fill-current" viewBox="0 0 12 12">
+          <path d="M6 3l3 3h-2v3H5V6H3l3-3z"/>
+        </svg>
+        <svg v-else class="w-3 h-3 fill-current" viewBox="0 0 12 12">
+          <path d="M6 9L3 6h2V3h2v3h2L6 9z"/>
+        </svg>
         {{ trendValue }}
       </span>
     </div>
     
-    <div class="text-xl font-bold mb-2 text-white font-mono">
+    <!-- Número principal -->
+    <div class="mt-1">
       <template v-if="!loading">
-        {{ value }}
+        <div class="text-2xl font-bold text-white leading-none">
+          {{ value }}
+        </div>
       </template>
       <template v-else>
-        <div class="h-6 w-20 rounded animate-pulse bg-slate-700"></div>
+        <div class="h-8 w-24 rounded bg-slate-700 animate-pulse"></div>
       </template>
-    </div>
-    
-    <div class="flex items-center justify-between mt-3">
-      <component :is="icon" class="w-4 h-4 text-slate-500" />
-      <!-- Trend indicator simple -->
-      <div v-if="trend" class="text-xs text-slate-500">
-        {{ trend === 'up' ? '📈' : '📉' }}
-      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { type Component } from 'vue'
+import { type Component, computed } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   title: string
   value: string
   trend?: 'up' | 'down'
@@ -49,4 +52,42 @@ defineProps<{
   icon: Component
   loading?: boolean
 }>()
+
+const iconBgClass = computed(() => {
+  switch (props.title) {
+    case 'Ventas Totales':
+      return 'bg-green-500/20'
+    case 'Pedidos':
+      return 'bg-blue-500/20'
+    case 'Clientes':
+      return 'bg-purple-500/20'
+    case 'Entregas Hoy':
+      return 'bg-orange-500/20'
+    default:
+      return 'bg-slate-500/20'
+  }
+})
+
+const iconColorClass = computed(() => {
+  switch (props.title) {
+    case 'Ventas Totales':
+      return 'text-green-400'
+    case 'Pedidos':
+      return 'text-blue-400'
+    case 'Clientes':
+      return 'text-purple-400'
+    case 'Entregas Hoy':
+      return 'text-orange-400'
+    default:
+      return 'text-slate-400'
+  }
+})
+
+const trendBadgeClass = computed(() => {
+  if (props.trend === 'up') {
+    return 'bg-green-500/20 text-green-400'
+  } else {
+    return 'bg-red-500/20 text-red-400'
+  }
+})
 </script>
