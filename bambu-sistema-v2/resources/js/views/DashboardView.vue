@@ -236,6 +236,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 import { 
   CalendarIcon, 
   ChevronDownIcon,
@@ -381,8 +382,75 @@ const getStatusClasses = (status: string) => {
   return classes[status] || 'bg-slate-500/20 text-slate-400 border-slate-500/30'
 }
 
+const fetchDashboardData = async () => {
+  loading.value = true
+  try {
+    const response = await axios.get('/api/v1/reportes/dashboard')
+    const data = response.data
+    
+    // Actualizar métricas
+    metrics.value[0].value = `$${data.ventas_totales?.toLocaleString() || 0}`
+    metrics.value[0].trendValue = `${data.crecimiento_ventas || 0}%`
+    metrics.value[0].trend = data.crecimiento_ventas > 0 ? 'up' : 'down'
+    
+    metrics.value[1].value = data.pedidos_mes?.toString() || '0'
+    metrics.value[1].trendValue = `+${data.pedidos_hoy || 0} hoy`
+    
+    metrics.value[2].value = data.clientes_activos?.toString() || '0'
+    metrics.value[2].trendValue = `+${data.clientes_nuevos || 0} nuevos`
+    
+    metrics.value[3].value = data.entregas_hoy?.toString() || '0'
+    metrics.value[3].trendValue = `${data.efectividad || 0}% efectividad`
+    
+    metrics.value[4].value = data.vehiculos_disponibles?.toString() || '0'
+    metrics.value[4].trendValue = `de ${data.vehiculos_totales || 0} total`
+    
+    // Actualizar pedidos recientes
+    if (data.pedidos_recientes) {
+      recentOrders.value = data.pedidos_recientes.map((pedido: any) => ({
+        id: pedido.id,
+        client: pedido.cliente,
+        amount: `$${pedido.total?.toLocaleString() || 0}`,
+        status: mapStatus(pedido.estado),
+        date: new Date(pedido.fecha).toLocaleDateString('es-AR')
+      }))
+    }
+    
+    // Actualizar productos destacados
+    if (data.productos_destacados) {
+      topProducts.value = data.productos_destacados.map((producto: any) => ({
+        id: producto.id,
+        name: producto.nombre,
+        sales: producto.ventas || 0,
+        percentage: producto.porcentaje || 0
+      }))
+    }
+  } catch (error) {
+    console.error('Error fetching dashboard data:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+const mapStatus = (estado: string) => {
+  const statusMap: Record<string, string> = {
+    'confirmado': 'En proceso',
+    'listo_envio': 'Listo envío',
+    'en_transito': 'En tránsito',
+    'entregado': 'Completado',
+    'cancelado': 'Cancelado'
+  }
+  return statusMap[estado] || estado
+}
+
 onMounted(() => {
   updateLastUpdated()
-  setInterval(updateLastUpdated, 5 * 60 * 1000)
+  fetchDashboardData()
+  
+  // Actualizar cada 5 minutos
+  setInterval(() => {
+    updateLastUpdated()
+    fetchDashboardData()
+  }, 5 * 60 * 1000)
 })
 </script>

@@ -225,16 +225,25 @@ class VehiculosTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $vehiculo2->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'programado'
         ]);
 
         $response = $this->getJson('/api/v1/vehiculos-disponibles');
 
-        $response->assertStatus(200)
-                ->assertJsonCount(1, 'vehiculos'); // Solo vehiculo1 disponible
-
-        $this->assertEquals($vehiculo1->id, $response->json('vehiculos.0.id'));
+        $response->assertStatus(200);
+        
+        // Verificar que solo devuelve vehículos activos sin repartos
+        $vehiculosDisponibles = $response->json('vehiculos');
+        
+        // Debug: Ver qué vehículos están devolviendo
+        $ids = collect($vehiculosDisponibles)->pluck('id')->toArray();
+        
+        // Solo vehiculo1 debe estar disponible
+        $this->assertCount(1, $vehiculosDisponibles, 
+            'Se esperaba 1 vehículo disponible, pero se encontraron: ' . count($vehiculosDisponibles) . 
+            ' (IDs: ' . implode(', ', $ids) . '). Solo ID ' . $vehiculo1->id . ' debería estar disponible.');
+        $this->assertEquals($vehiculo1->id, $vehiculosDisponibles[0]['id']);
     }
 
     public function test_scope_disponibles_funciona_correctamente()

@@ -39,7 +39,7 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado',
             'km_recorridos' => 25.5
         ]);
@@ -48,7 +48,7 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'en_ruta'
         ]);
 
@@ -56,7 +56,7 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido3->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'programado'
         ]);
 
@@ -92,21 +92,21 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado'
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado'
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido3->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'fallido'
         ]);
 
@@ -128,7 +128,7 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado',
             'km_recorridos' => 30
         ]);
@@ -137,13 +137,13 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $vehiculo2->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'fallido',
             'km_recorridos' => 15
         ]);
 
-        $desde = today()->format('Y-m-d');
-        $hasta = today()->format('Y-m-d');
+        $desde = now()->format('Y-m-d');
+        $hasta = now()->format('Y-m-d');
 
         $response = $this->getJson("/api/v1/reportes/vehiculos?desde={$desde}&hasta={$hasta}");
 
@@ -182,7 +182,7 @@ class ReportesTest extends TestCase
 
     public function test_obtiene_reporte_entregas()
     {
-        $cliente2 = Cliente::factory()->create(['nombre_comercial' => 'Cliente Test 2']);
+        $cliente2 = Cliente::factory()->create(['nombre' => 'Cliente Test 2']);
         
         $pedido1 = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
         $pedido2 = Pedido::factory()->create(['cliente_id' => $cliente2->id]);
@@ -191,26 +191,26 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado'
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado'
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido3->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'fallido'
         ]);
 
-        $desde = today()->format('Y-m-d');
-        $hasta = today()->format('Y-m-d');
+        $desde = now()->format('Y-m-d');
+        $hasta = now()->format('Y-m-d');
 
         $response = $this->getJson("/api/v1/reportes/entregas?desde={$desde}&hasta={$hasta}");
 
@@ -239,14 +239,14 @@ class ReportesTest extends TestCase
         
         // El cliente con más repartos debería estar primero
         $primerCliente = $porCliente[0];
-        $this->assertEquals($this->cliente->nombre_comercial, $primerCliente['nombre_comercial']);
+        $this->assertEquals($this->cliente->nombre, $primerCliente['nombre']);
         $this->assertEquals(2, $primerCliente['total_repartos']);
     }
 
     public function test_obtiene_reporte_operativo()
     {
-        $desde = today()->format('Y-m-d');
-        $hasta = today()->format('Y-m-d');
+        $desde = now()->format('Y-m-d');
+        $hasta = now()->format('Y-m-d');
 
         $response = $this->getJson("/api/v1/reportes/operativo?desde={$desde}&hasta={$hasta}");
 
@@ -267,7 +267,7 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => yesterday(),
+            'fecha_programada' => now()->subDay(),
             'estado' => 'entregado'
         ]);
 
@@ -275,13 +275,13 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado'
         ]);
 
         // Solo pedir reporte de hoy
-        $desde = today()->format('Y-m-d');
-        $hasta = today()->format('Y-m-d');
+        $desde = now()->format('Y-m-d');
+        $hasta = now()->format('Y-m-d');
 
         $response = $this->getJson("/api/v1/reportes/vehiculos?desde={$desde}&hasta={$hasta}");
 
@@ -314,7 +314,7 @@ class ReportesTest extends TestCase
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today(),
+            'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'programado' // Estado pendiente
         ]);
 

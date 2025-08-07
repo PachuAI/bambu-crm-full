@@ -161,7 +161,10 @@ import {
   SunIcon,
   MoonIcon,
   Bars3Icon,
-  XMarkIcon
+  XMarkIcon,
+  CalendarDaysIcon,
+  MapPinIcon,
+  ClipboardDocumentListIcon
 } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
@@ -180,7 +183,10 @@ const menuItems = [
   { path: '/productos', label: 'Productos', icon: CubeIcon },
   { path: '/clientes', label: 'Clientes', icon: UserGroupIcon },
   { path: '/pedidos', label: 'Pedidos', icon: DocumentTextIcon },
-  { path: '/stock', label: 'Stock', icon: TruckIcon },
+  { path: '/stock', label: 'Stock', icon: ClipboardDocumentListIcon },
+  { path: '/vehiculos', label: 'Vehículos', icon: TruckIcon },
+  { path: '/planificacion', label: 'Planificación', icon: CalendarDaysIcon },
+  { path: '/seguimiento', label: 'Seguimiento', icon: MapPinIcon },
   { path: '/reportes', label: 'Reportes', icon: ChartBarIcon },
   { path: '/configuracion', label: 'Configuración', icon: Cog6ToothIcon },
 ]

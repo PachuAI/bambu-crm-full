@@ -102,7 +102,7 @@ class ReporteController extends Controller
 
         // Estadísticas por cliente
         $entregasPorCliente = Reparto::selectRaw('
-                clientes.nombre_comercial,
+                clientes.nombre,
                 clientes.id as cliente_id,
                 COUNT(*) as total_repartos,
                 SUM(CASE WHEN repartos.estado = "entregado" THEN 1 ELSE 0 END) as entregados,
@@ -111,7 +111,7 @@ class ReporteController extends Controller
             ->join('pedidos', 'repartos.pedido_id', '=', 'pedidos.id')
             ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
             ->whereBetween('repartos.fecha_programada', [$desde, $hasta])
-            ->groupBy('clientes.id', 'clientes.nombre_comercial')
+            ->groupBy('clientes.id', 'clientes.nombre')
             ->orderByDesc('total_repartos')
             ->get();
 
@@ -150,18 +150,24 @@ class ReporteController extends Controller
         $desde = $request->input('desde', now()->startOfMonth()->format('Y-m-d'));
         $hasta = $request->input('hasta', now()->endOfMonth()->format('Y-m-d'));
 
-        // Tiempos promedio de entrega
-        $tiemposEntrega = Reparto::selectRaw('
-                AVG(TIMESTAMPDIFF(MINUTE, 
-                    CONCAT(fecha_programada, " ", hora_salida), 
-                    CONCAT(fecha_programada, " ", hora_entrega)
-                )) as tiempo_promedio_minutos
-            ')
-            ->whereBetween('fecha_programada', [$desde, $hasta])
+        // Tiempos promedio de entrega - Compatible con SQLite y PostgreSQL
+        $repartos = Reparto::whereBetween('fecha_programada', [$desde, $hasta])
             ->where('estado', 'entregado')
             ->whereNotNull('hora_salida')
             ->whereNotNull('hora_entrega')
-            ->first();
+            ->get();
+        
+        $tiempoPromedioMinutos = 0;
+        if ($repartos->count() > 0) {
+            $totalMinutos = $repartos->reduce(function ($carry, $reparto) {
+                $salida = \Carbon\Carbon::parse($reparto->fecha_programada . ' ' . $reparto->hora_salida);
+                $entrega = \Carbon\Carbon::parse($reparto->fecha_programada . ' ' . $reparto->hora_entrega);
+                return $carry + $entrega->diffInMinutes($salida);
+            }, 0);
+            $tiempoPromedioMinutos = $totalMinutos / $repartos->count();
+        }
+        
+        $tiemposEntrega = (object) ['tiempo_promedio_minutos' => $tiempoPromedioMinutos];
 
         // Capacidad utilizada por vehículo
         $capacidadUtilizada = DB::select("
@@ -188,17 +194,20 @@ class ReporteController extends Controller
             GROUP BY v.id, v.patente, v.capacidad_kg
         ", [$desde, $hasta]);
 
-        // Estados de repartos por franja horaria
-        $repartosPorHora = Reparto::selectRaw('
-                HOUR(hora_salida) as hora,
-                COUNT(*) as total,
-                SUM(CASE WHEN estado = "entregado" THEN 1 ELSE 0 END) as entregados
-            ')
-            ->whereBetween('fecha_programada', [$desde, $hasta])
+        // Estados de repartos por franja horaria - Compatible con SQLite
+        $repartosData = Reparto::whereBetween('fecha_programada', [$desde, $hasta])
             ->whereNotNull('hora_salida')
-            ->groupBy('hora')
-            ->orderBy('hora')
             ->get();
+        
+        $repartosPorHora = $repartosData->groupBy(function($reparto) {
+            return \Carbon\Carbon::parse($reparto->hora_salida)->format('H');
+        })->map(function($repartos, $hora) {
+            return [
+                'hora' => intval($hora),
+                'total' => $repartos->count(),
+                'entregados' => $repartos->where('estado', 'entregado')->count()
+            ];
+        })->sortBy('hora')->values();
 
         return response()->json([
             'tiempo_promedio_entrega' => round($tiemposEntrega->tiempo_promedio_minutos ?? 0, 2),
