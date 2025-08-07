@@ -25,8 +25,13 @@ php artisan migrate
 php artisan db:seed
 
 # 3. Ejecutar
-php artisan serve    # Backend
-npm run dev          # Frontend
+php artisan serve    # Backend Laravel
+npm run dev          # Frontend Vue SPA
+
+# 4. Acceder al admin (opcional)
+# URL: http://127.0.0.1:8000/admin
+# Usuario: admin@bambu.com
+# Contraseña: password
 ```
 
 **📋 [Setup completo paso a paso →](./documentacion-proyecto/PASO_CERO.md)**
@@ -39,7 +44,8 @@ npm run dev          # Frontend
 **Progreso**: `████████░░░░░░░░` 50% total
 
 **✅ Fase 0 Completada**: PostgreSQL + Tests + UX/UI Guidelines  
-**🔄 SIGUIENTE**: Instalar Filament Admin Panel v3
+**✅ Filament Completado**: Admin Panel v3.3.35 funcionando  
+**🔄 SIGUIENTE**: Crear modelos Eloquent + Resources Filament
 
 **📈 [Ver estado completo →](./STATUS.md)**
 

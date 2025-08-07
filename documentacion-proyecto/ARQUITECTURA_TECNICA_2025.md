@@ -26,6 +26,12 @@ Core:
   - Laravel: 11.x (12.21.0 actual)
   - Base de datos: PostgreSQL 15+ (decisión arquitectónica correcta)
   
+Admin Panel:
+  - Filament: v3.3.35 (COMPLETADO ✅)
+  - Panel URL: /admin
+  - Recursos: Auto-discovery configurado
+  - Autenticación: Laravel Auth integration
+  
 API:
   - REST: Laravel Sanctum (NO GraphQL)
   - Authentication: Sanctum tokens
@@ -34,6 +40,7 @@ API:
 Cache y Queue:
   - File cache (desarrollo)
   - Database queues (simple)
+  - Sessions: Database driver
   - NO Redis (no necesario inicial)
   
 Testing:
@@ -51,7 +58,8 @@ Framework:
   
 UI/UX:
   - Tailwind CSS: 4.0+ (ya configurado)
-  - NO Headless UI (componentes propios)
+  - Filament Admin UI: Blade components + Livewire
+  - NO Headless UI (componentes propios para SPA)
   - NO iconos externos (SVG inline)
   
 Build:
@@ -82,6 +90,13 @@ Producción:
 └─────────────────────────────────────────────────┘
                          │
                     API Gateway
+                         │
+┌─────────────────────────────────────────────────┐
+│                  ADMIN PANEL                     │
+│            Filament v3 Admin UI                  │
+└─────────────────────────────────────────────────┘
+                         │
+                    Authentication
                          │
 ┌─────────────────────────────────────────────────┐
 │                  APPLICATION                     │
