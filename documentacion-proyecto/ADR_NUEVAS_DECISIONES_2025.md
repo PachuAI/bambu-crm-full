@@ -1,4 +1,4 @@
-# Architecture Decision Records (ADR) - Decisiones Enero 2025
+# Architecture Decision Records (ADR) - Decisiones Agosto 2025
 
 ## Introducción
 
