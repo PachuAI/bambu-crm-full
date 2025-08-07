@@ -1,20 +1,20 @@
 <template>
   <div 
-    class="bg-slate-800 rounded-lg border border-slate-700 p-4 hover:border-slate-600 transition-colors duration-200 h-[100px] flex flex-col justify-between"
+    class="bg-slate-800 rounded-lg border border-slate-700 p-6 hover:border-slate-600 transition-colors duration-200 h-[120px] flex flex-col justify-between"
   >
-    <!-- Header compacto -->
+    <!-- Header con jerarquía tipográfica correcta -->
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="p-1.5 rounded-md" :class="iconBgClass">
+      <div class="flex items-center gap-3">
+        <div class="p-2 rounded-md" :class="iconBgClass">
           <component :is="icon" class="w-4 h-4" :class="iconColorClass" />
         </div>
-        <h3 class="text-sm font-medium text-slate-400">{{ title }}</h3>
+        <h3 class="text-sm font-medium text-slate-400 uppercase tracking-wider">{{ title }}</h3>
       </div>
       
-      <!-- Badge de tendencia compacto -->
+      <!-- Badge de tendencia con tipografía consistente -->
       <span 
         v-if="trendValue"
-        class="text-xs font-semibold px-2 py-1 rounded-md flex items-center gap-1"
+        class="text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1.5"
         :class="trendBadgeClass"
       >
         <svg v-if="trend === 'up'" class="w-3 h-3 fill-current" viewBox="0 0 12 12">
@@ -27,15 +27,15 @@
       </span>
     </div>
     
-    <!-- Número principal -->
-    <div class="mt-1">
+    <!-- Número principal con jerarquía clara -->
+    <div class="mt-3">
       <template v-if="!loading">
-        <div class="text-2xl font-bold text-white leading-none">
+        <div class="text-3xl font-bold text-white leading-none tracking-tight">
           {{ value }}
         </div>
       </template>
       <template v-else>
-        <div class="h-8 w-24 rounded bg-slate-700 animate-pulse"></div>
+        <div class="h-9 w-28 rounded bg-slate-700 animate-pulse"></div>
       </template>
     </div>
   </div>

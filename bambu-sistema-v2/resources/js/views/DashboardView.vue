@@ -3,9 +3,9 @@
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-        <div class="mt-2 space-y-1">
-          <p class="text-slate-400">Control operativo BAMBU - Alto Valle</p>
+        <h1 class="text-2xl font-bold text-white">Dashboard</h1>
+        <div class="mt-1 space-y-1">
+          <p class="text-sm text-slate-400">Control operativo BAMBU - Alto Valle</p>
           <p class="text-xs text-slate-500 flex items-center gap-2">
             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
@@ -18,7 +18,7 @@
       <!-- Date Range Selector and User Avatar -->
       <div class="flex items-center gap-4">
         <button 
-          class="px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2 transition-all duration-150 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white"
+          class="px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2 transition-colors duration-200 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white h-10"
         >
           <CalendarIcon class="w-4 h-4" />
           <span>Últimos 30 días</span>
@@ -40,7 +40,7 @@
       </div>
     </div>
     
-    <!-- Metrics Grid -->
+    <!-- Metrics Grid con espaciado consistente -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <MetricCard
         v-for="metric in metrics"
@@ -54,7 +54,7 @@
       />
     </div>
     
-    <!-- Main Content Grid -->
+    <!-- Main Content Grid con proporciones coherentes -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Facturación Chart (2/3 width) -->
       <div class="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700">
@@ -65,96 +65,98 @@
               <p class="text-sm text-slate-400 mt-1">Evolución de ventas</p>
             </div>
             <div class="flex gap-1 bg-slate-900 rounded-lg p-1">
-              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-white bg-indigo-600">
+              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-white bg-indigo-600 h-8">
                 Mensual
               </button>
-              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-white transition-colors">
+              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-white transition-colors h-8">
                 Semanal
               </button>
-              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-white transition-colors">
+              <button class="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-white transition-colors h-8">
                 Diario
               </button>
             </div>
           </div>
           
-          <!-- Chart with integrated mini stats -->
-          <div class="h-64 rounded-lg bg-slate-900/50 border border-slate-700/50 relative p-4">
-            <!-- Mock chart bars -->
-            <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between h-48">
+          <!-- Chart con altura consistente -->
+          <div class="h-64 rounded-lg bg-slate-900/50 border border-slate-700/50 relative overflow-hidden">
+            <!-- Mock chart bars con mejor proporción -->
+            <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between h-40">
               <div v-for="(height, index) in chartData" :key="index" 
                    class="bg-indigo-500 rounded-t flex-1 mx-0.5 transition-all duration-300 hover:bg-indigo-400"
                    :style="{ height: height + '%', opacity: 0.8 }">
               </div>
             </div>
-            <div class="relative z-10 flex items-center justify-center h-full">
+            <!-- Overlay con tipografía coherente -->
+            <div class="absolute inset-0 flex items-center justify-center bg-slate-900/80">
               <div class="text-center">
-                <div class="text-3xl font-bold text-white">$2,847,650</div>
-                <div class="text-sm text-slate-400 mt-1">Total del mes</div>
+                <div class="text-3xl font-bold text-white tracking-tight">$2,847,650</div>
+                <div class="text-sm text-slate-400 mt-1">Total este mes</div>
               </div>
             </div>
           </div>
           
-          <!-- Quick stats below chart -->
-          <div class="grid grid-cols-3 gap-4 mt-4">
-            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
-              <div class="text-sm font-semibold text-green-400">+18.3%</div>
-              <div class="text-xs text-slate-500">vs mes anterior</div>
+          <!-- Quick stats con spacing sistemático -->
+          <div class="grid grid-cols-3 gap-4 mt-6">
+            <div class="text-center p-4 bg-slate-900/30 rounded-lg">
+              <div class="text-lg font-bold text-green-400">+18.3%</div>
+              <div class="text-xs text-slate-500 mt-1">vs mes anterior</div>
             </div>
-            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
-              <div class="text-sm font-semibold text-white">$94,922</div>
-              <div class="text-xs text-slate-500">promedio diario</div>
+            <div class="text-center p-4 bg-slate-900/30 rounded-lg">
+              <div class="text-lg font-bold text-white">$94,922</div>
+              <div class="text-xs text-slate-500 mt-1">promedio diario</div>
             </div>
-            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
-              <div class="text-sm font-semibold text-blue-400">284</div>
-              <div class="text-xs text-slate-500">pedidos totales</div>
+            <div class="text-center p-4 bg-slate-900/30 rounded-lg">
+              <div class="text-lg font-bold text-blue-400">284</div>
+              <div class="text-xs text-slate-500 mt-1">pedidos totales</div>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- Top Products (1/3 width) -->
+      <!-- Top Products (1/3 width) con jerarquía clara -->
       <div class="bg-slate-800 rounded-lg border border-slate-700">
         <div class="p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-white">Productos Destacados</h2>
-            <span class="text-xs text-slate-500">Este mes</span>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-lg font-semibold text-white">Productos Destacados</h2>
+              <p class="text-sm text-slate-400 mt-1">Este mes</p>
+            </div>
+            <span class="text-xs text-slate-500 uppercase tracking-wider">Top 4</span>
           </div>
           
-          <!-- Compact product list -->
-          <div class="space-y-3">
+          <!-- Lista compacta con spacing consistente -->
+          <div class="space-y-4">
             <div 
               v-for="(product, index) in topProducts" 
               :key="product.id" 
-              class="flex items-center justify-between p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 transition-colors duration-200"
+              class="flex items-center justify-between py-3 px-4 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 transition-colors duration-200"
             >
-              <div class="flex items-center gap-3 flex-1">
-                <div class="flex-shrink-0">
-                  <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: product.color }"></div>
-                </div>
+              <div class="flex items-center gap-3 flex-1 min-w-0">
+                <div class="w-3 h-3 rounded-full flex-shrink-0" :style="{ backgroundColor: product.color }"></div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-medium text-white truncate">{{ product.name }}</p>
                   <p class="text-xs text-slate-400">{{ product.quantity }} unidades</p>
                 </div>
-                <div class="flex items-center gap-2 flex-shrink-0">
-                  <span class="text-sm font-semibold text-white">{{ product.percentage }}%</span>
-                  <!-- Mini progress indicator -->
-                  <div class="w-8 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                    <div 
-                      class="h-full rounded-full transition-all duration-300" 
-                      :style="{ 
-                        width: `${product.percentage}%`, 
-                        backgroundColor: product.color 
-                      }"
-                    ></div>
-                  </div>
+              </div>
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <span class="text-lg font-bold text-white">{{ product.percentage }}%</span>
+                <!-- Progress bar con proporciones coherentes -->
+                <div class="w-12 h-2 bg-slate-700 rounded-full overflow-hidden">
+                  <div 
+                    class="h-full rounded-full transition-all duration-300" 
+                    :style="{ 
+                      width: `${product.percentage}%`, 
+                      backgroundColor: product.color 
+                    }"
+                  ></div>
                 </div>
               </div>
             </div>
           </div>
           
-          <!-- Summary at bottom -->
-          <div class="mt-4 pt-4 border-t border-slate-700/50">
-            <div class="flex justify-between text-xs">
+          <!-- Summary con spacing coherente -->
+          <div class="mt-6 pt-4 border-t border-slate-700/50">
+            <div class="flex justify-between text-sm">
               <span class="text-slate-400">Total vendido:</span>
               <span class="text-white font-semibold">455 unidades</span>
             </div>
@@ -163,7 +165,7 @@
       </div>
     </div>
     
-    <!-- Recent Orders Table -->
+    <!-- Recent Orders Table con tipografía sistemática -->
     <div class="bg-slate-800 rounded-lg border border-slate-700">
       <div class="px-6 py-4 flex items-center justify-between border-b border-slate-700">
         <div>
@@ -172,7 +174,7 @@
         </div>
         <router-link 
           to="/pedidos" 
-          class="text-sm hover:text-indigo-300 text-indigo-400 transition-colors duration-150 font-medium"
+          class="text-sm hover:text-indigo-300 text-indigo-400 transition-colors duration-200 font-medium"
         >
           Ver todos →
         </router-link>
@@ -182,39 +184,39 @@
         <table class="w-full">
           <thead>
             <tr class="border-b border-slate-700/50 bg-slate-900/20">
-              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">#</th>
-              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
-              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Producto</th>
-              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Total</th>
-              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Estado</th>
-              <th class="text-left px-6 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
+              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">#</th>
+              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
+              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Producto</th>
+              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Total</th>
+              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Estado</th>
+              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
             </tr>
           </thead>
           <tbody>
             <tr 
               v-for="order in recentOrders" 
               :key="order.id" 
-              class="border-b border-slate-700/50 hover:bg-slate-900/30 transition-colors duration-150 cursor-pointer"
+              class="border-b border-slate-700/50 hover:bg-slate-900/30 transition-colors duration-200 cursor-pointer h-16"
               @click="navigateToOrder(order.id)"
             >
               <td class="px-6 py-4">
-                <span class="text-sm font-medium text-white">#{{ order.id }}</span>
+                <span class="text-sm font-semibold text-white">#{{ order.id }}</span>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm text-white">{{ order.customer }}</span>
+                <span class="text-sm font-medium text-white">{{ order.customer }}</span>
               </td>
               <td class="px-6 py-4">
                 <div>
-                  <p class="text-sm text-white">{{ order.product }}</p>
+                  <p class="text-sm font-medium text-white">{{ order.product }}</p>
                   <p class="text-xs text-slate-400">{{ order.items }} items</p>
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm font-semibold text-white">${{ order.total }}</span>
+                <span class="text-sm font-bold text-white">${{ order.total }}</span>
               </td>
               <td class="px-6 py-4">
                 <span 
-                  class="px-2.5 py-1 text-xs font-semibold rounded-full border"
+                  class="px-3 py-1.5 text-xs font-semibold rounded-full border"
                   :class="getStatusClasses(order.status)"
                 >
                   {{ order.status }}
