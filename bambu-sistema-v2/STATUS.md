@@ -1,5 +1,19 @@
 # STATUS - BAMBU Sistema v2
 
+## 🔴 MÓDULOS LOGÍSTICOS FALTANTES - PLAN DOCUMENTADO
+**Fecha identificación**: 07/08/2025  
+**Documento de implementación**: `PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md`
+
+### Módulos por implementar:
+1. **VEHÍCULOS** - Gestión de flota
+2. **PLANIFICACIÓN** - Asignación pedidos/rutas  
+3. **SEGUIMIENTO** - Tracking tiempo real
+4. **REPORTES** - Análisis completo
+
+**Ver plan detallado en:** [PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md](./PLAN_IMPLEMENTACION_MODULOS_FALTANTES.md)
+
+---
+
 ## Dashboard UI - Sistema de Diseño Coherente ✅ COMPLETADO
 
 ### Fase Completada: Coherencia Visual Total
