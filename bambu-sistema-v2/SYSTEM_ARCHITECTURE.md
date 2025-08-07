@@ -138,7 +138,6 @@ bambu-sistema-v2/
 │   ├── web.php                      # Rutas web
 │   └── api.php                      # Rutas API REST
 │
-├── STATUS.md                        # Estado actual proyecto
 ├── DESIGN_SYSTEM.md                 # Sistema diseño UI/UX
 └── SYSTEM_ARCHITECTURE.md          # Este documento
 ```
