@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8">
+  <div class="space-y-6">
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -20,7 +20,7 @@
     </div>
     
     <!-- Metrics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <MetricCard
         v-for="metric in metrics"
         :key="metric.id"
@@ -34,11 +34,11 @@
     </div>
     
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
       <!-- Sales Chart (2/3 width) -->
       <div class="lg:col-span-2 rounded-lg bg-slate-800 border border-slate-700">
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-4">
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-semibold text-white">Ventas del Mes</h2>
             <div class="flex gap-2">
               <button class="px-3 py-1 text-xs rounded text-white bg-indigo-600">
@@ -54,7 +54,7 @@
           </div>
           
           <!-- Placeholder for chart -->
-          <div class="h-64 flex items-center justify-center rounded bg-slate-900">
+          <div class="h-56 flex items-center justify-center rounded bg-slate-900">
             <p class="text-slate-500">Gráfico de ventas</p>
           </div>
         </div>
@@ -62,11 +62,11 @@
       
       <!-- Products Distribution (1/3 width) -->
       <div class="rounded-lg bg-slate-800 border border-slate-700">
-        <div class="p-6">
-          <h2 class="text-lg font-semibold mb-4 text-white">Productos Más Vendidos</h2>
+        <div class="p-5">
+          <h2 class="text-lg font-semibold mb-3 text-white">Productos Más Vendidos</h2>
           
           <!-- Product list -->
-          <div class="space-y-3">
+          <div class="space-y-2">
             <div v-for="product in topProducts" :key="product.id" class="flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: product.color }"></div>
@@ -82,7 +82,7 @@
           </div>
           
           <!-- Placeholder for donut chart -->
-          <div class="mt-4 h-32 flex items-center justify-center rounded bg-slate-900">
+          <div class="mt-3 h-28 flex items-center justify-center rounded bg-slate-900">
             <p class="text-sm text-slate-500">Gráfico circular</p>
           </div>
         </div>
@@ -91,7 +91,7 @@
     
     <!-- Recent Activity Table -->
     <div class="rounded-lg bg-slate-800 border border-slate-700">
-      <div class="px-6 py-4 flex items-center justify-between border-b border-slate-700">
+      <div class="px-5 py-3 flex items-center justify-between border-b border-slate-700">
         <h2 class="text-lg font-semibold text-white">Pedidos Recientes</h2>
         <router-link 
           to="/pedidos" 
@@ -105,12 +105,12 @@
         <table class="w-full">
           <thead>
             <tr class="border-b border-slate-700">
-              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">#Pedido</th>
-              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Cliente</th>
-              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Productos</th>
-              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Total</th>
-              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Estado</th>
-              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Fecha</th>
+              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">#Pedido</th>
+              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Cliente</th>
+              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Productos</th>
+              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Total</th>
+              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Estado</th>
+              <th class="text-left px-5 py-2 text-sm font-medium text-slate-400">Fecha</th>
             </tr>
           </thead>
           <tbody>
@@ -119,19 +119,19 @@
               :key="order.id" 
               class="border-b border-slate-700 hover:bg-slate-750/30 transition-all duration-150 hover:scale-[1.005]"
             >
-              <td class="px-6 py-3">
+              <td class="px-5 py-2">
                 <span class="text-sm font-medium text-white">#{{ order.id }}</span>
               </td>
-              <td class="px-6 py-3">
+              <td class="px-5 py-2">
                 <span class="text-sm text-white">{{ order.customer }}</span>
               </td>
-              <td class="px-6 py-3">
+              <td class="px-5 py-2">
                 <span class="text-sm text-slate-400">{{ order.items }} items</span>
               </td>
-              <td class="px-6 py-3">
+              <td class="px-5 py-2">
                 <span class="text-sm font-semibold text-white">${{ order.total }}</span>
               </td>
-              <td class="px-6 py-3">
+              <td class="px-5 py-2">
                 <span 
                   class="px-2 py-1 text-xs font-medium rounded"
                   :class="{
@@ -144,7 +144,7 @@
                   {{ order.status }}
                 </span>
               </td>
-              <td class="px-6 py-3">
+              <td class="px-5 py-2">
                 <span class="text-sm text-slate-400">{{ order.date }}</span>
               </td>
             </tr>
