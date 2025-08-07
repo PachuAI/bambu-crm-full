@@ -10,8 +10,7 @@
 
 ### Estado General:
 - ✅ **1 Módulo COMPLETO**: Dashboard (con datos hardcodeados)
-- ✅ **1 Módulo FUNCIONAL**: Cotizador (lógica completa)
-- ⚠️ **1 Módulo PARCIAL**: ProductosIndex (estructura + filtros)
+- ⚠️ **2 Módulos PARCIALES**: Cotizador (lógica diferente al MVP) + ProductosIndex (estructura + filtros)
 - ❌ **8 Módulos VACÍOS**: Solo títulos `<h1>`
 
 ---
@@ -32,16 +31,17 @@
 - ❌ **PROBLEMA CRÍTICO**: NO ES RESPONSIVE (horrible en móvil)
 
 #### 2. Cotizador (CotizadorView.vue) 
-**Estado**: FUNCIONAL - 268 líneas
+**Estado**: PARCIALMENTE FUNCIONAL - 268 líneas
 - ✅ Búsqueda de productos con filtros
 - ✅ Agregado/eliminado de items con cantidades
 - ✅ Cálculo de subtotal, IVA (21%) y total
 - ✅ Selección de cliente
 - ✅ Botones limpiar y generar PDF
-- ✅ Datos de productos y clientes hardcodeados
-- ⚠️ **Pendiente**: Conexión con API real
-- ⚠️ **Pendiente**: Generación PDF real
-- ⚠️ **Pendiente**: Responsividad móvil
+- ⚠️ **PROBLEMA**: Lógica diferente al MVP anterior
+- ⚠️ **REQUIERE**: Revisión completa de funcionalidad
+- ❌ **Pendiente**: Conexión con API real
+- ❌ **Pendiente**: Generación PDF real
+- ❌ **Pendiente**: Responsividad móvil
 
 ---
 

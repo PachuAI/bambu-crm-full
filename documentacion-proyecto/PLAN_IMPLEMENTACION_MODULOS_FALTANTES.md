@@ -13,7 +13,9 @@ Implementar los 4 módulos logísticos faltantes que existían en el MVP anterio
 
 ### Módulos Realmente Funcionales
 - ✅ **Dashboard** - Completo pero NO responsive (crítico arreglar)
-- ✅ **Cotizador** - Funcional completo (SÚPER IMPORTANTE para negocio)
+
+### Módulos Críticos que Requieren Revisión
+- ⚠️ **Cotizador** - Lógica diferente al MVP anterior (SÚPER IMPORTANTE revisar)
 
 ### Módulos Parciales 
 - ⚠️ **ProductosIndex** - Solo estructura + filtros, falta tabla/CRUD
@@ -46,7 +48,8 @@ Debido al estado real detectado, cambiamos prioridades:
 - Tipografía y espaciados inconsistentes
 
 ## FASE 1: MÓDULOS BÁSICOS CRUD (Prioridad: CRÍTICA)
-**Duración estimada**: 3-4 días
+**Duración estimada**: 4-5 días
+- **Cotizador** - Revisar lógica vs MVP anterior (SÚPER CRÍTICO)
 - ClientesIndex CRUD completo + responsive
 - PedidosIndex CRUD completo + responsive  
 - StockIndex gestión inventario + responsive
