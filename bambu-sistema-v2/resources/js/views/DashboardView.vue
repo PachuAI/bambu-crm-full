@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-        <p class="mt-2 text-slate-400">Resumen de tu negocio en tiempo real</p>
+        <p class="mt-2 text-slate-400">Control operativo BAMBU - Alto Valle</p>
       </div>
       
       <!-- Date Range Selector -->
@@ -39,7 +39,7 @@
       <div class="lg:col-span-2 rounded-lg bg-slate-800 border border-slate-700">
         <div class="p-5">
           <div class="flex items-center justify-between mb-3">
-            <h2 class="text-lg font-semibold text-white">Ventas del Mes</h2>
+            <h2 class="text-lg font-semibold text-white">Facturación del Mes</h2>
             <div class="flex gap-2">
               <button class="px-3 py-1 text-xs rounded text-white bg-indigo-600">
                 Mensual
@@ -55,7 +55,7 @@
           
           <!-- Placeholder for chart -->
           <div class="h-56 flex items-center justify-center rounded bg-slate-900">
-            <p class="text-slate-500">Gráfico de ventas</p>
+            <p class="text-slate-500">Gráfico de facturación</p>
           </div>
         </div>
       </div>
@@ -136,7 +136,7 @@
                   class="px-2 py-1 text-xs font-medium rounded"
                   :class="{
                     'bg-green-900/30 text-green-400': order.status === 'Entregado',
-                    'bg-blue-900/30 text-blue-400': order.status === 'En camino',
+                    'bg-blue-900/30 text-blue-400': order.status === 'En flete',
                     'bg-yellow-900/30 text-yellow-400': order.status === 'Preparando',
                     'bg-red-900/30 text-red-400': order.status === 'Cancelado'
                   }"
@@ -172,51 +172,51 @@ const loading = ref(false)
 const metrics = ref([
   {
     id: 1,
-    title: 'Ventas Totales',
-    value: '$125,430',
+    title: 'Facturación Mensual',
+    value: '$2,847,650',
     trend: 'up',
-    trendValue: '+12.5%',
+    trendValue: '+18.3%',
     icon: CurrencyDollarIcon
   },
   {
     id: 2,
-    title: 'Pedidos',
-    value: '356',
+    title: 'Pedidos del Mes',
+    value: '284',
     trend: 'up',
-    trendValue: '+8.2%',
+    trendValue: '+12.7%',
     icon: ShoppingCartIcon
   },
   {
     id: 3,
-    title: 'Clientes',
-    value: '2,456',
-    trend: 'down',
-    trendValue: '-2.4%',
+    title: 'Clientes Activos',
+    value: '147',
+    trend: 'up',
+    trendValue: '+5.8%',
     icon: UserGroupIcon
   },
   {
     id: 4,
-    title: 'Entregas Hoy',
-    value: '28',
+    title: 'Fletes Hoy',
+    value: '12',
     trend: 'up',
-    trendValue: '+15.3%',
+    trendValue: '+25.0%',
     icon: TruckIcon
   }
 ])
 
 const topProducts = ref([
-  { id: 1, name: 'Cerveza Rubia 1L', quantity: 450, percentage: 35, color: '#6366f1' },
-  { id: 2, name: 'Gaseosa Cola 2.25L', quantity: 320, percentage: 25, color: '#8b5cf6' },
-  { id: 3, name: 'Agua Mineral 2L', quantity: 280, percentage: 22, color: '#06b6d4' },
-  { id: 4, name: 'Cerveza Negra 1L', quantity: 230, percentage: 18, color: '#10b981' }
+  { id: 1, name: 'Detergente BAMBU (Bidón 5L)', quantity: 145, percentage: 32, color: '#6366f1' },
+  { id: 2, name: 'Desinfectante BAMBU (Bidón 5L)', quantity: 128, percentage: 28, color: '#8b5cf6' },
+  { id: 3, name: 'Limpiador de pisos BAMBU (Bidón 5L)', quantity: 96, percentage: 21, color: '#06b6d4' },
+  { id: 4, name: 'Jabón líquido BAMBU (Bidón 5L)', quantity: 86, percentage: 19, color: '#10b981' }
 ])
 
 const recentOrders = ref([
-  { id: '1234', customer: 'Kiosco San Martín', items: 12, total: '1,234.50', status: 'Entregado', date: 'Hoy, 14:30' },
-  { id: '1233', customer: 'Almacén Don José', items: 8, total: '856.00', status: 'En camino', date: 'Hoy, 12:15' },
-  { id: '1232', customer: 'Supermercado Luna', items: 25, total: '3,450.75', status: 'Preparando', date: 'Hoy, 10:00' },
-  { id: '1231', customer: 'Kiosco 24hs', items: 15, total: '1,890.25', status: 'Entregado', date: 'Ayer, 18:45' },
-  { id: '1230', customer: 'Minimercado Centro', items: 18, total: '2,156.50', status: 'Cancelado', date: 'Ayer, 16:20' }
+  { id: '2847', customer: 'Supermercado Don Juan - General Roca', items: 24, total: '18,720.00', status: 'En flete', date: 'Hoy, 14:30' },
+  { id: '2846', customer: 'Limpieza Pro S.A. - Neuquén', items: 16, total: '12,480.00', status: 'Entregado', date: 'Hoy, 12:15' },
+  { id: '2845', customer: 'Municipalidad de Villa Regina', items: 35, total: '27,300.00', status: 'Preparando', date: 'Hoy, 10:00' },
+  { id: '2844', customer: 'Minimercado Avenida - Cipolletti', items: 12, total: '9,360.00', status: 'Entregado', date: 'Ayer, 18:45' },
+  { id: '2843', customer: 'María Beltrán - Fernández Oro', items: 8, total: '6,240.00', status: 'Cancelado', date: 'Ayer, 16:20' }
 ])
 
 const getStatusStyle = (status: string) => {
