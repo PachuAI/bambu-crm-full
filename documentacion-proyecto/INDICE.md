@@ -7,67 +7,70 @@
 ## 🚀 INICIO RÁPIDO
 
 ### 🎯 Esencial (LEER PRIMERO)
-1. **[📊 ESTADO ACTUAL](../STATUS.md)** ← **Estado del proyecto en tiempo real**
-2. **[📋 Setup Completo](./PASO_CERO.md)** - Configuración paso a paso
-3. **[🛠️ Stack Técnico](./STACK_TECH.md)** - Tecnologías implementadas
+1. **[📊 ESTADO ACTUAL](../STATUS.md)** ← **Única fuente de verdad absoluta**
+2. **[📚 DEV HANDBOOK](./DEV_HANDBOOK_LARAVEL_VUE.md)** ← **Biblia lecciones aprendidas**
 
 ---
 
-## 📋 DOCUMENTACIÓN POR CATEGORÍA
+## 📋 DOCUMENTACIÓN LIMPIA (Post-Auditoría)
 
-### 🎯 **Estado y Planificación**
-| Documento | Propósito |
-|-----------|-----------|
-| **[📊 STATUS.md](../STATUS.md)** ⭐ | **Estado actual - Única fuente de verdad** |
-| **[🗺️ ROADMAP_DESARROLLO_2025.md](./ROADMAP_DESARROLLO_2025.md)** | Plan 16 semanas detallado |
-| **[📋 PRD_BAMBU_2025_PROFESIONAL.md](./PRD_BAMBU_2025_PROFESIONAL.md)** | Requerimientos completos |
+### ⭐ **CRÍTICOS (Mantener actualizados)**
+| Documento | Propósito | Estado |
+|-----------|-----------|--------|
+| **[📊 STATUS.md](../STATUS.md)** | **Única fuente de verdad - Estado actual** | ✅ CRÍTICO |
+| **[📚 README.md](../README.md)** | **Documentación principal + Quick Start** | ✅ CRÍTICO |
+| **[📚 DEV_HANDBOOK_LARAVEL_VUE.md](./DEV_HANDBOOK_LARAVEL_VUE.md)** | **Biblia lecciones aprendidas + Stack decisions** | ✅ NUEVO |
 
-### 🛠️ **Técnico y Desarrollo**
-| Documento | Propósito |
-|-----------|-----------|
-| **[🛠️ STACK_TECH.md](./STACK_TECH.md)** ⭐ | Stack consolidado Laravel+Vue |
-| **[🏗️ ARQUITECTURA_TECNICA_2025.md](./ARQUITECTURA_TECNICA_2025.md)** | Decisiones arquitectónicas |
-| **[📊 ESQUEMA_BASE_DATOS.md](./ESQUEMA_BASE_DATOS.md)** ⭐ | **BD PostgreSQL + Sistema Stock** |
-| **[🌐 API_ENDPOINTS.md](./API_ENDPOINTS.md)** ⭐ | **22+ endpoints con Stock APIs** |
-| **[📝 ADR_NUEVAS_DECISIONES_2025.md](./ADR_NUEVAS_DECISIONES_2025.md)** | Lecciones aprendidas MVP |
+### 🛠️ **TÉCNICO**
+| Documento | Propósito | Estado |
+|-----------|-----------|--------|
+| **[📊 ESQUEMA_BASE_DATOS.md](./ESQUEMA_BASE_DATOS.md)** | BD PostgreSQL + 22 tablas | ✅ OPERATIVA |
+| **[🌐 API_ENDPOINTS.md](./API_ENDPOINTS.md)** | 22+ endpoints REST + Sanctum | ✅ OPERATIVA |
+| **[📝 ADR_NUEVAS_DECISIONES_2025.md](./ADR_NUEVAS_DECISIONES_2025.md)** | Decisiones arquitectónicas | ✅ ÚTIL |
 
-### 🎨 **Diseño y UX/UI**
-| Documento | Propósito |
-|-----------|-----------|
-| **[🎨 UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md)** ⭐ | Sistema diseño Vue+Tailwind completo |
-
-### 📊 **Contexto del Negocio**
-| Documento | Propósito |
-|-----------|-----------|
-| **[📊 RESUMEN_EJECUTIVO_ANALISIS_BAMBU.md](./RESUMEN_EJECUTIVO_ANALISIS_BAMBU.md)** | Análisis MVP actual |
-
-### 🔧 **Setup y QA**
-| Documento | Propósito |
-|-----------|-----------|
-| **[⚙️ PASO_CERO.md](./PASO_CERO.md)** | Instalación ambiente desarrollo |
-| **[📏 GUIA_DESARROLLO_MEJORES_PRACTICAS.md](./GUIA_DESARROLLO_MEJORES_PRACTICAS.md)** | Estándares código |
-| **[🧪 REVIEW_QA_LOGGING.md](./REVIEW_QA_LOGGING.md)** | Testing y debugging |
+### 🎨 **UX/UI**
+| Documento | Propósito | Estado |
+|-----------|-----------|--------|
+| **[🎨 UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md)** | Sistema diseño Vue+Tailwind | ✅ EN USO ACTIVO |
 
 ---
 
-## 🎯 ESTRUCTURA SIMPLIFICADA
+## 🧹 LIMPIEZA DOCUMENTACIÓN REALIZADA
 
-**FUENTE ÚNICA DE VERDAD** → [📊 STATUS.md](../STATUS.md)
+### ❌ **ELIMINADOS (9 archivos obsoletos)**
+- `ESTADO_SESION.md` - Redundante con STATUS.md
+- `BRIEFING_DESARROLLADOR.md` - Setup inicial ya completado
+- `PASO_CERO.md` - Instalación ya realizada
+- `PRD_BAMBU_2025_PROFESIONAL.md` - Requerimientos implementados
+- `RESUMEN_EJECUTIVO_ANALISIS_BAMBU.md` - MVP migrado
+- `GUIA_DESARROLLO_MEJORES_PRACTICAS.md` - Prácticas aplicadas
+- `REVIEW_QA_LOGGING.md` - QA funcionando (72/72 tests)
+- `ARQUITECTURA_TECNICA_2025.md` - Consolidado en DEV_HANDBOOK
+- `ROADMAP_DESARROLLO_2025.md` - Estado en STATUS.md
 
-### 🔄 Próxima Tarea
-**Desarrollo Frontend Vue SPA** según STATUS.md
+### ✅ **RESULTADO FINAL**
+**8 documentos ultra-lean** | **Sin redundancias** | **STATUS.md única fuente de verdad**
 
-### ✅ Logros Completados
-- Stack Laravel 11 + PostgreSQL + Vue 3 ✅
-- Sistema Stock con auditoría completa ✅
-- 72+ tests pasando ✅  
-- Filament Admin Panel con alertas stock ✅
-- UX/UI Guidelines completas ✅
-- 22+ API endpoints operativos ✅
-- Documentación actualizada ✅
+---
+
+## 🎯 QUICK REFERENCE
+
+**ESTADO ACTUAL**: Frontend Vue SPA funcionando (Login + Dashboard)  
+**PRÓXIMO PASO**: Refinamiento UI/UX antes de escalar módulos  
+**STACK**: Laravel 11 + Vue 3 + PostgreSQL + Tailwind 4  
+**TESTS**: 72/72 pasando  
+**PROGRESO**: 93% completado
+
+---
+
+## 📚 NAVEGACIÓN RÁPIDA
+
+1. **¿Estado actual?** → [STATUS.md](../STATUS.md) ← **TODO ESTÁ AQUÍ**
+2. **¿Cómo empezar?** → [README.md](../README.md) 
+3. **¿Lecciones aprendidas?** → [DEV_HANDBOOK_LARAVEL_VUE.md](./DEV_HANDBOOK_LARAVEL_VUE.md)
 
 ---
 
 **🌿 BAMBU v2.0 - Sistema integral profesional**
 
-*Actualizado: Agosto 2025 | Revisión: STATUS.md automática*
+*Post-Auditoría Agosto 2025 | Documentación optimizada y actualizada*
