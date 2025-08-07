@@ -1,16 +1,16 @@
 <template>
   <div 
-    class="rounded-xl bg-slate-800 border border-slate-700 p-8 relative transition-all duration-200 hover:border-slate-600 hover:shadow-lg min-h-[160px]"
+    class="rounded-lg bg-slate-800 border border-slate-700 p-6 relative transition-all duration-200 hover:border-slate-600 hover:shadow-lg hover:shadow-slate-900/20 min-h-[140px]"
   >
     <div class="flex justify-between items-start mb-4">
       <h3 class="text-sm font-medium text-slate-400">{{ title }}</h3>
       <span 
         v-if="trendValue"
         :class="[
-          'text-xs font-semibold px-2 py-1 rounded-full inline-flex items-center gap-1',
+          'text-xs font-semibold px-2 py-1 rounded inline-flex items-center gap-1',
           trend === 'up' ? 
-            'bg-green-900/30 text-green-400' : 
-            'bg-red-900/30 text-red-400'
+            'bg-green-900/20 text-green-400 border border-green-800/30' : 
+            'bg-red-900/20 text-red-400 border border-red-800/30'
         ]"
       >
         <span v-if="trend === 'up'">↗</span>
@@ -19,7 +19,7 @@
       </span>
     </div>
     
-    <div class="text-3xl font-bold mb-1 text-white font-mono">
+    <div class="text-2xl font-bold mb-3 text-white font-mono">
       <template v-if="!loading">
         {{ value }}
       </template>

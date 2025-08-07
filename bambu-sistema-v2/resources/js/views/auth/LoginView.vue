@@ -12,7 +12,7 @@
 
       <!-- Login Form -->
       <form @submit.prevent="handleLogin" class="mt-8 space-y-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-lg p-6 space-y-6">
+        <div class="bg-slate-800 border border-slate-700 rounded-lg p-6 space-y-5">
           <!-- Email Field -->
           <div class="space-y-2">
             <label for="email" class="block text-sm font-medium text-slate-300">
@@ -23,7 +23,7 @@
               v-model="form.email"
               type="email"
               required
-              class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
+              class="w-full px-3 py-2.5 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
               placeholder="admin@bambu.com"
               :disabled="authStore.loading"
             />
@@ -39,7 +39,7 @@
               v-model="form.password"
               type="password"
               required
-              class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
+              class="w-full px-3 py-2.5 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
               placeholder="••••••••"
               :disabled="authStore.loading"
             />
@@ -57,7 +57,7 @@
               <span class="ml-2 text-sm text-slate-400">Recordarme</span>
             </label>
             
-            <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300">
+            <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors duration-150">
               ¿Olvidaste tu contraseña?
             </a>
           </div>
@@ -66,20 +66,20 @@
           <button
             type="button"
             @click="fillCredentials"
-            class="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-md font-medium text-sm text-slate-300 transition-all duration-150"
+            class="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded font-medium text-sm text-slate-300 transition-all duration-150"
           >
             🚀 Usar credenciales de prueba
           </button>
 
           <!-- Error Message -->
-          <div v-if="authStore.error" class="bg-red-900/20 border border-red-700/50 rounded-md p-3">
+          <div v-if="authStore.error" class="bg-red-900/20 border border-red-700/50 rounded p-3">
             <p class="text-sm text-red-400">{{ authStore.error }}</p>
           </div>
 
           <!-- Submit Button -->
           <button
             type="submit"
-            class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md font-medium text-base inline-flex items-center justify-center gap-2 transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            class="w-full px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-medium text-base inline-flex items-center justify-center gap-2 transition-all duration-150 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             :disabled="authStore.loading"
           >
             <svg
@@ -113,7 +113,7 @@
             ¿No tienes una cuenta?
             <router-link
               to="/register"
-              class="font-medium text-indigo-400 hover:text-indigo-300"
+              class="font-medium text-indigo-400 hover:text-indigo-300 transition-colors duration-150"
             >
               Regístrate aquí
             </router-link>
@@ -122,7 +122,7 @@
       </form>
 
       <!-- Demo Credentials Info -->
-      <div class="bg-indigo-900/20 border border-indigo-700/50 rounded-lg p-4">
+      <div class="bg-indigo-900/20 border border-indigo-700/50 rounded p-4">
         <p class="text-sm font-medium mb-2 text-indigo-300">💡 Credenciales de Prueba:</p>
         <p class="text-xs text-slate-400">Email: admin@bambu.com</p>
         <p class="text-xs text-slate-400">Contraseña: password</p>

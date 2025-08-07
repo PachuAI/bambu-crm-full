@@ -10,7 +10,7 @@
       <!-- Date Range Selector -->
       <div class="flex items-center gap-2">
         <button 
-          class="px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2 transition-all duration-150 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white"
+          class="px-4 py-2 rounded font-medium text-sm inline-flex items-center gap-2 transition-all duration-150 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white"
         >
           <CalendarIcon class="w-4 h-4" />
           <span>Últimos 30 días</span>
@@ -20,7 +20,7 @@
     </div>
     
     <!-- Metrics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <MetricCard
         v-for="metric in metrics"
         :key="metric.id"
@@ -34,35 +34,35 @@
     </div>
     
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Sales Chart (2/3 width) -->
-      <div class="lg:col-span-2 rounded-xl bg-slate-800 border border-slate-700">
-        <div class="p-8">
+      <div class="lg:col-span-2 rounded-lg bg-slate-800 border border-slate-700">
+        <div class="p-6">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-white">Ventas del Mes</h2>
             <div class="flex gap-2">
-              <button class="px-3 py-1 text-xs rounded-md text-white bg-indigo-600">
+              <button class="px-3 py-1 text-xs rounded text-white bg-indigo-600">
                 Mensual
               </button>
-              <button class="px-3 py-1 text-xs rounded-md text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+              <button class="px-3 py-1 text-xs rounded text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
                 Semanal
               </button>
-              <button class="px-3 py-1 text-xs rounded-md text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+              <button class="px-3 py-1 text-xs rounded text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
                 Diario
               </button>
             </div>
           </div>
           
           <!-- Placeholder for chart -->
-          <div class="h-64 flex items-center justify-center rounded-lg bg-slate-900">
+          <div class="h-64 flex items-center justify-center rounded bg-slate-900">
             <p class="text-slate-500">Gráfico de ventas</p>
           </div>
         </div>
       </div>
       
       <!-- Products Distribution (1/3 width) -->
-      <div class="rounded-xl bg-slate-800 border border-slate-700">
-        <div class="p-8">
+      <div class="rounded-lg bg-slate-800 border border-slate-700">
+        <div class="p-6">
           <h2 class="text-lg font-semibold mb-4 text-white">Productos Más Vendidos</h2>
           
           <!-- Product list -->
@@ -82,7 +82,7 @@
           </div>
           
           <!-- Placeholder for donut chart -->
-          <div class="mt-4 h-32 flex items-center justify-center rounded-lg bg-slate-900">
+          <div class="mt-4 h-32 flex items-center justify-center rounded bg-slate-900">
             <p class="text-sm text-slate-500">Gráfico circular</p>
           </div>
         </div>
@@ -90,12 +90,12 @@
     </div>
     
     <!-- Recent Activity Table -->
-    <div class="rounded-xl bg-slate-800 border border-slate-700">
-      <div class="px-8 py-6 flex items-center justify-between border-b border-slate-700">
+    <div class="rounded-lg bg-slate-800 border border-slate-700">
+      <div class="px-6 py-4 flex items-center justify-between border-b border-slate-700">
         <h2 class="text-lg font-semibold text-white">Pedidos Recientes</h2>
         <router-link 
           to="/pedidos" 
-          class="text-sm hover:opacity-80 text-indigo-400"
+          class="text-sm hover:text-indigo-300 text-indigo-400 transition-colors duration-150"
         >
           Ver todos →
         </router-link>
@@ -105,35 +105,35 @@
         <table class="w-full">
           <thead>
             <tr class="border-b border-slate-700">
-              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">#Pedido</th>
-              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Cliente</th>
-              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Productos</th>
-              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Total</th>
-              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Estado</th>
-              <th class="text-left px-8 py-4 text-sm font-medium text-slate-400">Fecha</th>
+              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">#Pedido</th>
+              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Cliente</th>
+              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Productos</th>
+              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Total</th>
+              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Estado</th>
+              <th class="text-left px-6 py-3 text-sm font-medium text-slate-400">Fecha</th>
             </tr>
           </thead>
           <tbody>
             <tr 
               v-for="order in recentOrders" 
               :key="order.id" 
-              class="border-b border-slate-700 hover:bg-slate-800/50 transition-colors"
+              class="border-b border-slate-700 hover:bg-slate-750/30 transition-all duration-150 hover:scale-[1.005]"
             >
-              <td class="px-8 py-4">
+              <td class="px-6 py-3">
                 <span class="text-sm font-medium text-white">#{{ order.id }}</span>
               </td>
-              <td class="px-8 py-4">
+              <td class="px-6 py-3">
                 <span class="text-sm text-white">{{ order.customer }}</span>
               </td>
-              <td class="px-8 py-4">
+              <td class="px-6 py-3">
                 <span class="text-sm text-slate-400">{{ order.items }} items</span>
               </td>
-              <td class="px-8 py-4">
+              <td class="px-6 py-3">
                 <span class="text-sm font-semibold text-white">${{ order.total }}</span>
               </td>
-              <td class="px-8 py-4">
+              <td class="px-6 py-3">
                 <span 
-                  class="px-3 py-1.5 text-xs font-medium rounded-full"
+                  class="px-2 py-1 text-xs font-medium rounded"
                   :class="{
                     'bg-green-900/30 text-green-400': order.status === 'Entregado',
                     'bg-blue-900/30 text-blue-400': order.status === 'En camino',
@@ -144,7 +144,7 @@
                   {{ order.status }}
                 </span>
               </td>
-              <td class="px-8 py-4">
+              <td class="px-6 py-3">
                 <span class="text-sm text-slate-400">{{ order.date }}</span>
               </td>
             </tr>
