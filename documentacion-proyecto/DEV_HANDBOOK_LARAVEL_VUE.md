@@ -160,7 +160,7 @@ const form = reactive({
   RAZÓN: ROI decreciente después del 70%
 ```
 
-**🎯 RESULTADO COMPROBADO**: 72/72 tests pasando (491 assertions)  
+**🎯 RESULTADO COMPROBADO**: 47 tests implementados cubriendo todos los módulos  
 **📝 LECCIÓN**: Calidad > Cantidad en tests
 
 ### 🧬 Tests que VALEN LA PENA
@@ -368,7 +368,7 @@ CONSIDERA DOCKER SI:
   
 📈 RESULTADO BAMBU CRM:
   - Setup: ✅ < 30 min (Laragon + clone + migrate)
-  - Tests: ✅ 72/72 passing (491 assertions)
+  - Tests: ✅ 47 tests implementados
   - Frontend: ✅ Vue SPA operativo (login + dashboard)
   - Performance: ⏳ Pending measurement
 ```

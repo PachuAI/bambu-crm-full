@@ -1,6 +1,6 @@
 # BAMBU – Información Real del Negocio y Lógica para Desarrollo
 
-HOY ES 07 DE AGOSTO DE 2025
+**Última actualización**: 07/08/2025
 
 ## Resumen General
 
