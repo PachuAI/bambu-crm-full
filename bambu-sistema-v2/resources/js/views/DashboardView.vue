@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-4">
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -41,7 +41,7 @@
     </div>
     
     <!-- Metrics Grid con espaciado consistente -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
       <MetricCard
         v-for="metric in metrics"
         :key="metric.id"
@@ -55,11 +55,11 @@
     </div>
     
     <!-- Main Content Grid con proporciones coherentes -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <!-- Facturación Chart (2/3 width) -->
       <div class="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700">
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-6">
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-4">
             <div>
               <h2 class="text-lg font-semibold text-white">Facturación del Mes</h2>
               <p class="text-sm text-slate-400 mt-1">Evolución de ventas</p>
@@ -96,16 +96,16 @@
           </div>
           
           <!-- Quick stats con spacing sistemático -->
-          <div class="grid grid-cols-3 gap-4 mt-6">
-            <div class="text-center p-4 bg-slate-900/30 rounded-lg">
+          <div class="grid grid-cols-3 gap-3 mt-4">
+            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
               <div class="text-lg font-bold text-green-400">+18.3%</div>
               <div class="text-xs text-slate-500 mt-1">vs mes anterior</div>
             </div>
-            <div class="text-center p-4 bg-slate-900/30 rounded-lg">
+            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
               <div class="text-lg font-bold text-white">$94,922</div>
               <div class="text-xs text-slate-500 mt-1">promedio diario</div>
             </div>
-            <div class="text-center p-4 bg-slate-900/30 rounded-lg">
+            <div class="text-center p-3 bg-slate-900/30 rounded-lg">
               <div class="text-lg font-bold text-blue-400">284</div>
               <div class="text-xs text-slate-500 mt-1">pedidos totales</div>
             </div>
@@ -115,21 +115,21 @@
       
       <!-- Top Products (1/3 width) con jerarquía clara -->
       <div class="bg-slate-800 rounded-lg border border-slate-700">
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-6">
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-4">
             <div>
               <h2 class="text-lg font-semibold text-white">Productos Destacados</h2>
               <p class="text-sm text-slate-400 mt-1">Este mes</p>
             </div>
-            <span class="text-xs text-slate-500 uppercase tracking-wider">Top 4</span>
+            <span class="text-xs text-slate-500 uppercase tracking-wider">Top 5</span>
           </div>
           
           <!-- Lista compacta con spacing consistente -->
-          <div class="space-y-4">
+          <div class="space-y-2">
             <div 
               v-for="(product, index) in topProducts" 
               :key="product.id" 
-              class="flex items-center justify-between py-3 px-4 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 transition-colors duration-200"
+              class="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 transition-colors duration-200"
             >
               <div class="flex items-center gap-3 flex-1 min-w-0">
                 <div class="w-3 h-3 rounded-full flex-shrink-0" :style="{ backgroundColor: product.color }"></div>
@@ -155,10 +155,10 @@
           </div>
           
           <!-- Summary con spacing coherente -->
-          <div class="mt-6 pt-4 border-t border-slate-700/50">
+          <div class="mt-4 pt-3 border-t border-slate-700/50">
             <div class="flex justify-between text-sm">
               <span class="text-slate-400">Total vendido:</span>
-              <span class="text-white font-semibold">455 unidades</span>
+              <span class="text-white font-semibold">517 unidades</span>
             </div>
           </div>
         </div>
@@ -308,7 +308,8 @@ const topProducts = ref([
   { id: 1, name: 'Detergente BAMBU (Bidón 5L)', quantity: 145, percentage: 32, color: '#10b981' },
   { id: 2, name: 'Desinfectante BAMBU (Bidón 5L)', quantity: 128, percentage: 28, color: '#6366f1' },
   { id: 3, name: 'Limpiador de pisos BAMBU (Bidón 5L)', quantity: 96, percentage: 21, color: '#06b6d4' },
-  { id: 4, name: 'Jabón líquido BAMBU (Bidón 5L)', quantity: 86, percentage: 19, color: '#f59e0b' }
+  { id: 4, name: 'Jabón líquido BAMBU (Bidón 5L)', quantity: 86, percentage: 19, color: '#f59e0b' },
+  { id: 5, name: 'Suavizante BAMBU (Bidón 5L)', quantity: 62, percentage: 14, color: '#ec4899' }
 ])
 
 const recentOrders = ref([
