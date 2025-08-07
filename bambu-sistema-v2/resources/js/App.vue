@@ -1,13 +1,22 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script setup lang="ts">
-// App component setup
-</script>
+import { onMounted } from 'vue'
+import { useTheme } from '@/composables/useTheme'
+import { useAuthStore } from '@/stores/auth'
 
-<style scoped>
-/* App styles */
-</style>
+const { initTheme } = useTheme()
+const authStore = useAuthStore()
+
+onMounted(async () => {
+  // Initialize theme
+  initTheme()
+  
+  // Check if user is authenticated on app load
+  if (authStore.token && !authStore.user) {
+    await authStore.fetchUser()
+  }
+})
+</script>
