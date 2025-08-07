@@ -294,6 +294,24 @@ PREREQUISITO: UI refinement total completado
 
 ---
 
+---
+
+## 📝 ÚLTIMA SESIÓN (2025-08-07)
+
+### ✅ Hecho:
+- **Archivo CLAUDE.md**: Creado sistema completo de reglas imperativas para Claude
+- **Reglas de documentación**: Establecidas prohibiciones absolutas sobre documentación dentro de `bambu-sistema-v2/`
+- **Estructura organizacional**: Definida separación clara entre código (`bambu-sistema-v2/`) y documentación (`documentacion-proyecto/`)
+- **Procedimientos automatizados**: Implementados rituales de commit y reinicio de contexto
+- **Ubicación correcta**: CLAUDE.md posicionado en raíz del proyecto (no dentro de la aplicación)
+
+### 🎯 Siguiente:
+- Responsive Dashboard Mobile - Perfeccionar layout mobile del dashboard (MetricCards)
+- Optimizar breakpoints xs/sm/md para grid system
+- Establecer buenas prácticas responsive para desarrollo futuro
+
+---
+
 **🎯 RECORDATORIO**: Este es el único archivo que se actualiza con el estado del proyecto.  
 **🔄 PRÓXIMA ACTUALIZACIÓN**: Después de perfeccionar UI Login + Dashboard  
 **🎨 FILOSOFIA ACTUAL**: Base sólida y convincente antes de escalar nuevos módulos
