@@ -1,19 +1,36 @@
 <template>
-  <div class="min-h-screen bg-slate-900 p-4">
-    <div class="text-center py-20">
-      <h1 class="text-4xl font-bold text-white mb-4">
-        🚧 Dashboard en Construcción
-      </h1>
-      <p class="text-slate-400 text-lg mb-8">
-        Implementando diseño mobile-first responsive
-      </p>
-      <div class="bg-slate-800 rounded-lg border border-slate-700 p-6 max-w-md mx-auto">
-        <p class="text-slate-300 text-sm">
-          ✅ Login funcionando<br>
-          ✅ Routing configurado<br>  
-          ✅ Backend conectado<br>
-          🔄 UI en desarrollo...
+  <div class="content-area">
+    <div class="container">
+      <!-- Header de bienvenida -->
+      <div class="construction-header">
+        <h1 class="construction-title">
+          🚧 Dashboard en Construcción
+        </h1>
+        <p class="construction-subtitle">
+          Implementando diseño mobile-first responsive
         </p>
+      </div>
+
+      <!-- Status Card -->
+      <div class="construction-card card">
+        <div class="construction-status">
+          <div class="status-item status-complete">
+            <span class="status-icon">✅</span>
+            <span class="status-text">Login funcionando</span>
+          </div>
+          <div class="status-item status-complete">
+            <span class="status-icon">✅</span>
+            <span class="status-text">Routing configurado</span>
+          </div>
+          <div class="status-item status-complete">
+            <span class="status-icon">✅</span>
+            <span class="status-text">Backend conectado</span>
+          </div>
+          <div class="status-item status-progress">
+            <span class="status-icon">🔄</span>
+            <span class="status-text">UI en desarrollo...</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

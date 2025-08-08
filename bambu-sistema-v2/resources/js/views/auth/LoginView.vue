@@ -1,21 +1,21 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-slate-900">
-    <div class="max-w-md w-full space-y-8 px-6">
+  <div class="login-container">
+    <div class="login-wrapper">
       <!-- Logo and Title -->
-      <div class="text-center">
-        <h1 class="text-4xl font-bold mb-4 text-indigo-400">BAMBU</h1>
-        <h2 class="text-2xl font-semibold text-white mb-3">Iniciar Sesión</h2>
-        <p class="text-slate-400">
+      <div class="login-header">
+        <h1 class="login-title">BAMBU</h1>
+        <h2 class="login-subtitle">Iniciar Sesión</h2>
+        <p class="login-description">
           Ingresa a tu cuenta para continuar
         </p>
       </div>
 
       <!-- Login Form -->
-      <form @submit.prevent="handleLogin" class="mt-8 space-y-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-lg p-6 space-y-5">
+      <form @submit.prevent="handleLogin" class="login-form">
+        <div class="login-card">
           <!-- Email Field -->
-          <div class="space-y-2">
-            <label for="email" class="block text-sm font-medium text-slate-300">
+          <div class="form-group">
+            <label for="email" class="form-label">
               Correo Electrónico
             </label>
             <input
@@ -23,15 +23,15 @@
               v-model="form.email"
               type="email"
               required
-              class="w-full px-3 py-2.5 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
+              class="form-input"
               placeholder="admin@bambu.com"
               :disabled="authStore.loading"
             />
           </div>
 
           <!-- Password Field -->
-          <div class="space-y-2">
-            <label for="password" class="block text-sm font-medium text-slate-300">
+          <div class="form-group">
+            <label for="password" class="form-label">
               Contraseña
             </label>
             <input
@@ -39,25 +39,25 @@
               v-model="form.password"
               type="password"
               required
-              class="w-full px-3 py-2.5 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-150"
+              class="form-input"
               placeholder="••••••••"
               :disabled="authStore.loading"
             />
           </div>
 
           <!-- Remember Me -->
-          <div class="flex items-center justify-between pt-2">
-            <label class="flex items-center">
+          <div class="form-actions">
+            <label class="checkbox-wrapper">
               <input
                 v-model="form.remember"
                 type="checkbox"
-                class="w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500"
+                class="form-checkbox"
                 :disabled="authStore.loading"
               />
-              <span class="ml-2 text-sm text-slate-400">Recordarme</span>
+              <span class="checkbox-label">Recordarme</span>
             </label>
             
-            <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors duration-150">
+            <a href="#" class="forgot-password">
               ¿Olvidaste tu contraseña?
             </a>
           </div>
@@ -66,55 +66,32 @@
           <button
             type="button"
             @click="fillCredentials"
-            class="w-full px-3 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded font-medium text-sm text-slate-300 transition-all duration-150"
+            class="btn-secondary"
           >
             🚀 Usar credenciales de prueba
           </button>
 
           <!-- Error Message -->
-          <div v-if="authStore.error" class="bg-red-900/20 border border-red-700/50 rounded p-3">
-            <p class="text-sm text-red-400">{{ authStore.error }}</p>
+          <div v-if="authStore.error" class="error-message">
+            <p>Error al iniciar sesión</p>
           </div>
 
           <!-- Submit Button -->
           <button
             type="submit"
-            class="w-full px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-medium text-base inline-flex items-center justify-center gap-2 transition-all duration-150 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            class="btn-primary"
             :disabled="authStore.loading"
           >
-            <svg
-              v-if="authStore.loading"
-              class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
+            <div v-if="authStore.loading" class="loading-spinner"></div>
             {{ authStore.loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
           </button>
         </div>
 
         <!-- Register Link -->
-        <div class="text-center">
-          <p class="text-slate-400">
+        <div class="register-link">
+          <p>
             ¿No tienes una cuenta?
-            <router-link
-              to="/register"
-              class="font-medium text-indigo-400 hover:text-indigo-300 transition-colors duration-150"
-            >
+            <router-link to="/register" class="link-primary">
               Regístrate aquí
             </router-link>
           </p>
@@ -122,11 +99,11 @@
       </form>
 
       <!-- Demo Credentials Info -->
-      <div class="bg-indigo-900/20 border border-indigo-700/50 rounded p-4">
-        <p class="text-sm font-medium mb-2 text-indigo-300">💡 Credenciales de Prueba:</p>
-        <p class="text-xs text-slate-400">Email: admin@bambu.com</p>
-        <p class="text-xs text-slate-400">Contraseña: password</p>
-        <p class="text-xs text-slate-500 mt-2">Usa el botón "🚀 Usar credenciales de prueba" para autocompletar</p>
+      <div class="demo-credentials">
+        <p class="demo-title">💡 Credenciales de Prueba:</p>
+        <p class="demo-text">Email: admin@bambu.com</p>
+        <p class="demo-text">Contraseña: password</p>
+        <p class="demo-hint">Usa el botón "🚀 Usar credenciales de prueba" para autocompletar</p>
       </div>
     </div>
   </div>
@@ -149,9 +126,6 @@ const form = reactive({
 
 onMounted(() => {
   authStore.clearError()
-  // Ensure dark theme is applied
-  document.documentElement.classList.add('dark')
-  document.body.className = 'bg-slate-900 text-white'
 })
 
 const fillCredentials = () => {
@@ -168,3 +142,290 @@ const handleLogin = async () => {
   }
 }
 </script>
+
+<style scoped>
+/* === LOGIN CONTAINER === */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  padding: var(--space-md);
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* === LOGIN HEADER === */
+.login-header {
+  text-align: center;
+}
+
+.login-title {
+  font-size: var(--font-4xl);
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  font-size: var(--font-2xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.login-description {
+  color: var(--text-secondary);
+  font-size: var(--font-base);
+}
+
+/* === LOGIN FORM === */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.login-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* === FORM ELEMENTS === */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-label {
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-input {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  transition: var(--transition-fast);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-bg);
+}
+
+.form-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === FORM ACTIONS === */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-xs);
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.form-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.checkbox-label {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.forgot-password {
+  font-size: var(--font-sm);
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.forgot-password:hover {
+  color: var(--primary-hover);
+}
+
+/* === BUTTONS === */
+.btn-primary {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: var(--font-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 48px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  background: var(--primary-active);
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-base);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* === LOADING SPINNER === */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === ERROR MESSAGE === */
+.error-message {
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  border-radius: 4px;
+  padding: var(--space-md);
+  color: var(--error);
+  font-size: var(--font-sm);
+}
+
+/* === REGISTER LINK === */
+.register-link {
+  text-align: center;
+}
+
+.register-link p {
+  color: var(--text-secondary);
+  font-size: var(--font-sm);
+}
+
+.link-primary {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.link-primary:hover {
+  color: var(--primary-hover);
+}
+
+/* === DEMO CREDENTIALS === */
+.demo-credentials {
+  background: var(--primary-bg);
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  padding: var(--space-md);
+}
+
+.demo-title {
+  color: var(--primary);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.demo-text {
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+  font-family: monospace;
+}
+
+.demo-hint {
+  color: var(--text-muted);
+  font-size: var(--font-xs);
+  margin-top: var(--space-xs);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .login-container {
+    padding: var(--space-sm);
+  }
+  
+  .login-wrapper {
+    gap: var(--space-lg);
+  }
+  
+  .login-card {
+    padding: var(--space-lg);
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+}
+</style>

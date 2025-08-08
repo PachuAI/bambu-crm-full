@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
     
     try {
       // Login directly without CSRF for API
-      const response = await axios.post('/api/login', credentials)
+      const response = await axios.post('/api/v1/auth/login', credentials)
       
       if (response.data.token) {
         token.value = response.data.token
@@ -86,7 +86,7 @@ export const useAuthStore = defineStore('auth', () => {
       await axios.get('/sanctum/csrf-cookie')
       
       // Register
-      const response = await axios.post('/api/register', data)
+      const response = await axios.post('/api/v1/auth/register', data)
       
       if (response.data.token) {
         token.value = response.data.token
@@ -116,7 +116,7 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     
     try {
-      await axios.post('/api/logout')
+      await axios.post('/api/v1/auth/logout')
     } catch (err) {
       console.error('Logout error:', err)
     } finally {
@@ -140,7 +140,7 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null
     
     try {
-      const response = await axios.get('/api/user')
+      const response = await axios.get('/api/v1/auth/user')
       user.value = response.data
       return true
     } catch (err: any) {

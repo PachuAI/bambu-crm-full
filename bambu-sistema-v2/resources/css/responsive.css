@@ -53,11 +53,12 @@
 /* Sidebar móvil - overlay */
 .sidebar {
   transform: translateX(-100%);
+  z-index: var(--z-modal); /* Asegurar que esté encima del overlay */
 }
 
 .sidebar-open {
   transform: translateX(0);
-  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Hamburger visible en mobile */
@@ -65,16 +66,32 @@
   display: flex;
 }
 
-/* Main wrapper sin margen en mobile */
-.main-wrapper {
-  min-height: 100vh;
+/* Main content móvil */
+.main-content {
+  margin-left: 0;
+}
+
+/* Header actions mobile - hamburger + theme toggle */
+.theme-toggle {
+  display: flex; /* Visible en mobile */
+}
+
+.notification-btn,
+.settings-btn {
+  display: none;
+}
+
+.hamburger-btn {
   display: flex;
-  flex-direction: column;
 }
 
 /* Header mobile */
 .main-header {
   padding: 0 var(--space-md);
+}
+
+.header-content {
+  justify-content: space-between; /* Hamburger izq, tema der */
 }
 
 .header-search {
@@ -159,10 +176,24 @@
     padding: 0 var(--space-lg);
   }
 
+  .header-content {
+    justify-content: flex-start; /* Layout normal con flex */
+  }
+
   .header-search {
     display: block; /* Visible en tablet */
     flex: 1;
     max-width: 400px;
+  }
+
+  /* Header actions tablet - mostrar theme y notifications */
+  .theme-toggle,
+  .notification-btn {
+    display: flex;
+  }
+
+  .settings-btn {
+    display: none;
   }
 
   /* Content area tablet */
@@ -233,8 +264,8 @@
     width: var(--sidebar-width);
   }
 
-  /* Main wrapper con margen para sidebar */
-  .main-wrapper {
+  /* Main content con margen para sidebar */
+  .main-content {
     margin-left: var(--sidebar-width);
   }
 
@@ -243,13 +274,31 @@
     display: none;
   }
 
+  /* Header actions desktop - mostrar todos */
+  .theme-toggle,
+  .notification-btn,
+  .settings-btn {
+    display: flex;
+  }
+
+  /* Overlay oculto en desktop - sidebar es fijo */
+  .sidebar-overlay {
+    display: none;
+  }
+
   /* Header desktop */
   .main-header {
     padding: 0 var(--space-xl);
   }
 
+  .header-content {
+    justify-content: flex-start; /* Layout normal con flex */
+  }
+
   .header-search {
-    max-width: 500px;
+    flex: 1;
+    max-width: 600px;
+    margin: 0 var(--space-xl);
   }
 
   /* Content area desktop */
