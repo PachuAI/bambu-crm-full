@@ -1,213 +1,292 @@
-/* ============================================
-   🎨 BAMBU DESIGN TOKENS - ÚNICA FUENTE DE VERDAD
-   ============================================
+/* ================================================================
+   BAMBU TOKENS CSS - Única fuente de verdad para design system
    
-   Creado: 2025-08-08
-   Estado: CRÍTICO - Resuelve tokens sin definir
-   Propósito: Centralizar todas las variables del sistema
+   Versión: 1.0.0
+   Fecha: 2025-08-08
+   
+   Desarrollado con 💜 por ÍTERA
+   https://iteraestudio.com
    
    IMPORTANTE: Este archivo es la ÚNICA fuente de verdad
    para todas las variables CSS del sistema BAMBU.
-   ============================================ */
+   ================================================================ */
 
 :root {
-  /* ============================================
-     🌈 COLORES PRINCIPALES
-     ============================================ */
+  /* ============================
+     CONFIGURACIÓN BASE
+     ============================ */
+  --brand-hue: 238;
+  --neutral-sat: 15%;
   
-  /* Primary Brand Colors */
-  --primary: hsl(231 76% 60%);           /* #6366f1 */
-  --primary-hover: hsl(231 76% 55%);     /* Hover state */
-  --primary-bg: hsl(231 76% 60% / 0.1);  /* Background tint */
+  /* ============================
+     DARK MODE (Default)
+     ============================ */
   
-  /* Semantic Colors */
-  --success: hsl(142 71% 45%);           /* #10b981 */
-  --warning: hsl(38 92% 50%);            /* #f59e0b */
-  --error: hsl(0 84% 60%);               /* #ef4444 */
-  --info: hsl(199 89% 48%);              /* #0ea5e9 */
+  /* Fondos - 4 niveles */
+  --bg-base: hsl(var(--brand-hue), var(--neutral-sat), 5%);      /* #0a0a0f - Más oscuro */
+  --bg-surface: hsl(var(--brand-hue), var(--neutral-sat), 10%);  /* #14141f - Cards */
+  --bg-elevated: hsl(var(--brand-hue), var(--neutral-sat), 15%); /* #1f1f2e - Elevado */
+  --bg-overlay: hsl(var(--brand-hue), var(--neutral-sat), 18%);  /* Modals/Overlays */
   
-  /* Background Colors */
-  --bg-base: hsl(210 20% 98%);           /* #f8fafc */
-  --bg-surface: hsl(210 40% 100%);       /* #ffffff */
-  --bg-elevated: hsl(210 25% 97%);       /* #f1f5f9 */
-  --bg-overlay: hsl(0 0% 0% / 0.5);      /* Modal overlays */
+  /* Textos */
+  --text-primary: hsl(var(--brand-hue), 5%, 95%);    /* Casi blanco */
+  --text-secondary: hsl(var(--brand-hue), 5%, 70%);  /* Gris azulado claro */
+  --text-muted: hsl(var(--brand-hue), 5%, 50%);      /* Texto terciario */
+  --text-disabled: hsl(var(--brand-hue), 5%, 35%);   /* Texto deshabilitado */
   
-  /* Text Colors */
-  --text-primary: hsl(210 22% 22%);      /* #334155 */
-  --text-secondary: hsl(210 14% 53%);    /* #64748b */
-  --text-muted: hsl(210 9% 71%);         /* #94a3b8 */
-  --text-inverse: hsl(210 40% 100%);     /* #ffffff */
+  /* Bordes y líneas */
+  --border: hsl(var(--brand-hue), 8%, 26%);          /* Mejor contraste */
+  --border-hover: hsl(var(--brand-hue), 12%, 35%);   /* Más claro en hover */
+  --border-focus: hsl(238, 84%, 67%);                /* Focus violeta */
   
-  /* Border Colors */
-  --border: hsl(210 18% 87%);            /* #cbd5e1 */
-  --border-strong: hsl(210 25% 75%);     /* #94a3b8 */
+  /* Color primario - Violeta BAMBU */
+  --primary: hsl(238, 84%, 67%);         /* #6366f1 - Violeta base */
+  --primary-hover: hsl(238, 84%, 62%);   /* Más oscuro en hover */
+  --primary-active: hsl(238, 84%, 57%);  /* Más oscuro en click */
+  --primary-bg: hsla(238, 84%, 67%, 0.1); /* Fondo transparente */
   
-  /* ============================================
-     📏 SPACING SYSTEM
-     ============================================ */
+  /* Colores semánticos */
+  --success: hsl(142, 71%, 45%);
+  --success-bg: hsla(142, 71%, 45%, 0.1);
+  --warning: hsl(38, 92%, 50%);
+  --warning-bg: hsla(38, 92%, 50%, 0.1);
+  --error: hsl(0, 84%, 60%);
+  --error-bg: hsla(0, 84%, 60%, 0.1);
+  --info: hsl(199, 89%, 48%);
+  --info-bg: hsla(199, 89%, 48%, 0.1);
   
-  --space-xs: 0.25rem;    /* 4px */
-  --space-sm: 0.5rem;     /* 8px */
-  --space-md: 1rem;       /* 16px */
-  --space-lg: 1.5rem;     /* 24px */
-  --space-xl: 2rem;       /* 32px */
-  --space-2xl: 3rem;      /* 48px */
-  --space-3xl: 4rem;      /* 64px */
+  /* Texto sobre fondos de estado */
+  --on-primary: hsl(0 0% 100%);
+  --on-success: hsl(0 0% 100%);
+  --on-warning: hsl(0 0% 10%);
+  --on-error: hsl(0 0% 100%);
+  --on-info: hsl(0 0% 100%);
   
-  /* ============================================
-     📝 TYPOGRAPHY SYSTEM
-     ============================================ */
+  /* Efectos visuales */
+  --highlight: hsl(var(--brand-hue), 20%, 25%);
+  --glow: 0 0 20px hsla(238, 84%, 67%, 0.3);
+  --focus-ring: 0 0 0 3px hsla(238, 84%, 67%, 0.5);
   
-  /* Font Sizes */
-  --font-xs: 0.75rem;     /* 12px */
-  --font-sm: 0.875rem;    /* 14px */
-  --font-md: 1rem;        /* 16px */
-  --font-lg: 1.125rem;    /* 18px */
-  --font-xl: 1.25rem;     /* 20px */
-  --font-2xl: 1.5rem;     /* 24px */
-  --font-3xl: 2rem;       /* 32px */
+  /* ============================
+     SPACING SYSTEM
+     ============================ */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4rem;     /* 64px */
   
-  /* Font Weights */
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
+  /* ============================
+     TYPOGRAPHY SCALE
+     ============================ */
+  --font-xs: 0.75rem;    /* 12px */
+  --font-sm: 0.875rem;   /* 14px */
+  --font-base: 1rem;     /* 16px */
+  --font-lg: 1.125rem;   /* 18px */
+  --font-xl: 1.25rem;    /* 20px */
+  --font-2xl: 1.5rem;    /* 24px */
+  --font-3xl: 2rem;      /* 32px */
+  --font-4xl: 2.5rem;    /* 40px */
   
-  /* Line Heights */
-  --leading-tight: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.75;
+  /* Typography Fluida Mobile-First */
+  --text-xs: clamp(0.75rem, 2vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 2.5vw, 1rem);
+  --text-base: clamp(1rem, 3vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 3.5vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 4vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 5vw, 2rem);
+  --text-3xl: clamp(2rem, 6vw, 3rem);
   
-  /* ============================================
-     🌟 SHADOW SYSTEM
-     ============================================ */
+  /* ============================
+     SHADOWS SYSTEM
+     ============================ */
+  --shadow-sm: 0 1px 2px hsl(var(--brand-hue) 15% 0% / 0.25);
+  --shadow-md: 0 2px 6px hsl(var(--brand-hue) 15% 0% / 0.3);
+  --shadow-lg: 0 8px 16px hsl(var(--brand-hue) 15% 0% / 0.35);
+  --shadow-xl: 0 12px 24px hsl(var(--brand-hue) 15% 0% / 0.4);
+  --shadow-glow: 0 0 20px hsla(238, 84%, 67%, 0.3);
   
-  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.25);
-  --shadow-md: 0 2px 6px hsl(0 0% 0% / 0.3);
-  --shadow-lg: 0 8px 16px hsl(0 0% 0% / 0.35);
-  --shadow-xl: 0 16px 32px hsl(0 0% 0% / 0.4);
+  /* ============================
+     TRANSITIONS SYSTEM
+     ============================ */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 200ms ease-out;
+  --transition-normal: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
   
-  /* ============================================
-     ⏱️ TRANSITIONS SYSTEM
-     ============================================ */
-  
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* ============================================
-     📐 BORDER RADIUS
-     ============================================ */
-  
+  /* ============================
+     BORDER RADIUS
+     ============================ */
   --radius-sm: 2px;
-  --radius-md: 4px;
+  --radius-base: 4px;
+  --radius-md: 6px;
   --radius-lg: 8px;
-  --radius-full: 9999px;
+  --radius-full: 50%;
   
-  /* ============================================
-     📱 Z-INDEX LAYERS
-     ============================================ */
+  /* ============================
+     Z-INDEX LAYERS
+     ============================ */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
   
-  --z-base: 0;
-  --z-elevated: 10;
-  --z-sticky: 20;
-  --z-overlay: 30;
-  --z-modal: 40;
-  --z-toast: 50;
+  /* ============================
+     LAYOUT ESPECÍFICO
+     ============================ */
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 64px;
+  --header-height: 64px;
+  --card-padding: var(--space-lg);
+  --table-padding: var(--space-sm);
+  --container-max: 1440px;
+  
+  /* ============================
+     DOMINIO QUÍMICO ESPECÍFICO
+     ============================ */
+  
+  /* Estados de stock */
+  --status-stock-alto: hsl(120, 60%, 50%);
+  --status-stock-medio: hsl(45, 85%, 60%);
+  --status-stock-bajo: hsl(0, 70%, 55%);
+  --status-stock-agotado: hsl(0, 0%, 50%);
+  
+  /* Prioridades de pedidos */
+  --priority-critica: hsl(0, 70%, 55%);
+  --priority-alta: hsl(25, 85%, 60%);
+  --priority-media: hsl(45, 85%, 60%);
+  --priority-baja: hsl(120, 60%, 50%);
+  
+  /* Tipos de productos químicos */
+  --producto-acido: hsl(0, 70%, 55%);
+  --producto-base: hsl(210, 70%, 55%);
+  --producto-neutro: hsl(45, 50%, 55%);
+  --producto-especial: hsl(270, 60%, 55%);
+  
+  /* Contenedores */
+  --bidon-5l-color: hsl(200, 60%, 50%);
+  --bidon-20l-color: hsl(160, 60%, 50%);
+  --contenedor-ibc-color: hsl(280, 60%, 50%);
 }
 
-/* ============================================
-   🌙 DARK MODE TOKENS
-   ============================================ */
+/* ============================
+   LIGHT MODE OVERRIDES
+   ============================ */
+body.light-mode {
+  /* Fondos - Invertidos con lógica visual */
+  --bg-base: hsl(var(--brand-hue), 10%, 98%);      /* Casi blanco */
+  --bg-surface: hsl(var(--brand-hue), 10%, 100%);  /* Blanco puro para cards */
+  --bg-elevated: hsl(var(--brand-hue), 10%, 96%);  /* Ligeramente gris */
+  --bg-overlay: hsl(var(--brand-hue), 10%, 94%);   /* Overlays/modals */
+  
+  /* Textos - Invertidos */
+  --text-primary: hsl(var(--brand-hue), 15%, 10%);   /* Casi negro */
+  --text-secondary: hsl(var(--brand-hue), 10%, 35%); /* Gris oscuro */
+  --text-muted: hsl(var(--brand-hue), 8%, 55%);      /* Gris medio */
+  --text-disabled: hsl(var(--brand-hue), 8%, 70%);   /* Gris claro */
+  
+  /* Bordes y líneas */
+  --border: hsl(var(--brand-hue), 10%, 88%);         /* Gris muy claro */
+  --border-hover: hsl(var(--brand-hue), 10%, 78%);   /* Más oscuro en hover */
+  
+  /* Color primario - Mantiene el violeta */
+  --primary: hsl(238, 84%, 67%);
+  --primary-hover: hsl(238, 84%, 62%);
+  --primary-active: hsl(238, 84%, 57%);
+  --primary-bg: hsla(238, 84%, 67%, 0.08);
+  
+  /* Colores semánticos - Ajustados para light */
+  --success: hsl(142, 76%, 36%);
+  --warning: hsl(32, 95%, 44%);
+  --error: hsl(0, 72%, 51%);
+  --info: hsl(201, 96%, 32%);
+  
+  /* Texto sobre fondos de estado (light mode) */
+  --on-warning: hsl(0 0% 0%);  /* Mejor contraste en light */
+  
+  /* Efectos visuales */
+  --highlight: hsl(0, 0%, 100%);
+  --shadow-sm: 0 1px 3px hsla(var(--brand-hue), 15%, 0%, 0.12);
+  --shadow-md: 0 2px 6px hsla(var(--brand-hue), 15%, 0%, 0.18);
+  --shadow-lg: 0 8px 16px hsla(var(--brand-hue), 15%, 0%, 0.24);
+  --glow: 0 0 20px hsla(238, 84%, 67%, 0.2);
+}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Mode Colors */
-    --bg-base: hsl(210 20% 8%);          /* #0f172a */
-    --bg-surface: hsl(210 18% 11%);      /* #1e293b */
-    --bg-elevated: hsl(210 16% 16%);     /* #334155 */
+/* ============================
+   MEDIA QUERY AUTOMÁTICO
+   ============================ */
+@media (prefers-color-scheme: light) {
+  :root:not(.dark-mode-forced) {
+    /* Aplica light mode si el sistema lo prefiere */
+    --bg-base: hsl(var(--brand-hue), 10%, 98%);
+    --bg-surface: hsl(var(--brand-hue), 10%, 100%);
+    --bg-elevated: hsl(var(--brand-hue), 10%, 96%);
+    --bg-overlay: hsl(var(--brand-hue), 10%, 94%);
     
-    --text-primary: hsl(210 40% 98%);    /* #f8fafc */
-    --text-secondary: hsl(210 20% 75%);  /* #94a3b8 */
-    --text-muted: hsl(210 14% 53%);      /* #64748b */
+    --text-primary: hsl(var(--brand-hue), 15%, 10%);
+    --text-secondary: hsl(var(--brand-hue), 10%, 35%);
+    --text-muted: hsl(var(--brand-hue), 8%, 55%);
+    --text-disabled: hsl(var(--brand-hue), 8%, 70%);
     
-    --border: hsl(210 18% 20%);          /* #334155 */
-    --border-strong: hsl(210 14% 35%);   /* #64748b */
+    --border: hsl(var(--brand-hue), 10%, 88%);
+    --border-hover: hsl(var(--brand-hue), 10%, 78%);
+    
+    --success: hsl(142, 76%, 36%);
+    --warning: hsl(32, 95%, 44%);
+    --error: hsl(0, 72%, 51%);
+    --info: hsl(201, 96%, 32%);
+    
+    --on-warning: hsl(0 0% 0%);
+    
+    --highlight: hsl(0, 0%, 100%);
+    --shadow-sm: 0 1px 3px hsla(var(--brand-hue), 15%, 0%, 0.12);
+    --shadow-md: 0 2px 6px hsla(var(--brand-hue), 15%, 0%, 0.18);
+    --shadow-lg: 0 8px 16px hsla(var(--brand-hue), 15%, 0%, 0.24);
+    --glow: 0 0 20px hsla(238, 84%, 67%, 0.2);
   }
 }
 
-/* Explicit dark mode class */
-[data-theme="dark"] {
-  /* Same as dark mode media query */
-  --bg-base: hsl(210 20% 8%);
-  --bg-surface: hsl(210 18% 11%);
-  --bg-elevated: hsl(210 16% 16%);
-  
-  --text-primary: hsl(210 40% 98%);
-  --text-secondary: hsl(210 20% 75%);
-  --text-muted: hsl(210 14% 53%);
-  
-  --border: hsl(210 18% 20%);
-  --border-strong: hsl(210 14% 35%);
+/* ============================
+   MODOS DE DENSIDAD
+   ============================ */
+
+/* Modo alta densidad para admin/desktop */
+.modo-alta-densidad {
+  --card-padding: var(--space-sm);
+  --table-row-height: 32px;
+  --font-size-base: 14px;
 }
 
-/* Explicit light mode class */
-[data-theme="light"] {
-  --bg-base: hsl(210 20% 98%);
-  --bg-surface: hsl(210 40% 100%);
-  --bg-elevated: hsl(210 25% 97%);
-  
-  --text-primary: hsl(210 22% 22%);
-  --text-secondary: hsl(210 14% 53%);
-  --text-muted: hsl(210 9% 71%);
-  
-  --border: hsl(210 18% 87%);
-  --border-strong: hsl(210 25% 75%);
+/* Modo guantes para logística/tablets */
+.modo-guantes {
+  --touch-target-min: 48px;
+  --card-padding: var(--space-lg);
+  --font-size-base: 16px;
 }
 
-/* ============================================
-   🧪 DOMAIN-SPECIFIC TOKENS (BAMBU CRM)
-   ============================================ */
+/* ============================
+   MEDIA QUERIES POR CAPABILITIES
+   ============================ */
 
-:root {
-  /* Stock Level Colors */
-  --stock-critical: hsl(0 84% 60%);      /* Red for 0 stock */
-  --stock-low: hsl(38 92% 50%);          /* Orange for low stock */
-  --stock-warning: hsl(45 93% 47%);      /* Yellow for warning */
-  --stock-good: hsl(142 71% 45%);        /* Green for good stock */
-  
-  /* Product Type Colors */
-  --product-chemical: hsl(280 83% 57%);   /* Purple for chemical products */
-  --product-accessory: hsl(199 89% 48%);  /* Blue for accessories */
-  --product-combo: hsl(25 95% 53%);       /* Orange for combo products */
-  
-  /* Status Colors */
-  --status-draft: hsl(210 14% 53%);      /* Gray for draft */
-  --status-confirmed: hsl(199 89% 48%);  /* Blue for confirmed */
-  --status-processing: hsl(38 92% 50%);  /* Orange for processing */
-  --status-completed: hsl(142 71% 45%);  /* Green for completed */
-  --status-cancelled: hsl(0 84% 60%);    /* Red for cancelled */
+/* Touch devices - mayores hit areas, sin hover */
+@media (hover: none) and (pointer: coarse) {
+  :root {
+    --touch-target-min: 48px;
+  }
 }
 
-/* ============================================
-   📝 USAGE NOTES
-   ============================================
-   
-   1. Este archivo es referenciado en app.css como:
-      @import './tokens.css';
-   
-   2. Todos los componentes deben usar estas variables
-      en lugar de valores hardcodeados
-   
-   3. Para agregar nuevas variables, seguir la
-      convención de naming existente
-      
-   4. Las variables semánticas (--success, --error)
-      deben usarse para estados, no las HSL directas
-      
-   5. El sistema de spacing sigue escala 4px base
-      
-   6. Las sombras están optimizadas para el contraste
-      del tema BAMBU
-      
-   ============================================ */
+/* Usuarios con sensibilidad al movimiento */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0.01ms;
+    --transition-base: 0.01ms;
+    --transition-normal: 0.01ms;
+    --transition-slow: 0.01ms;
+  }
+}

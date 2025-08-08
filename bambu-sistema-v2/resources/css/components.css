@@ -1,0 +1,421 @@
+/* =======================================
+   BAMBU COMPONENTS CSS - Estilos Componentes Base
+   
+   Versión: 1.0.0
+   Fecha: 2025-08-08
+   
+   🚀 Crafted with excellence by ÍTERA
+   https://iteraestudio.com
+   ======================================= */
+
+/* =======================================
+   COMPONENTES BASE
+   ======================================= */
+
+/* Botones del sistema */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-base);
+  font-weight: 500;
+  transition: var(--transition-base);
+  min-height: 44px; /* Touch target */
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+  background: var(--primary-active);
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-hover);
+}
+
+.btn-icon {
+  padding: var(--space-sm);
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-base);
+  background: transparent;
+  color: var(--text-secondary);
+  transition: var(--transition-base);
+}
+
+.btn-icon:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* Cards del sistema */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-base);
+  padding: var(--card-padding);
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.card-header {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+  color: var(--text-primary);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-subtitle {
+  color: var(--text-secondary);
+  font-size: var(--font-sm);
+  margin-top: var(--space-xs);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-footer {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+/* Inputs del sistema */
+.form-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-base);
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  transition: var(--transition-base);
+  min-height: 44px; /* Touch target */
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+.form-label {
+  display: block;
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+/* =======================================
+   COMPONENTES ESPECÍFICOS BAMBU
+   ======================================= */
+
+/* Indicadores de stock */
+.stock-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-base);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  border: 1px solid;
+  min-height: 28px;
+}
+
+.stock-indicator--alto {
+  background: var(--success-bg);
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.stock-indicator--medio {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.stock-indicator--bajo {
+  background: var(--error-bg);
+  color: var(--error);
+  border-color: var(--error);
+}
+
+.stock-indicator--agotado {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+/* Badges de estado */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-base);
+  font-size: var(--font-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 24px;
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.badge-error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.badge-info {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+/* Alertas del dominio */
+.alerta-peligro {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  border-left: 4px solid var(--error);
+  border-radius: var(--radius-base);
+  color: var(--error);
+  font-weight: 500;
+}
+
+.alerta-peligro::before {
+  content: "⚠️";
+  font-size: var(--font-lg);
+}
+
+/* Tipos de productos químicos */
+.producto-acido {
+  border-left: 4px solid var(--producto-acido);
+  background: color-mix(in srgb, var(--producto-acido) 5%, transparent);
+}
+
+.producto-base {
+  border-left: 4px solid var(--producto-base);
+  background: color-mix(in srgb, var(--producto-base) 5%, transparent);
+}
+
+.producto-neutro {
+  border-left: 4px solid var(--producto-neutro);
+  background: color-mix(in srgb, var(--producto-neutro) 5%, transparent);
+}
+
+.producto-especial {
+  border-left: 4px solid var(--producto-especial);
+  background: color-mix(in srgb, var(--producto-especial) 5%, transparent);
+}
+
+/* =======================================
+   LAYOUT COMPONENTS
+   ======================================= */
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  z-index: var(--z-fixed);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-normal);
+}
+
+.sidebar-logo {
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-md) 0;
+  overflow-y: auto;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+  min-height: 48px; /* Touch target */
+}
+
+.sidebar-link:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.sidebar-link.active {
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-left: 3px solid var(--primary);
+}
+
+/* Header principal */
+.main-header {
+  height: var(--header-height);
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-lg);
+  gap: var(--space-lg);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* Hamburger menu */
+.hamburger-btn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.hamburger-btn span {
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition-fast);
+  display: block;
+}
+
+/* Animación X cuando está abierto */
+.sidebar-open ~ .main-wrapper .hamburger-btn span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.sidebar-open ~ .main-wrapper .hamburger-btn span:nth-child(2) {
+  opacity: 0;
+}
+
+.sidebar-open ~ .main-wrapper .hamburger-btn span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* =======================================
+   UTILIDADES ESPECÍFICAS
+   ======================================= */
+
+/* Focus states accesibles */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Estados de loading */
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--border);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Overlay para sidebar mobile */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: var(--z-modal-backdrop);
+  animation: fadeIn var(--transition-fast);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
