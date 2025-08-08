@@ -1,242 +1,258 @@
+Sidebar + Header sin offsets para CRMs en Vue 3
+Esqueleto, reglas y checklist para no volver a romper el layout.
 
-### YA SE IMPLEMENTARON ESTAS SUGERENCIAS Y ESTAN CONTEMPLADAS EN LOS OTROS ARCHIVOS ##
-#####################################################################################
+1) Objetivo
+Definir un patrón único de layout (app shell) que:
 
+Sea mobile-first y accesible.
 
-Vamos con una revisión crítica y sin anestesia, foco en mantenibilidad, consistencia y uso industrial real. Te dejo el veredicto por documento + un cierre estratégico con próximos pasos.
+Evite de raíz el bug de doble offset (gap entre sidebar y contenido).
 
-✅ LO QUE ESTÁ BIEN
-1) status-reducido.md
-Contexto de negocio claro y accionable (usuarios, dispositivos, picos, KPIs). Esto evita “feature drift” en el UI. 
+Sea reutilizable en cualquier CRM que construyamos.
 
-Stack y estado del proyecto bien delimitados: backend listo, SPA montada, design system creado. 
+Decisión: modo canónico = Sidebar como columna real en desktop y overlay en mobile.
+(Si alguna vez necesitás “sidebar fija” en desktop, usá el patrón alternativo del §7 y no mezcles).
 
-2) BAMBU_FRONTEND_SYSTEM.md
-Reset sólido y completo (typography inheritance, media responsive, tablas, focus-visible). Buena base. 
+2) Invariantes (reglas que nunca se rompen)
+Una sola verdad del ancho del sidebar: --sidebar-w. Nada de repetir “280” en distintos lados.
 
-Relación explícita con Color/Responsive/UX y objetivo de base técnica única. 
+Modos exclusivos por breakpoint:
 
-Arquitectura de archivos razonable y ordenada (composables de dominio + layout/UI/domain). 
- 
+< 1024px → overlay (sidebar fuera del flujo, sobre el contenido).
 
-“Checklist Frontend / Dominio” útil para QA funcional y de negocio. 
+≥ 1024px → columna real (sidebar dentro del flujo, sin position: fixed).
 
-3) BAMBU_COLOR_SYSTEM.md
-Dark por defecto + light automático con prefers-color-scheme: buen punto para uso en depósitos con luz variable. 
- 
+Si el sidebar es columna, el main NO lleva margin-left.
 
-Tokens semánticos de estado + variantes “-bg” listos para badges y alerts. 
+Si el contenedor es flex, sus hijos que crecen llevan min-width: 0.
 
-Token único de “brand-hue” para gobernar escala neutral azulada: simple y mantenible. 
+Header con Grid auto 1fr auto (izq, centro, der). Cero peleas para alinear iconos.
 
-4) BAMBU_RESPONSIVE_SYSTEM.md
-Breakpoints y sidebar overlay <1024 alineados al caso tablet de logística. 
+Botón de ícono con contrato fijo (40×40 y SVG centrado).
 
-Patrón de tabla responsive (scroll y alternativa “cards”) y checklist de testing multi-viewport. 
+Z-index y scroll: el overlay del sidebar tapa al header en mobile (z-index > header) y hace body{overflow:hidden}.
 
-Componente de debug responsive listo para validaciones rápidas en QA. 
+3) Estructura HTML (Vue)
+vue
+Copy
+Edit
+<!-- AppShell.vue -->
+<template>
+  <div class="app">
+    <aside class="sidebar" :class="{ 'is-open': isMobile && sidebarOpen }">
+      <!-- nav -->
+    </aside>
 
-5) UX_UI_GUIDELINES_SISTEMA_BAMBU.md
-Patrones domain-driven (Producto, Stock crítico, Timeline de pedidos, Búsqueda omnipresente) muy bien bajados a UI. (ver secciones de componentes y flujos que invocan esos patrones) 
+    <div class="shell">
+      <header class="header">
+        <button class="btn-icon" v-if="isMobile" @click="sidebarOpen = true" aria-label="Abrir menú">
+          <svg>...</svg>
+        </button>
+        <div class="header-search"><!-- input --></div>
+        <div class="header-actions">
+          <button class="btn-icon"><svg><!-- bell --></svg></button>
+          <button class="btn-icon"><svg><!-- settings --></svg></button>
+        </div>
+      </header>
 
-6) CLAUDE.md (#6–#9)
-Orden de lectura obligatorio del design system y prohibiciones clave: buen “guardrail” de equipo. 
+      <main class="content" role="main">
+        <router-view />
+      </main>
+    </div>
 
-Mobile-first procedimental (#7) y checklist pre-commit (#9) bien definidos. 
- 
+    <button v-if="isMobile && sidebarOpen"
+            class="scrim"
+            aria-label="Cerrar menú"
+            @click="sidebarOpen = false" />
+  </div>
+</template>
 
-⚠️ ÁREAS DE MEJORA
-1) BAMBU_FRONTEND_SYSTEM.md
-Crítico
+<script setup lang="ts">
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 
-Inconsistencia con CLAUDE #8 (estructura CSS): el core define reset.css, variables.css, utilities.css, components.css (+ vendor), pero CLAUDE exige app.css, responsive.css, components.css. Un junior va a dudar “¿cuál es la verdad?”. Unificá ya. 
- 
+const sidebarOpen = ref(false)
+const isMobile = ref(true)
 
-Bug en BambuCard.vue: usás emit(...) pero no guardás el retorno de defineEmits. Debe ser const emit = defineEmits(['click']). 
-
-Sombras no definidas: el CSS del card usa --shadow-sm/md pero en el color system solo existe --shadow único. Faltan tokens de sombra por tamaño. 
- 
-
-Tokens faltantes: se usan --space-* y --font-* en base/typography pero no están definidos en ningún doc adjunto. Riesgo de drift. 
-
-Importante
-
-Utilidades “Tailwind-like” duplicadas (flex/grid/spacing). Con Tailwind 4 vas a tener deuda y choques de naming/especificidad. Evaluá mantener solo utilidades de dominio. 
-
-Transiciones duplicadas: hay --transition-* en color y también en frontend system con valores distintos. Centralizá. 
-
-Nice-to-have
-
-Sumá tokens --radius-1..n (aunque #6 fija 4px) y --focus-ring para consistencia de accesibilidad. (Varios estilos de focus ya dependen de --primary) 
-
-2) BAMBU_COLOR_SYSTEM.md
-Crítico
-
-Solo 3 niveles de fondo (base/surface/elevated). En dark industrial conviene +1 nivel (overlay) para overlays/menus y separar capas sin subir demasiado la L*. 
-
-Importante
-
-Bordes en dark al 20% L pueden quedar lavados sobre surface 10% en pantallas baratas. Subí a ~26–28% o reforzá con outline al hover. 
-
-Faltan pares “on-*” (p. ej. --on-primary, --on-success) para texto/íconos sobre fondos de estado. Hoy resolvés con “default text”, pero en light puede no alcanzar. 
-
-Nice-to-have
-
-Considerá data-theme="light|dark" en <html> en lugar de body.light-mode para simplificar el scope y SSR. (Mantener prefers-color-scheme como fallback). 
-
-3) BAMBU_RESPONSIVE_SYSTEM.md
-Crítico
-
-Falta focus-trap + inert cuando el sidebar está abierto (overlay). Hoy solo hay overlay visual; necesitás bloquear tabbing al contenido y overflow: hidden en body. 
-
-Importante
-
-Sumá media queries por capabilities: @media (hover: none) and (pointer: coarse) para ajustar hit-areas/hover y prefers-reduced-motion para entornos con mareo/estrés. 
-
-Validá landscape tablet (operarios apoyan la tablet en horizontal): revisá layout del header/búsqueda. 
-
-Nice-to-have
-
-Componente DebugResponsive ya está: activalo detrás de flag env de QA. 
-
-4) UX_UI_GUIDELINES_SISTEMA_BAMBU.md
-Crítico
-
-Color ≠ única señal en stock/peligrosidad. Agregá formas/íconos/patrones (pictogramas GHS/ADR) en todos los estados críticos. (Los patrones propuestos ayudan, reforzá la norma) 
-
-Importante
-
-Búsqueda omnipresente: definí SLA de latencia (p. ej., <150ms local cache, <400ms red) y comportamiento offline (últimos N resultados). 
-
-Timeline de pedidos: agregá estado “Bloqueado por seguridad” (incompatibilidades, vencimiento) con acciones rápidas. 
-
-Nice-to-have
-
-Modo “alta densidad” para escritorio (admin) y “modo guantes” en tablets (hit-area ≥48px). Hoy el checklist pide 44px; en logística 48px funciona mejor. 
-
-5) CLAUDE.md (#6–#9)
-Crítico
-
-Conflicto con estructura CSS real (#8): el doc de core y CLAUDE no dicen lo mismo. Resolvamos el estándar (ver “Sugerencias”). 
- 
-
-Importante
-
-Checklist #9: sumá “sin debugger”, “sin console.* en prod (ya está), Storybook build OK y visual regression antes del merge. 
-
-🚀 SUGERENCIAS ESPECÍFICAS (accionables)
-Estandarizá tokens (1 sola fuente de verdad)
-Crear resources/css/tokens.css con spacing, font scale, radius, shadows, transitions y colors.
-
-Mover --space-*, --font-*, --shadow-*, --transition-* acá y eliminar duplicados entre Color y Core. (Hoy hay transiciones en ambos). 
- 
-
-Sombras
+const mq = window.matchMedia('(min-width: 1024px)')
+const update = () => { isMobile.value = !mq.matches; if (!isMobile.value) sidebarOpen.value = false }
+onMounted(() => { update(); mq.addEventListener('change', update) })
+onBeforeUnmount(() => mq.removeEventListener('change', update))
+</script>
+4) Variables y tokens mínimos
 css
 Copy
 Edit
-:root {
-  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.25);
-  --shadow-md: 0 2px 6px hsl(0 0% 0% / 0.3);
-  --shadow-lg: 0 8px 16px hsl(0 0% 0% / 0.35);
+:root{
+  --bp-desktop: 1024px;
+  --sidebar-w: 280px;
+  --header-h: 64px;
+  --radius: 6px;
+  --gap: 16px;
+  --bg-app: #0b0f14;
+  --bg-surface: #0f1520;
+  --border: #1f2430;
+  --primary: #7a5cff;
 }
-Y actualizar BambuCard.vue para usar esos tokens (hoy faltan). 
-
-Fix inmediato en BambuCard.vue
-js
+5) CSS canónico (mobile-first)
+css
 Copy
 Edit
-// <script setup>
-const emit = defineEmits(['click'])
-(Actualmente se invoca emit sin declararlo). 
+/* Reset esencial */
+*{box-sizing:border-box} html,body,#app{height:100%} body{margin:0;background:var(--bg-app);color:#e6e6e6}
 
-Dark/Light y capas
-Agregar --bg-overlay y --border-strong. Subir “L” de --border dark a ~26–28% para mejorar legibilidad en monitores económicos. 
+/* App shell */
+.app{min-height:100%; display:flex}
 
-Migrar a html[data-theme="dark|light"] y conservar prefers-color-scheme como fallback. 
+/* Sidebar (mobile = overlay) */
+.sidebar{
+  position: fixed; inset:0 auto 0 0;
+  width: var(--sidebar-w); max-width: 90vw;
+  transform: translateX(-100%); transition: transform .2s ease;
+  background: var(--bg-surface); border-right:1px solid var(--border);
+  z-index: 60; /* > header */
+}
+.sidebar.is-open{ transform: translateX(0) }
 
-Responsive robusto
-Sidebar overlay: al abrir, document.body.style.overflow = 'hidden', aplicar inert al main y focus-trap dentro del aside. (Hoy solo overlay visual). 
+/* Overlay */
+.scrim{
+  position: fixed; inset:0;
+  background: rgba(0,0,0,.5); border:0; padding:0; margin:0;
+  z-index: 50;
+}
 
-Añadí CSS por capabilities:
-@media (hover: none) and (pointer: coarse) { /* mayores hit-areas, sin hover */ } + @media (prefers-reduced-motion: reduce) { /* desactivar animaciones */ }. 
+/* Shell (columna flexible) */
+.shell{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column }
 
-Tailwind 4 + utilidades
-No re-implementar flex/grid/spacing básicos. Dejá utilidades SÓLO de dominio (status-*, priority-*, producto-*) y usa Tailwind para layout/spacing. Menos CSS, menos “collision”. 
+/* Header: 3 zonas, sticky */
+.header{
+  position: sticky; top:0; z-index:40;
+  height: var(--header-h);
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap: var(--gap);
+  padding: 0 var(--gap);
+  background: var(--bg-surface); border-bottom:1px solid var(--border);
+}
+.header-search{ max-width: 640px }
+@media (max-width: 767px){ .header-search{ display:none } }
 
-Accesibilidad industrial
-Sumá --on-* (texto/ícono sobre fondos de estado) y reglas de contraste AA para todas las combinaciones críticas (badges, chips, botones de alerta). 
+/* Botón de icono consistente */
+.btn-icon{
+  width:40px;height:40px; display:grid; place-items:center;
+  border:1px solid var(--border); border-radius: var(--radius); background:transparent;
+}
+.btn-icon svg{ width:16px;height:16px; display:block; flex-shrink:0 }
 
-Subí touch targets a 48px en vistas de logística. Hoy el checklist marca 44px. 
+/* Contenido */
+.content{ padding: 24px; min-width:0 }
 
-Búsqueda omnipresente (UX)
-Definí SLA de latencia y fallback offline (cache local de resultados recientes) para que no “se sienta” bloqueada en depósito. 
+/* --- Desktop: sidebar como COLUMNA real --- */
+@media (min-width: 1024px){
+  /* Sidebar entra al flujo, deja de ser overlay */
+  .sidebar{
+    position: relative; transform:none; z-index:auto;
+    height: auto; inset: unset; /* limpia fixed */
+    flex: 0 0 var(--sidebar-w); width: var(--sidebar-w);
+  }
+  .scrim{ display:none }       /* no hay overlay en desktop */
+  .app{ display:flex }         /* ya lo es, pero explícito */
+  .shell{ margin-left: 0 }     /* SIN offset extra */
+  .header{ /* ancho total del shell, nada que ver con sidebar */ }
+}
+Por qué esto mata el bug: en desktop el sidebar es una columna real (no fixed), por lo tanto el contenido no necesita margin-left. No hay dos fuentes de separación posibles, así que no puede aparecer el gap marrón.
 
-📋 NUEVAS REGLAS PROPUESTAS (sumar a CLAUDE.md)
-Regla Imperativa #10 – Tokens únicos
+6) Checklist de integración (copiar a PR template)
+Estructura
 
-“Todo estilo debe usar tokens de tokens.css. Prohibido definir --space/* --font/* --shadow/* fuera de ese archivo.”
+ Solo existe una definición de --sidebar-w.
 
-Regla Imperativa #11 – Consistencia de estructura
+ En desktop, la .sidebar no usa position: fixed.
 
-“Estructura CSS única: app.css (importa tokens, components, responsive), components.css, responsive.css. Queda deprecado reset.css/variables.css/utilities.css como archivos separados (contenido migra a tokens/components/responsive).”
-(Resuelve choque con #8). 
+ .shell y .content tienen min-width: 0.
 
-Regla Imperativa #12 – Accesibilidad operativa
+ El header usa Grid auto 1fr auto y no hay utilidades ad-hoc para “empujar” iconos.
 
-“Ningún estado crítico depende sólo de color. Ícono + texto obligatorio en alertas de seguridad y stock.” (Aplicar a patrones de UX). 
+Responsive
 
-Regla Imperativa #13 – Sidebar accesible
+ En <1024px, el sidebar abre con clase is-open, hay .scrim, y body se bloquea (overflow:hidden) mientras está abierto (agregar si lo necesitás).
 
-“Cuando sidebarOpen === true: body sin scroll, main con inert, focus-trap activo y Esc cierra overlay.” 
+ En ≥1024px, el sidebar no tiene overlay y no hay margin-left aplicado al main.
 
-Regla Imperativa #14 – Calidad UI
+Accesibilidad
 
-“Antes de merge: Storybook build OK, tests de regresión visual (Loki/Chromatic/Playwright) y npm run lint sin warnings.” 
+ Botón hamburguesa con aria-label.
 
-🎯 RESPUESTAS A PREGUNTAS CRÍTICAS
-Strategic
+ Overlay clickeable para cerrar y/o tecla Esc.
 
-¿Escala a 50+ productos y 200+ clientes? Sí, si unificás tokens, sacás utilidades duplicadas y cerrás la estructura CSS. Sin eso, la deuda escala rápido. (Ver conflictos y reglas propuestas) 
- 
+ (Opcional) focus-trap dentro del sidebar en mobile.
 
-¿Un junior puede implementar? Sí, con la estructura unificada y ejemplos corregidos (emit, sombras, tokens). 
+Render
 
-¿Suficientemente específico al dominio? Sí (clases y patrones de stock/pedidos), reforzá no-solo-color en alertas. 
- 
+ No hay reflow extraño al cruzar 1024px (probalo arrastrando la ventana).
 
-Tactical
+ Las tablas hacen scroll horizontal en mobile; no rompen el ancho.
 
-¿Antipatrón/code smell? Sí: duplicar Tailwind utilities y tokens repetidos. 
- 
+7) Patrón alternativo (solo si querés “sidebar fijo” en desktop)
+Úsalo en un proyecto que lo pida; no mezclar.
 
-¿Performance implications? Sí: más CSS ≈ más bytes y más cascada. Reducí a utilidades de dominio y deja layout a Tailwind. 
+css
+Copy
+Edit
+@media (min-width: 1024px){
+  .sidebar{
+    position: fixed; top:0; left:0; height:100vh;
+    width: var(--sidebar-w); transform:none; z-index: 30;
+  }
+  .shell{ margin-left: var(--sidebar-w) }  /* ÚNICO offset permitido */
+}
+Si elegís este patrón, eliminá cualquier flex: 0 0 var(--sidebar-w) del sidebar en desktop (ya no es una columna del flex), y no uses .scrim.
 
-¿Curva de aprendizaje? Razonable si la guía es una: CLAUDE #8 + doc core alineados.
+8) Pitfalls comunes (y su diagnóstico rápido)
+Gap marrón entre sidebar y contenido: estás aplicando dos offsets (sidebar columna + margin-left en shell) → quitá el margin-left.
 
-Operational
+Iconos desalineados o pegados: botones sin contrato (usa .btn-icon) o SVGs con viewBox raros → normalizá el tamaño del SVG a 16×16.
 
-¿Mantenimiento a largo plazo? Bueno si cerrás tokens/estructura.
+Contenido que “empuja” y desborda: te falta min-width:0 en .shell o .content.
 
-¿Onboarding? Mejorable con Storybook + ejemplos “buenos/malos” y checklists integrados. 
+Header que “se mete” bajo el sidebar en mobile: overlay con z-index bajo → z-index del sidebar > header (60 vs 40).
 
-¿Procesos realistas? Sí, agregá QA visual y regla de sidebar accesible.
+Scroll del body bajo overlay: agregá/capá overflow:hidden en <body> mientras sidebarOpen.
 
-🛠️ PRÓXIMOS PASOS (1 semana, orden de impacto)
-Unificar estructura CSS según Regla #11 y migrar tokens (media jornada). 
+9) Procedimiento de QA (5 minutos)
+Mobile (iPhone XR/414): abrir/cerrar sidebar, probar overlay, Esc/Click, scroll lock.
 
-Corregir BambuCard.vue (emit) y crear --shadow-* en tokens; reemplazar usos. 
- 
+Breakpoint 1024px: arrastrar ventana y verificar que no hay salto ni reflow raro.
 
-Sidebar accesible (overflow + inert + focus-trap + Esc). 
+Desktop ancho: sidebar visible como columna; no hay overlay, no hay margen lateral.
 
-Añadir --on-* y --bg-overlay. Ajustar --border dark (26–28%). 
+Tablas largas: que el contenedor tenga overflow:auto; -webkit-overflow-scrolling:touch.
 
-Retirar utilidades genéricas duplicadas y dejar sólo utilidades de dominio. 
+Modales/menus: confirmar que su z-index supera al header (mapa simple: overlay 60, header 40, modales 80).
 
-Checklist #9 ampliado con QA visual y no debugger. 
+10) Snippets utilitarios (opcionales)
+Bloqueo de scroll en body (cuando está abierto el overlay)
 
-💼 “EXPERIENCIA” APLICADA A LA REVISIÓN
-Para esta revisión se aplicó un estándar de senior frontend con foco en Laravel/Vue/Tailwind, diseño de design systems para SaaS/CRMs industriales, y procesos de linting/QA visual. Recomendaciones: Tailwind 4 disciplinado, tokens únicos, Storybook + visual regression, Playwright/Cypress para flujos críticos. (Este es el marco de exigencia usado, listo para que lo compartas con el equipo).
+ts
+Copy
+Edit
+watch(() => sidebarOpen.value, (open) => {
+  document.documentElement.style.overflow = open && isMobile.value ? 'hidden' : ''
+})
+Focus-trap simple
 
-Si querés, prioritizo yo los cambios en un PR “scaffold” (tokens, estructura CSS, fixes Card) y te dejo el tablero de tareas por dev/junior.
+Al abrir: sidebarRef.querySelector('[tabindex],button,a,input,select,textarea')?.focus()
+
+Al cerrar: devolver el foco al botón hamburguesa.
+
+11) Cómo migrar si ya tenés código “mezclado”
+En el CSS de desktop, decidí: ¿columna real o fixed?
+
+Eliminá la alternativa que no corresponda:
+
+Si vas por columna: quitá cualquier position: fixed del sidebar y borra margin-left del shell.
+
+Si vas por fixed: dejá fixed y mantené margin-left: var(--sidebar-w); asegurate de que el sidebar no es hijo del flex (no flex: 0 0 ...).
+
+Definí --sidebar-w en un solo lugar.
+
+Agregá min-width:0 en .shell y .content.
+
+Probá el QA del §9.
