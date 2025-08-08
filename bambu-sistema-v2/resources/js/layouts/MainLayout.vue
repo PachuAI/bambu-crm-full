@@ -1,20 +1,38 @@
 <template>
-  <div class="min-h-screen bg-slate-900 flex">
+  <div class="min-h-screen bg-slate-900 flex overflow-x-hidden">
+    <!-- Mobile Overlay -->
+    <div 
+      v-show="mobileMenuOpen" 
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" 
+      @click="closeMobileMenu"
+    ></div>
+    
     <!-- Sidebar -->
     <aside :class="[
-      'fixed top-0 left-0 h-full bg-slate-900 border-r border-slate-700 z-50 transition-all duration-300',
-      sidebarCollapsed ? 'w-16' : 'w-64'
-    ]">
+      'fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-700 z-50',
+      'transform transition-transform duration-300 will-change-transform',
+      'lg:static lg:z-auto lg:w-64 lg:translate-x-0',
+      sidebarCollapsed ? 'lg:w-16' : '',
+      mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    ]" @click.stop>
       <!-- Brand -->
       <div class="h-16 flex items-center justify-between px-4 border-b border-slate-700">
         <h1 v-if="!sidebarCollapsed" class="text-2xl font-bold text-indigo-400">BAMBU</h1>
         <h1 v-else class="text-xl font-bold text-indigo-400">B</h1>
+        <!-- Desktop toggle button -->
         <button 
           @click="toggleSidebar"
-          class="p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800"
+          class="hidden lg:flex p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800"
         >
           <Bars3Icon v-if="!sidebarCollapsed" class="w-5 h-5" />
           <XMarkIcon v-else class="w-5 h-5" />
+        </button>
+        <!-- Mobile close button -->
+        <button 
+          @click="closeMobileMenu"
+          class="lg:hidden p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800"
+        >
+          <XMarkIcon class="w-5 h-5" />
         </button>
       </div>
       
@@ -122,13 +140,25 @@
     <!-- Main Content Area -->
     <div :class="[
       'flex-1 flex flex-col transition-all duration-300',
-      sidebarCollapsed ? 'ml-16' : 'ml-64'
+      // Desktop margins
+      'lg:ml-64',
+      { 'lg:ml-16': sidebarCollapsed },
+      // Mobile - no margin
+      'ml-0'
     ]">
       <!-- Header -->
       <header class="h-16 bg-slate-900 border-b border-slate-700 flex-shrink-0">
-        <div class="h-full px-6 flex items-center justify-between">
+        <div class="h-full px-4 lg:px-6 flex items-center justify-between">
+          <!-- Mobile Menu Button -->
+          <button 
+            @click="toggleMobileMenu"
+            class="lg:hidden p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800"
+          >
+            <Bars3Icon class="w-6 h-6" />
+          </button>
+          
           <!-- Search Bar -->
-          <div class="flex-1 max-w-xl">
+          <div class="flex-1 max-w-xl mx-4">
             <div class="relative">
               <MagnifyingGlassIcon class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -140,11 +170,11 @@
           </div>
           
           <!-- Header Actions -->
-          <div class="flex items-center gap-3">
-            <!-- Theme Toggle -->
+          <div class="flex items-center gap-1 sm:gap-3">
+            <!-- Theme Toggle - Hidden on small screens -->
             <button
               @click="toggleTheme"
-              class="p-2 rounded-lg text-slate-400 hover:bg-slate-800 transition-colors"
+              class="hidden sm:flex p-2 rounded-lg text-slate-400 hover:bg-slate-800 transition-colors"
               :title="isDark ? 'Modo claro' : 'Modo oscuro'"
             >
               <SunIcon v-if="isDark" class="w-5 h-5" />
@@ -157,10 +187,10 @@
               <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
             
-            <!-- Settings -->
+            <!-- Settings - Hidden on small screens -->
             <router-link
               to="/configuracion"
-              class="p-2 rounded-lg text-slate-400 hover:bg-slate-800 transition-colors"
+              class="hidden sm:flex p-2 rounded-lg text-slate-400 hover:bg-slate-800 transition-colors"
             >
               <Cog6ToothIcon class="w-5 h-5" />
             </router-link>
@@ -170,7 +200,7 @@
       
       <!-- Page Content -->
       <main class="flex-1 overflow-auto">
-        <div class="p-6">
+        <div class="p-3 sm:p-4 md:p-6 max-w-full overflow-x-hidden">
           <router-view v-slot="{ Component }">
             <transition name="fade" mode="out-in">
               <component :is="Component" />
@@ -214,10 +244,19 @@ const { isDark, toggleTheme } = useTheme()
 
 // Sidebar collapse state
 const sidebarCollapsed = ref(false)
+const mobileMenuOpen = ref(false)
 const repartosExpanded = ref(false)
 
 const toggleSidebar = () => {
   sidebarCollapsed.value = !sidebarCollapsed.value
+}
+
+const toggleMobileMenu = () => {
+  mobileMenuOpen.value = !mobileMenuOpen.value
+}
+
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false
 }
 
 const toggleRepartos = () => {

@@ -1,20 +1,20 @@
 <template>
   <div 
-    class="bg-slate-800 rounded-lg border border-slate-700 p-6 hover:border-slate-600 transition-colors duration-200 h-[120px] flex flex-col justify-between"
+    class="bg-slate-800 rounded-lg border border-slate-700 p-3 sm:p-4 md:p-6 hover:border-slate-600 transition-colors duration-200 min-h-[100px] sm:min-h-[120px] flex flex-col justify-between w-full"
   >
     <!-- Header con jerarquía tipográfica correcta -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="p-2 rounded-md" :class="iconBgClass">
-          <component :is="icon" class="w-4 h-4" :class="iconColorClass" />
+    <div class="flex items-start justify-between">
+      <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+        <div class="p-1.5 sm:p-2 rounded-md flex-shrink-0" :class="iconBgClass">
+          <component :is="icon" class="w-3 h-3 sm:w-4 sm:h-4" :class="iconColorClass" />
         </div>
-        <h3 class="text-sm font-medium text-slate-400 uppercase tracking-wider">{{ title }}</h3>
+        <h3 class="text-xs font-medium text-slate-400 uppercase tracking-wider truncate">{{ title }}</h3>
       </div>
       
       <!-- Badge de tendencia con tipografía consistente -->
       <span 
         v-if="trendValue"
-        class="text-xs font-semibold px-2 py-1 rounded-md flex items-center gap-1"
+        class="text-xs font-semibold px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md flex items-center gap-0.5 sm:gap-1 whitespace-nowrap flex-shrink-0"
         :class="trendBadgeClass"
       >
         <svg v-if="trend === 'up'" class="w-3 h-3 fill-current" viewBox="0 0 12 12">
@@ -27,15 +27,15 @@
       </span>
     </div>
     
-    <!-- Número principal con jerarquía clara -->
-    <div class="mt-3">
+    <!-- Número principal con jerarquía clara - Mobile responsive -->
+    <div class="mt-1 sm:mt-2">
       <template v-if="!loading">
-        <div class="text-3xl font-bold text-white leading-none tracking-tight">
+        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-none tracking-tight">
           {{ value }}
         </div>
       </template>
       <template v-else>
-        <div class="h-9 w-28 rounded bg-slate-700 animate-pulse"></div>
+        <div class="h-6 sm:h-7 md:h-9 w-16 sm:w-20 md:w-28 rounded bg-slate-700 animate-pulse"></div>
       </template>
     </div>
   </div>

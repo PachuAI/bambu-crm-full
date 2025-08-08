@@ -1,47 +1,47 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 max-w-full overflow-x-hidden">
     <!-- Page Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between min-w-0">
       <div>
-        <h1 class="text-2xl font-bold text-white">Dashboard</h1>
+        <h1 class="text-xl md:text-2xl font-bold text-white">Dashboard</h1>
         <div class="mt-1 space-y-1">
           <p class="text-sm text-slate-400">Control operativo BAMBU - Alto Valle</p>
           <p class="text-xs text-slate-500 flex items-center gap-2">
             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
             </svg>
-            Última actualización: {{ lastUpdated }}
+            <span class="hidden sm:inline">Última actualización: {{ lastUpdated }}</span>
+            <span class="sm:hidden">{{ lastUpdated.split(',')[1] || lastUpdated }}</span>
           </p>
         </div>
       </div>
       
-      <!-- Date Range Selector and User Avatar -->
-      <div class="flex items-center gap-4">
+      <!-- Date Range Selector and User Avatar - Mobile optimized -->
+      <div class="flex items-center gap-2 md:gap-4">
+        <!-- Date selector - Hidden on small screens -->
         <button 
-          class="px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2 transition-colors duration-200 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white h-10"
+          class="hidden md:flex px-4 py-2 rounded-lg font-medium text-sm items-center gap-2 transition-colors duration-200 border border-slate-600 text-slate-400 hover:bg-slate-800 hover:text-white h-10"
         >
           <CalendarIcon class="w-4 h-4" />
           <span>Últimos 30 días</span>
           <ChevronDownIcon class="w-4 h-4" />
         </button>
         
-        <!-- User Avatar -->
-        <div class="flex items-center gap-3 pl-4 border-l border-slate-600">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-semibold">
-              {{ userInitials }}
-            </div>
-            <div class="text-right">
-              <p class="text-sm font-medium text-white">{{ userName }}</p>
-              <p class="text-xs text-slate-400">Administrador</p>
-            </div>
+        <!-- User Avatar - Simplified for mobile -->
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-semibold">
+            {{ userInitials }}
+          </div>
+          <div class="text-right hidden sm:block">
+            <p class="text-sm font-medium text-white">{{ userName }}</p>
+            <p class="text-xs text-slate-400">Administrador</p>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Metrics Grid con espaciado consistente -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+    <!-- Metrics Grid con espaciado consistente - Mobile responsive -->
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
       <MetricCard
         v-for="metric in metrics"
         :key="metric.id"
@@ -54,10 +54,10 @@
       />
     </div>
     
-    <!-- Main Content Grid con proporciones coherentes -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Main Content Grid con proporciones coherentes - Mobile responsive -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 min-w-0">
       <!-- Facturación Chart (2/3 width) -->
-      <div class="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700">
+      <div class="xl:col-span-2 bg-slate-800 rounded-lg border border-slate-700">
         <div class="p-4">
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -77,8 +77,8 @@
             </div>
           </div>
           
-          <!-- Chart con altura consistente -->
-          <div class="h-64 rounded-lg bg-slate-900/50 border border-slate-700/50 relative overflow-hidden">
+          <!-- Chart con altura consistente - Mobile responsive -->
+          <div class="h-48 sm:h-64 rounded-lg bg-slate-900/50 border border-slate-700/50 relative overflow-hidden">
             <!-- Mock chart bars con mejor proporción -->
             <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between h-40">
               <div v-for="(height, index) in chartData" :key="index" 
@@ -95,8 +95,8 @@
             </div>
           </div>
           
-          <!-- Quick stats con spacing sistemático -->
-          <div class="grid grid-cols-3 gap-3 mt-4">
+          <!-- Quick stats con spacing sistemático - Mobile responsive -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
             <div class="text-center p-3 bg-slate-900/30 rounded-lg">
               <div class="text-lg font-bold text-green-400">+18.3%</div>
               <div class="text-xs text-slate-500 mt-1">vs mes anterior</div>
@@ -180,16 +180,16 @@
         </router-link>
       </div>
       
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto -mx-2 sm:mx-0">
         <table class="w-full">
           <thead>
             <tr class="border-b border-slate-700/50 bg-slate-900/20">
-              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">#</th>
-              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
-              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Producto</th>
-              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Total</th>
-              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Estado</th>
-              <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
+              <th class="text-left px-3 sm:px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">#</th>
+              <th class="text-left px-3 sm:px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider min-w-[120px]">Cliente</th>
+              <th class="text-left px-3 sm:px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider min-w-[150px]">Producto</th>
+              <th class="text-left px-3 sm:px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Total</th>
+              <th class="text-left px-3 sm:px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Estado</th>
+              <th class="text-left px-3 sm:px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
             </tr>
           </thead>
           <tbody>
@@ -199,31 +199,31 @@
               class="border-b border-slate-700/50 hover:bg-slate-900/30 transition-colors duration-200 cursor-pointer h-16"
               @click="navigateToOrder(order.id)"
             >
-              <td class="px-6 py-4">
+              <td class="px-3 sm:px-6 py-4">
                 <span class="text-sm font-semibold text-white">#{{ order.id }}</span>
               </td>
-              <td class="px-6 py-4">
-                <span class="text-sm font-medium text-white">{{ order.customer }}</span>
+              <td class="px-3 sm:px-6 py-4">
+                <span class="text-sm font-medium text-white truncate block max-w-[120px] sm:max-w-none">{{ order.customer }}</span>
               </td>
-              <td class="px-6 py-4">
+              <td class="px-3 sm:px-6 py-4">
                 <div>
-                  <p class="text-sm font-medium text-white">{{ order.product }}</p>
+                  <p class="text-sm font-medium text-white truncate max-w-[150px] sm:max-w-none">{{ order.product }}</p>
                   <p class="text-xs text-slate-400">{{ order.items }} items</p>
                 </div>
               </td>
-              <td class="px-6 py-4">
+              <td class="px-3 sm:px-6 py-4">
                 <span class="text-sm font-bold text-white">${{ order.total }}</span>
               </td>
-              <td class="px-6 py-4">
+              <td class="px-3 sm:px-6 py-4">
                 <span 
-                  class="px-3 py-1.5 text-xs font-semibold rounded-full border"
+                  class="px-2 sm:px-3 py-1.5 text-xs font-semibold rounded-full border whitespace-nowrap"
                   :class="getStatusClasses(order.status)"
                 >
                   {{ order.status }}
                 </span>
               </td>
-              <td class="px-6 py-4">
-                <span class="text-sm text-slate-400">{{ order.date }}</span>
+              <td class="px-3 sm:px-6 py-4">
+                <span class="text-sm text-slate-400 whitespace-nowrap">{{ order.date }}</span>
               </td>
             </tr>
           </tbody>
