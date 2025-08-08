@@ -36,7 +36,13 @@ bambu_crm_full/
 **Procedimiento:**
 1. **VERIFICAR UBICACIÓN**: Ejecutar `pwd` para confirmar directorio actual
 2. **VERIFICAR CAMBIOS**: Ejecutar `git status` para ver qué archivos cambiar
-3. Actualizar el archivo `STATUS.md`:
+3. **VALIDACIÓN OBLIGATORIA**: Si hay archivos .vue o .css modificados, ejecutar:
+   ```bash
+   grep -r "bg-slate\|text-slate\|rounded-lg\|px-\|py-\|w-[0-9]\|h-[0-9]" resources/js/
+   ```
+   **SI ENCUENTRA RESULTADOS**: DETENER commit y corregir usando el sistema de tokens
+
+4. Actualizar el archivo `STATUS.md`:
    - **Ruta exacta**: `C:\laragon\www\bambu_crm_full\STATUS.md` (raíz del proyecto)
    - **Si estás en bambu-sistema-v2/**: usar `../STATUS.md`
    - **Si estás en raíz**: usar `STATUS.md`
@@ -45,9 +51,9 @@ bambu_crm_full/
      - **Siguiente:** lista corta (1–3 puntos) de próximos pasos concretos.
    - Mantener el formato y estilo ya usado.
 
-4. **VERIFICAR NUEVAMENTE**: Ejecutar `git status` para confirmar STATUS.md modificado
-5. **COMMIT**: `git add` con ruta correcta y realizar commit
-6. **CONFIRMAR**: Verificar que commit fue exitoso
+5. **VERIFICAR NUEVAMENTE**: Ejecutar `git status` para confirmar STATUS.md modificado
+6. **COMMIT**: `git add` con ruta correcta y realizar commit
+7. **CONFIRMAR**: Verificar que commit fue exitoso
 
 ### 🚨 REGLA IMPERATIVA #5: REINICIO DE CONTEXTO
 
@@ -80,6 +86,11 @@ bambu_crm_full/
 
 **Trigger:** Cualquier desarrollo frontend (componentes, vistas, estilos)
 
+**ANTES DE ESCRIBIR UNA SOLA LÍNEA DE CÓDIGO FRONTEND:**
+1. **VERIFICAR OBLIGATORIO**: Leer `tokens.css` - única fuente de verdad para variables
+2. **VERIFICAR OBLIGATORIO**: Leer `components.css` - clases disponibles del sistema
+3. **VERIFICAR OBLIGATORIO**: Leer `responsive.css` - breakpoints y media queries
+
 **Documentos OBLIGATORIOS a seguir (en orden):**
 1. **BAMBU_FRONTEND_SYSTEM.md** - Sistema técnico CORE (CSS reset, utilidades, componentes)
 2. **BAMBU_COLOR_SYSTEM.md** - Paleta y variables de colores
@@ -87,12 +98,20 @@ bambu_crm_full/
 4. **UX_UI_GUIDELINES_SISTEMA_BAMBU.md** - Patrones UX específicos del dominio
 
 **Prohibiciones ABSOLUTAS:**
-- NUNCA hardcodear colores (usar SIEMPRE variables CSS)
+- NUNCA usar Tailwind CSS directamente (bg-slate-900, text-4xl, etc.)
+- NUNCA hardcodear colores (usar SIEMPRE variables CSS del tokens.css)
 - NUNCA empezar por desktop (SIEMPRE mobile-first)
-- NUNCA border-radius mayor a 4px
-- NUNCA improvisar breakpoints (usar los definidos)
+- NUNCA border-radius mayor a 4px (usar var(--radius-base))
+- NUNCA improvisar breakpoints (usar los definidos en responsive.css)
 - NUNCA omitir CSS reset del BAMBU_FRONTEND_SYSTEM.md
 - NUNCA crear componentes sin seguir los patrones definidos
+- NUNCA crear clases CSS sin usar las del sistema (sidebar, btn, card, etc.)
+
+**VALIDACIÓN OBLIGATORIA ANTES DE COMMIT:**
+- Verificar que NO hay clases Tailwind hardcodeadas
+- Verificar que se usan variables CSS del tokens.css
+- Verificar que se usan clases del components.css
+- Verificar responsive mobile-first funciona
 
 ### 🚨 REGLA IMPERATIVA #7: DESARROLLO MOBILE-FIRST
 
@@ -204,6 +223,25 @@ resources/css/
 - Touch targets ≥48px en vistas logísticas
 - Media queries por capabilities implementadas
 
+### 🚨 REGLA IMPERATIVA #15: VALIDACIÓN ANTI-TAILWIND
+
+**Trigger:** Antes de CUALQUIER commit con archivos .vue o .css
+
+**Procedimiento OBLIGATORIO:**
+1. **GREP SEARCH**: Buscar clases Tailwind prohibidas en archivos Vue:
+   ```bash
+   grep -r "bg-slate\|text-slate\|rounded-lg\|px-\|py-\|w-\|h-\|flex\|grid" resources/js/
+   ```
+2. **SI ENCUENTRA TAILWIND**: DETENER y convertir al sistema de tokens
+3. **VALIDAR VARIABLES**: Verificar que se usan var(--*) en lugar de valores hardcodeados
+4. **VALIDAR CLASES**: Verificar que se usan .sidebar, .btn, .card del sistema
+
+**PROHIBIDO COMMITEAR SI:**
+- Se encuentran clases Tailwind hardcodeadas
+- Se encuentran colores hardcodeados (#000, rgb(), etc.)
+- Se encuentran tamaños hardcodeados sin usar tokens
+- No se siguen los patrones del sistema de design
+
 ## 🛠️ COMANDOS DE DESARROLLO
 
 ### Testing
@@ -214,6 +252,19 @@ php artisan test
 
 # Tests específicos
 php artisan test --filter=NombreDelTest
+```
+
+### Validación de CSS y Design System
+```bash
+# Buscar clases Tailwind prohibidas
+cd bambu-sistema-v2
+grep -r "bg-slate\|text-slate\|rounded-lg\|px-\|py-\|w-[0-9]\|h-[0-9]" resources/js/
+
+# Validar que se usan variables CSS
+grep -r "var(--" resources/css/
+
+# Buscar colores hardcodeados
+grep -r "#[0-9a-fA-F]\{3,6\}\|rgb(\|rgba(" resources/js/ resources/css/
 ```
 
 ### Linting y Code Style
