@@ -34,15 +34,20 @@ bambu_crm_full/
 **Trigger:** cuando el usuario diga `commit` o cualquier variante como `comittear`, `cerramos y comiteamos`.
 
 **Procedimiento:**
-1. Actualizar el archivo `status.md` (ubicado en la raíz del proyecto, junto a `documentacion-proyecto/`).
+1. **VERIFICAR UBICACIÓN**: Ejecutar `pwd` para confirmar directorio actual
+2. **VERIFICAR CAMBIOS**: Ejecutar `git status` para ver qué archivos cambiar
+3. Actualizar el archivo `STATUS.md`:
+   - **Ruta exacta**: `C:\laragon\www\bambu_crm_full\STATUS.md` (raíz del proyecto)
+   - **Si estás en bambu-sistema-v2/**: usar `../STATUS.md`
+   - **Si estás en raíz**: usar `STATUS.md`
    - Agregar un bloque que incluya:
      - **Hecho:** resumen breve de lo que se completó.
      - **Siguiente:** lista corta (1–3 puntos) de próximos pasos concretos.
-   - Mantener el formato y estilo ya usado en `status.md`.
+   - Mantener el formato y estilo ya usado.
 
-2. Realizar el commit con los cambios correspondientes.
-
-3. Confirmar:
+4. **VERIFICAR NUEVAMENTE**: Ejecutar `git status` para confirmar STATUS.md modificado
+5. **COMMIT**: `git add` con ruta correcta y realizar commit
+6. **CONFIRMAR**: Verificar que commit fue exitoso
 
 ### 🚨 REGLA IMPERATIVA #5: REINICIO DE CONTEXTO
 
