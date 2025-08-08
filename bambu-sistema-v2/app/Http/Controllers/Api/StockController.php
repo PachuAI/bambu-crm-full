@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StockAjustarRequest;
+use App\Http\Requests\StockIngresoRequest;
 use App\Models\Producto;
 use App\Services\StockService;
+use App\Traits\HasStandardPagination;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
 {
+    use HasStandardPagination;
+    
     protected StockService $stockService;
 
     public function __construct(StockService $stockService)
@@ -23,64 +28,50 @@ class StockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Producto::query();
+        $query = Producto::select([
+            'id', 'nombre', 'sku', 'stock_actual', 'stock_minimo', 
+            'fabricar_siguiente', 'marca_producto', 'precio_base_l1'
+        ]);
         
-        // Filtros
-        if ($request->has('stock_bajo') && $request->stock_bajo) {
-            $query->stockBajo();
-        }
-        
-        if ($request->has('sin_stock') && $request->sin_stock) {
-            $query->where('stock_actual', 0);
-        }
-        
-        if ($request->has('marca')) {
-            $query->porMarca($request->marca);
-        }
-        
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nombre', 'LIKE', "%{$search}%")
-                  ->orWhere('sku', 'LIKE', "%{$search}%");
-            });
-        }
-        
-        $productos = $query->select([
-                'id', 'nombre', 'sku', 'stock_actual', 'stock_minimo', 
-                'fabricar_siguiente', 'marca_producto', 'precio_base_l1'
-            ])
-            ->orderBy('nombre')
-            ->paginate($request->get('per_page', 20));
+        $paginator = $this->paginateQuery(
+            $query,
+            $request,
+            ['nombre', 'sku', 'stock_actual', 'stock_minimo', 'created_at'],
+            [
+                'stock_bajo' => function($query, $value) {
+                    if ($value) $query->stockBajo();
+                },
+                'sin_stock' => function($query, $value) {
+                    if ($value) $query->where('stock_actual', 0);
+                },
+                'marca' => 'marca_producto'
+            ],
+            20,
+            50
+        );
         
         // Agregar estado de stock a cada producto
-        $productos->getCollection()->transform(function ($producto) {
+        $paginator->getCollection()->transform(function ($producto) {
             $producto->estado_stock = $producto->estado_stock;
             return $producto;
         });
         
-        return response()->json($productos);
+        return $this->paginatedResponse($paginator);
+    }
+
+    protected function applySearch(Builder $query, string $term): void
+    {
+        $query->where(function($q) use ($term) {
+            $q->where('nombre', 'LIKE', "%{$term}%")
+              ->orWhere('sku', 'LIKE', "%{$term}%");
+        });
     }
 
     /**
      * Ajustar stock manualmente (incrementar o decrementar)
      */
-    public function ajustar(Request $request): JsonResponse
+    public function ajustar(StockAjustarRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'producto_id' => 'required|exists:productos,id',
-            'nueva_cantidad' => 'required|integer|min:0',
-            'motivo' => 'required|string|max:500',
-            'lote_produccion' => 'nullable|string|max:100',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Datos inválidos',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
         try {
             $producto = Producto::findOrFail($request->producto_id);
             $stockAnterior = $producto->stock_actual;
@@ -120,22 +111,8 @@ class StockController extends Controller
     /**
      * Ingreso de stock por producción
      */
-    public function ingreso(Request $request): JsonResponse
+    public function ingreso(StockIngresoRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'producto_id' => 'required|exists:productos,id',
-            'cantidad' => 'required|integer|min:1',
-            'motivo' => 'string|max:500',
-            'lote_produccion' => 'nullable|string|max:100',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Datos inválidos',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
         try {
             $producto = Producto::findOrFail($request->producto_id);
             $stockAnterior = $producto->stock_actual;

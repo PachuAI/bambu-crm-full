@@ -8,6 +8,7 @@ use App\Models\Pedido;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class RepartoController extends Controller
@@ -47,31 +48,33 @@ class RepartoController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
-        // Verificar que el pedido no tenga ya un reparto asignado
-        if (Reparto::where('pedido_id', $validated['pedido_id'])->exists()) {
+        return DB::transaction(function () use ($validated) {
+            // Verificar que el pedido no tenga ya un reparto asignado
+            if (Reparto::where('pedido_id', $validated['pedido_id'])->exists()) {
+                return response()->json([
+                    'message' => 'Este pedido ya tiene un reparto asignado'
+                ], 422);
+            }
+
+            // Verificar disponibilidad del vehículo
+            $vehiculo = Vehiculo::find($validated['vehiculo_id']);
+            if (!$vehiculo->activo) {
+                return response()->json([
+                    'message' => 'El vehículo seleccionado no está activo'
+                ], 422);
+            }
+
+            $reparto = Reparto::create($validated);
+
+            // Actualizar estado del pedido a "Listo para enviar"
+            $pedido = Pedido::find($validated['pedido_id']);
+            $pedido->update(['estado' => 'listo_envio']);
+
             return response()->json([
-                'message' => 'Este pedido ya tiene un reparto asignado'
-            ], 422);
-        }
-
-        // Verificar disponibilidad del vehículo
-        $vehiculo = Vehiculo::find($validated['vehiculo_id']);
-        if (!$vehiculo->activo) {
-            return response()->json([
-                'message' => 'El vehículo seleccionado no está activo'
-            ], 422);
-        }
-
-        $reparto = Reparto::create($validated);
-
-        // Actualizar estado del pedido a "Listo para enviar"
-        $pedido = Pedido::find($validated['pedido_id']);
-        $pedido->update(['estado' => 'listo_envio']);
-
-        return response()->json([
-            'message' => 'Reparto programado exitosamente',
-            'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
-        ], 201);
+                'message' => 'Reparto programado exitosamente',
+                'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
+            ], 201);
+        });
     }
 
     public function show(Reparto $reparto): JsonResponse
@@ -112,42 +115,44 @@ class RepartoController extends Controller
             'km_recorridos' => 'nullable|numeric|min:0',
         ]);
 
-        $updateData = ['estado' => $validated['estado']];
+        return DB::transaction(function () use ($validated, $reparto) {
+            $updateData = ['estado' => $validated['estado']];
 
-        // Lógica específica según el nuevo estado
-        switch ($validated['estado']) {
-            case 'en_ruta':
-                $updateData['hora_salida'] = $validated['hora_salida'] ?? now()->format('H:i');
-                // Actualizar estado del pedido
-                $reparto->pedido->update(['estado' => 'en_transito']);
-                break;
+            // Lógica específica según el nuevo estado
+            switch ($validated['estado']) {
+                case 'en_ruta':
+                    $updateData['hora_salida'] = $validated['hora_salida'] ?? now()->format('H:i');
+                    // Actualizar estado del pedido
+                    $reparto->pedido->update(['estado' => 'en_transito']);
+                    break;
 
-            case 'entregado':
-                $updateData['hora_entrega'] = $validated['hora_entrega'] ?? now()->format('H:i');
-                if (isset($validated['km_recorridos'])) {
-                    $updateData['km_recorridos'] = $validated['km_recorridos'];
-                }
-                // Actualizar estado del pedido
-                $reparto->pedido->update(['estado' => 'entregado']);
-                break;
+                case 'entregado':
+                    $updateData['hora_entrega'] = $validated['hora_entrega'] ?? now()->format('H:i');
+                    if (isset($validated['km_recorridos'])) {
+                        $updateData['km_recorridos'] = $validated['km_recorridos'];
+                    }
+                    // Actualizar estado del pedido
+                    $reparto->pedido->update(['estado' => 'entregado']);
+                    break;
 
-            case 'fallido':
-                $updateData['hora_entrega'] = $validated['hora_entrega'] ?? now()->format('H:i');
-                // Actualizar estado del pedido
-                $reparto->pedido->update(['estado' => 'fallido']);
-                break;
-        }
+                case 'fallido':
+                    $updateData['hora_entrega'] = $validated['hora_entrega'] ?? now()->format('H:i');
+                    // Actualizar estado del pedido
+                    $reparto->pedido->update(['estado' => 'fallido']);
+                    break;
+            }
 
-        if (isset($validated['observaciones'])) {
-            $updateData['observaciones'] = $validated['observaciones'];
-        }
+            if (isset($validated['observaciones'])) {
+                $updateData['observaciones'] = $validated['observaciones'];
+            }
 
-        $reparto->update($updateData);
+            $reparto->update($updateData);
 
-        return response()->json([
-            'message' => 'Estado del reparto actualizado exitosamente',
-            'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
-        ]);
+            return response()->json([
+                'message' => 'Estado del reparto actualizado exitosamente',
+                'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
+            ]);
+        });
     }
 
     public function planificacionSemanal(Request $request): JsonResponse
@@ -216,19 +221,21 @@ class RepartoController extends Controller
 
     public function destroy(Reparto $reparto): JsonResponse
     {
-        if ($reparto->estado === 'entregado') {
+        return DB::transaction(function () use ($reparto) {
+            if ($reparto->estado === 'entregado') {
+                return response()->json([
+                    'message' => 'No se puede eliminar un reparto ya entregado'
+                ], 422);
+            }
+
+            // Revertir estado del pedido a confirmado
+            $reparto->pedido->update(['estado' => 'confirmado']);
+            
+            $reparto->delete();
+
             return response()->json([
-                'message' => 'No se puede eliminar un reparto ya entregado'
-            ], 422);
-        }
-
-        // Revertir estado del pedido a confirmado
-        $reparto->pedido->update(['estado' => 'confirmado']);
-        
-        $reparto->delete();
-
-        return response()->json([
-            'message' => 'Reparto eliminado exitosamente'
-        ]);
+                'message' => 'Reparto eliminado exitosamente'
+            ]);
+        });
     }
 }

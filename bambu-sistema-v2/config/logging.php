@@ -4,6 +4,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Formatter\JsonFormatter;
 
 return [
 
@@ -71,6 +72,23 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,
+        ],
+
+        'json' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/bambu-api.json'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 30),
+            'replace_placeholders' => true,
+            'tap' => [App\Logging\JsonTap::class],
+        ],
+
+        'api_access' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/api-access.json'),
+            'level' => 'info',
+            'days' => 90,
+            'tap' => [App\Logging\ApiAccessTap::class],
         ],
 
         'slack' => [
