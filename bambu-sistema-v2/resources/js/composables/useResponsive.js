@@ -1,152 +1,120 @@
-// ============================================
-// 📱 useResponsive.js - COMPOSABLE INFALIBLE
-// ============================================
+/**
+ * useResponsive.js - Composable para manejo responsive del layout
+ * 
+ * Implementa el patrón canónico del revisor para evitar bugs de layout.
+ * Maneja sidebar overlay/columna, breakpoints y control de scroll.
+ */
 
-import { ref, computed, readonly, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 
 export function useResponsive() {
-  // Estado reactivo
-  const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024)
+  // Estado del sidebar
   const sidebarOpen = ref(false)
+  const isMobile = ref(true)
   
-  // Breakpoints computados
-  const isMobile = computed(() => windowWidth.value < 768)
-  const isTablet = computed(() => windowWidth.value >= 768 && windowWidth.value < 1024)
-  const isDesktop = computed(() => windowWidth.value >= 1024)
+  // Media query para desktop (1024px)
+  const mq = window.matchMedia('(min-width: 1024px)')
   
-  // Manejador de resize
-  function handleResize() {
-    windowWidth.value = window.innerWidth
+  // Actualizar estado mobile/desktop
+  const update = () => {
+    isMobile.value = !mq.matches
     
-    // Auto-cerrar sidebar en desktop (método probado)
-    if (isDesktop.value) {
+    // Auto-cerrar sidebar al cambiar a desktop
+    if (!isMobile.value) {
       sidebarOpen.value = false
-      // Limpiar body overflow por si acaso
-      document.body.style.overflow = ''
     }
   }
   
-  // Toggle sidebar con control body overflow
-  function toggleSidebar() {
+  // Toggle sidebar
+  const toggleSidebar = () => {
     sidebarOpen.value = !sidebarOpen.value
-    
-    // Control body overflow SOLO en mobile
-    if (sidebarOpen.value && isMobile.value) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
   }
   
   // Cerrar sidebar
-  function closeSidebar() {
+  const closeSidebar = () => {
     sidebarOpen.value = false
-    document.body.style.overflow = ''
   }
   
-  // Abrir sidebar (para casos específicos)
-  function openSidebar() {
-    sidebarOpen.value = true
-    
-    if (isMobile.value) {
-      document.body.style.overflow = 'hidden'
-    }
-  }
-  
-  // Manejador de teclas (Escape para cerrar)
-  function handleKeydown(event) {
-    if (event.key === 'Escape' && sidebarOpen.value) {
+  // Manejar tecla Escape
+  const handleEscape = (e) => {
+    if (e.key === 'Escape' && sidebarOpen.value && isMobile.value) {
       closeSidebar()
     }
   }
   
-  // Manejador de click fuera del sidebar
-  function handleClickOutside(event) {
-    if (sidebarOpen.value && isMobile.value) {
-      const sidebar = document.querySelector('.sidebar')
-      const isClickInsideSidebar = sidebar && sidebar.contains(event.target)
+  // Control de scroll del body cuando sidebar está abierto
+  watch(sidebarOpen, (isOpen) => {
+    if (isOpen && isMobile.value) {
+      // Bloquear scroll del body
+      document.body.style.overflow = 'hidden'
       
-      if (!isClickInsideSidebar) {
-        closeSidebar()
+      // Marcar main como inert (opcional, para mejor accesibilidad)
+      const main = document.querySelector('main')
+      if (main) {
+        main.setAttribute('inert', '')
+      }
+    } else {
+      // Restaurar scroll
+      document.body.style.overflow = ''
+      
+      // Quitar inert
+      const main = document.querySelector('main')
+      if (main) {
+        main.removeAttribute('inert')
       }
     }
-  }
+  })
+  
+  // También observar cambios en isMobile para limpiar cuando cambia a desktop
+  watch(isMobile, (mobile) => {
+    if (!mobile && sidebarOpen.value) {
+      closeSidebar()
+    }
+  })
+  
+  // Computed properties útiles
+  const isTablet = computed(() => {
+    const width = window.innerWidth
+    return width >= 768 && width < 1024
+  })
+  
+  const isDesktop = computed(() => !isMobile.value)
   
   // Lifecycle hooks
   onMounted(() => {
-    // Solo ejecutar en cliente
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize)
-      document.addEventListener('keydown', handleKeydown)
-      
-      // Actualizar tamaño inicial
-      handleResize()
+    // Inicializar estado
+    update()
+    
+    // Agregar listeners
+    mq.addEventListener('change', update)
+    window.addEventListener('keydown', handleEscape)
+  })
+  
+  onBeforeUnmount(() => {
+    // Limpiar listeners
+    mq.removeEventListener('change', update)
+    window.removeEventListener('keydown', handleEscape)
+    
+    // Restaurar body overflow
+    document.body.style.overflow = ''
+    
+    // Quitar inert si existe
+    const main = document.querySelector('main')
+    if (main) {
+      main.removeAttribute('inert')
     }
   })
   
-  onUnmounted(() => {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', handleResize)
-      document.removeEventListener('keydown', handleKeydown)
-      
-      // Limpiar body overflow al desmontar
-      document.body.style.overflow = ''
-    }
-  })
-  
-  // API pública
+  // API pública del composable
   return {
     // Estado
-    windowWidth: readonly(windowWidth),
-    sidebarOpen: readonly(sidebarOpen),
-    
-    // Breakpoints computados
+    sidebarOpen,
     isMobile,
     isTablet,
     isDesktop,
     
-    // Métodos públicos
+    // Métodos
     toggleSidebar,
-    closeSidebar,
-    openSidebar,
-    
-    // Utilidades adicionales
-    handleClickOutside,
-    
-    // Breakpoints como valores para uso directo
-    breakpoints: {
-      mobile: 768,
-      tablet: 1024,
-      desktop: 1024
-    }
-  }
-}
-
-// Utilidad para detectar si es SSR
-export function isSSR() {
-  return typeof window === 'undefined'
-}
-
-// Utilidad para obtener viewport info
-export function getViewportInfo() {
-  if (isSSR()) {
-    return {
-      width: 1024,
-      height: 768,
-      type: 'desktop'
-    }
-  }
-  
-  const width = window.innerWidth
-  const height = window.innerHeight
-  
-  let type = 'mobile'
-  if (width >= 1024) type = 'desktop'
-  else if (width >= 768) type = 'tablet'
-  
-  return {
-    width,
-    height,
-    type
+    closeSidebar
   }
 }

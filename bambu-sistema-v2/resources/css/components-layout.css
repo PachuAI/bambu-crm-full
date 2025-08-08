@@ -1,0 +1,328 @@
+/* ============================================
+   🏗️ BAMBU LAYOUT CANÓNICO - PATRÓN DEL REVISOR
+   ============================================
+   
+   Este archivo implementa el patrón canónico del revisor
+   para evitar bugs de layout. NO MODIFICAR sin consenso.
+   
+   Invariantes:
+   1. Una sola verdad del ancho: --sidebar-w
+   2. < 1024px → overlay (fixed)
+   3. ≥ 1024px → columna real (relative)
+   4. Si sidebar es columna → main NO lleva margin-left
+   ============================================ */
+
+/* ============================================
+   APP SHELL - PATRÓN CANÓNICO
+   ============================================ */
+
+.app {
+  min-height: 100%;
+  display: flex;
+}
+
+/* ============================================
+   SIDEBAR - MOBILE FIRST (OVERLAY)
+   ============================================ */
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;  /* top right bottom left */
+  width: var(--sidebar-w);
+  max-width: 90vw;
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  z-index: var(--z-sidebar);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.is-open {
+  transform: translateX(0);
+}
+
+/* Contenido interno del sidebar */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.sidebar-logo-text {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-md);
+  overflow-y: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  margin-bottom: var(--space-xs);
+  min-height: 44px; /* Touch target */
+}
+
+.nav-link:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.nav-link.router-link-active {
+  background: var(--primary-bg);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.nav-icon {
+  font-size: var(--font-lg);
+  width: 20px;
+  text-align: center;
+}
+
+.nav-text {
+  font-size: var(--font-sm);
+}
+
+/* ============================================
+   SCRIM (OVERLAY)
+   ============================================ */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  z-index: var(--z-scrim);
+  cursor: pointer;
+  /* Sin bordes ni estilos de botón */
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ============================================
+   SHELL (COLUMNA FLEXIBLE)
+   ============================================ */
+
+.shell {
+  flex: 1 1 auto;
+  min-width: 0;  /* CRÍTICO para evitar desborde */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   HEADER - GRID INFALIBLE
+   ============================================ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 0 var(--space-md);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-search {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  transition: var(--transition-fast);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-surface);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Mobile: ocultar búsqueda */
+@media (max-width: 767px) {
+  .header-search {
+    display: none;
+  }
+}
+
+/* ============================================
+   BOTÓN ÍCONO - CONTRATO FIJO
+   ============================================ */
+
+.btn-icon {
+  width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  color: var(--text-secondary);
+  /* Reset adicional */
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  outline: none;
+}
+
+.btn-icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  display: block;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.btn-icon:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   CONTENT AREA
+   ============================================ */
+
+.content {
+  padding: 24px;
+  min-width: 0;
+  flex: 1;
+  overflow-x: hidden;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   DESKTOP: SIDEBAR COMO COLUMNA REAL
+   ============================================ */
+
+@media (min-width: 1024px) {
+  /* Sidebar entra al flujo como columna */
+  .sidebar {
+    position: relative;
+    transform: none;
+    z-index: auto;
+    height: auto;
+    inset: unset;
+    flex: 0 0 var(--sidebar-w);
+    width: var(--sidebar-w);
+  }
+  
+  /* No hay overlay en desktop */
+  .scrim {
+    display: none;
+  }
+  
+  /* SIN margin-left - sidebar es columna real */
+  .shell {
+    margin-left: 0;
+  }
+  
+  /* Hamburguesa oculta en desktop */
+  .hamburger {
+    display: none;
+  }
+}
+
+/* ============================================
+   HAMBURGUESA ANIMADA
+   ============================================ */
+
+.hamburger {
+  /* Usa btn-icon como base */
+  position: relative;
+}
+
+.hamburger-line {
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  transition: var(--transition-fast);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hamburger-line:nth-child(1) {
+  top: calc(50% - 6px);
+}
+
+.hamburger-line:nth-child(2) {
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.hamburger-line:nth-child(3) {
+  bottom: calc(50% - 6px);
+}
+
+/* Animación X cuando está abierto */
+.sidebar-open .hamburger-line:nth-child(1) {
+  transform: translateX(-50%) rotate(45deg) translateY(6px);
+  top: 50%;
+}
+
+.sidebar-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.sidebar-open .hamburger-line:nth-child(3) {
+  transform: translateX(-50%) rotate(-45deg) translateY(-6px);
+  bottom: 50%;
+}

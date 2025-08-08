@@ -4,7 +4,8 @@
 
 /* Sistema de design tokens BAMBU - SIN TAILWIND para evitar conflictos */
 @import './tokens.css';
-@import './components.css';  
+@import './components.css';
+@import './components-layout.css';  /* Patrón canónico del layout */
 @import './responsive.css';
 
 /* Typography - Google Fonts */

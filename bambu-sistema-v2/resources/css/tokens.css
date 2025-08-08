@@ -112,15 +112,25 @@
   --radius-full: 9999px;
   
   /* ============================================
-     📚 Z-INDEX SCALE
+     📐 LAYOUT ESPECÍFICO
+     ============================================ */
+  
+  --sidebar-w: 280px;                        /* Ancho sidebar - ÚNICA definición */
+  --header-h: 64px;                          /* Alto header fijo */
+  --btn-icon-size: 40px;                     /* Tamaño botón ícono estándar */
+  --icon-size: 16px;                         /* Tamaño SVG interno */
+  
+  /* ============================================
+     📚 Z-INDEX SCALE - JERARQUÍA CORRECTA
      ============================================ */
   
   --z-base: 0;
   --z-elevated: 10;
-  --z-sticky: 20;
-  --z-overlay: 30;
-  --z-modal: 40;
-  --z-toast: 50;
+  --z-header: 40;                            /* Header sticky */
+  --z-scrim: 50;                             /* Overlay del sidebar */
+  --z-sidebar: 60;                           /* Sidebar sobre overlay */
+  --z-modal: 80;                             /* Modales sobre todo */
+  --z-toast: 90;                             /* Notificaciones máxima prioridad */
   
   /* ============================================
      ✨ EFECTOS VISUALES

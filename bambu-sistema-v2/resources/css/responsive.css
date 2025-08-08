@@ -35,9 +35,7 @@
     box-shadow: none;
   }
   
-  .main-wrapper {
-    margin-left: 280px;
-  }
+  /* Sin margin-left - sidebar es columna real del flex */
   
   .hamburger-btn {
     display: none !important;
@@ -131,7 +129,7 @@
   gap: var(--space-md);
   position: sticky;
   top: 0;
-  z-index: var(--z-sticky);
+  z-index: var(--z-header);
 }
 
 /* Mobile: Búsqueda oculta */
