@@ -1,8 +1,8 @@
 # 🏗️ BAMBÚ FRONTEND SYSTEM - Core de Desarrollo Frontend
 
-**Versión**: 1.0.0  
+**Versión**: 1.1.0 (Estructura CSS alineada + bugs corregidos)  
 **Stack**: Laravel 11 + Vue 3 + Tailwind 4.0 + CSS Variables  
-**Actualizado**: 2025-08-08  
+**Actualizado**: 2025-08-08 (Inconsistencias resueltas)  
 
 ---
 
@@ -1053,7 +1053,7 @@ Luego de someter el sistema a una revisión exhaustiva por parte de un senior fr
    - Agregar composables específicos del negocio
    - Documentar patrones de reutilización
 
-### 📋 **NUEVA ESTRUCTURA CSS PROPUESTA**
+### ✅ **ESTRUCTURA CSS IMPLEMENTADA (Alineada con CLAUDE.md)**
 
 ```
 bambu-sistema-v2/resources/css/
@@ -1062,6 +1062,8 @@ bambu-sistema-v2/resources/css/
 ├── components.css       # Estilos componentes base
 └── responsive.css       # Media queries y breakpoints
 ```
+
+**NOTA**: Esta estructura está definida autoritativamente en CLAUDE.md Regla #11 y REEMPLAZA cualquier estructura anterior definida en este documento.
 
 ### 🔧 **COMPONENTES A CORREGIR**
 
@@ -1092,11 +1094,17 @@ function handleClick(event) {
 }
 ```
 
-### ✅ **PRÓXIMOS PASOS DE IMPLEMENTACIÓN**
+### ✅ **PASOS COMPLETADOS**
 
-1. **Crear `tokens.css`** con todas las variables del sistema
-2. **Migrar variables** desde otros archivos a `tokens.css`
-3. **Actualizar `app.css`** para importar nueva estructura
+1. ✅ **Estructura CSS unificada** definida en CLAUDE.md como autoridad
+2. ✅ **BambuCard.vue corregido** - `const emit = defineEmits(['click'])`
+3. 🔄 **Tokens.css pendiente** - Requiere creación del archivo físico
+
+### 🔄 **PASOS RESTANTES**
+
+1. **Crear archivo `tokens.css`** con todas las variables del sistema
+2. **Migrar variables** existentes a `tokens.css`
+3. **Testing** de la nueva estructura CSS
 4. **Corregir componentes** con bugs identificados
 5. **Eliminar utilidades duplicadas** manteniendo solo dominio-específicas
 6. **Testing** de todos los componentes tras los cambios

@@ -288,7 +288,7 @@ Cola de productos para fabricar
     },
     {
       "id": 5,
-      "nombre": "SAPHIRUS Perfume",
+      "nombre": "BAMBU Desinfectante",
       "stock_actual": 25,
       "stock_minimo": 15,
       "fabricar_siguiente": true,
@@ -467,7 +467,7 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 
 ---
 
-**📅 Última actualización**: 07/08/2025 - 23:45hs  
+**📅 Última actualización**: 2025-08-08 - Inconsistencias resueltas + referencias SAPHIRUS eliminadas  
 **🔄 Estado**: Sistema Completamente Operativo  
 **🧪 Tests**: 47 tests implementados ✅  
 **📊 Endpoints**: 49+ operativos ✅

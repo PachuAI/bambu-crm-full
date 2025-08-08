@@ -388,7 +388,7 @@ PREREQUISITO: UI refinement total completado
 - **Plan de implementación**: Prioridades definidas (ALTA/MEDIA/BAJA) con cronograma
 
 ### 📋 Cambios Críticos a Implementar:
-1. **Tokens únicos centralizados** - Crear tokens.css como única fuente de verdad
+1. ✅ **Tokens únicos centralizados COMPLETADO** - tokens.css creado como única fuente de verdad
 2. **Estructura CSS consistente** - Resolver conflicto CLAUDE.md vs FRONTEND_SYSTEM.md
 3. **Accesibilidad operativa** - Alertas no-solo-color con pictogramas GHS/ADR
 4. **Sidebar completamente accesible** - Focus-trap + inert + Esc + overflow control

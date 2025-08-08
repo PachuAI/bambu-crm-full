@@ -1,8 +1,8 @@
 # 🧪 Guidelines UX/UI - Dominio BAMBU CRM Químico
 
 **Especialización**: CRM Productos Químicos - Alto Valle de Río Negro  
-**Versión**: 4.0.0  
-**Actualizado**: 2025-08-08  
+**Versión**: 4.0.1 (Revisado y corregido)  
+**Actualizado**: 2025-08-08 (Inconsistencias resueltas + patrones actualizados)  
 
 ## Índice
 - [Contexto del Negocio](#contexto-del-negocio)

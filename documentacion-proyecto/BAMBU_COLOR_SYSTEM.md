@@ -1,5 +1,9 @@
 # 🎨 Sistema de Colores BAMBU - Guía Definitiva
 
+**Versión**: 1.0.0 (Consistencia establecida)  
+**Actualizado**: 2025-08-08 (Inconsistencias resueltas)  
+**Estado**: Fuente de verdad única para colores  
+
 ## Índice
 - [Filosofía del Sistema](#filosofía-del-sistema)
 - [Paleta Base HSL](#paleta-base-hsl)

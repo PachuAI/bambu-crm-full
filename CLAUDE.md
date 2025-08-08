@@ -104,14 +104,21 @@ bambu_crm_full/
 
 ### 🚨 REGLA IMPERATIVA #8: ESTRUCTURA DE ARCHIVOS CSS/VUE
 
-**Ubicación obligatoria:**
+**Ubicación obligatoria (ACTUALIZADA - Estructura CSS definitiva):**
 ```
 bambu-sistema-v2/resources/
 ├── css/
-│   ├── app.css           # Variables de colores
-│   ├── responsive.css    # Media queries
-│   └── components.css    # Estilos componentes
+│   ├── app.css           # Entry point (importa tokens, components, responsive)
+│   ├── tokens.css        # ÚNICA fuente de verdad para variables
+│   ├── components.css    # Estilos componentes
+│   └── responsive.css    # Media queries
 └── js/
+    ├── composables/
+    │   ├── useTheme.js
+    │   └── useResponsive.js
+    └── components/
+        └── [componentes].vue
+```
     ├── composables/
     │   ├── useTheme.js
     │   └── useResponsive.js
@@ -150,7 +157,7 @@ bambu-sistema-v2/resources/
 
 **Trigger:** Creación o modificación de archivos CSS
 
-**Estructura OBLIGATORIA:**
+**Estructura OBLIGATORIA (DEFINITIVA - Resuelve conflicto con BAMBU_FRONTEND_SYSTEM.md):**
 ```
 resources/css/
 ├── app.css           # Entry point (importa tokens, components, responsive)
@@ -158,6 +165,8 @@ resources/css/
 ├── components.css    # Estilos componentes
 └── responsive.css    # Media queries
 ```
+
+**NOTA CRÍTICA**: Esta estructura REEMPLAZA y tiene PRIORIDAD sobre cualquier estructura definida en BAMBU_FRONTEND_SYSTEM.md
 
 **PROHIBIDO:**
 - Crear `reset.css`, `variables.css`, `utilities.css` como archivos separados
@@ -327,4 +336,4 @@ Luego de someter el sistema a una revisión exhaustiva por parte de un senior fr
 ---
 
 **Última actualización**: 2025-08-08
-**Versión**: 2.0.0 (Post-revisión senior frontend)
+**Versión**: 2.1.0 (Inconsistencias resueltas - Estructura CSS definitiva)

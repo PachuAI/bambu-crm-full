@@ -1,0 +1,213 @@
+/* ============================================
+   🎨 BAMBU DESIGN TOKENS - ÚNICA FUENTE DE VERDAD
+   ============================================
+   
+   Creado: 2025-08-08
+   Estado: CRÍTICO - Resuelve tokens sin definir
+   Propósito: Centralizar todas las variables del sistema
+   
+   IMPORTANTE: Este archivo es la ÚNICA fuente de verdad
+   para todas las variables CSS del sistema BAMBU.
+   ============================================ */
+
+:root {
+  /* ============================================
+     🌈 COLORES PRINCIPALES
+     ============================================ */
+  
+  /* Primary Brand Colors */
+  --primary: hsl(231 76% 60%);           /* #6366f1 */
+  --primary-hover: hsl(231 76% 55%);     /* Hover state */
+  --primary-bg: hsl(231 76% 60% / 0.1);  /* Background tint */
+  
+  /* Semantic Colors */
+  --success: hsl(142 71% 45%);           /* #10b981 */
+  --warning: hsl(38 92% 50%);            /* #f59e0b */
+  --error: hsl(0 84% 60%);               /* #ef4444 */
+  --info: hsl(199 89% 48%);              /* #0ea5e9 */
+  
+  /* Background Colors */
+  --bg-base: hsl(210 20% 98%);           /* #f8fafc */
+  --bg-surface: hsl(210 40% 100%);       /* #ffffff */
+  --bg-elevated: hsl(210 25% 97%);       /* #f1f5f9 */
+  --bg-overlay: hsl(0 0% 0% / 0.5);      /* Modal overlays */
+  
+  /* Text Colors */
+  --text-primary: hsl(210 22% 22%);      /* #334155 */
+  --text-secondary: hsl(210 14% 53%);    /* #64748b */
+  --text-muted: hsl(210 9% 71%);         /* #94a3b8 */
+  --text-inverse: hsl(210 40% 100%);     /* #ffffff */
+  
+  /* Border Colors */
+  --border: hsl(210 18% 87%);            /* #cbd5e1 */
+  --border-strong: hsl(210 25% 75%);     /* #94a3b8 */
+  
+  /* ============================================
+     📏 SPACING SYSTEM
+     ============================================ */
+  
+  --space-xs: 0.25rem;    /* 4px */
+  --space-sm: 0.5rem;     /* 8px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-2xl: 3rem;      /* 48px */
+  --space-3xl: 4rem;      /* 64px */
+  
+  /* ============================================
+     📝 TYPOGRAPHY SYSTEM
+     ============================================ */
+  
+  /* Font Sizes */
+  --font-xs: 0.75rem;     /* 12px */
+  --font-sm: 0.875rem;    /* 14px */
+  --font-md: 1rem;        /* 16px */
+  --font-lg: 1.125rem;    /* 18px */
+  --font-xl: 1.25rem;     /* 20px */
+  --font-2xl: 1.5rem;     /* 24px */
+  --font-3xl: 2rem;       /* 32px */
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  
+  /* ============================================
+     🌟 SHADOW SYSTEM
+     ============================================ */
+  
+  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.25);
+  --shadow-md: 0 2px 6px hsl(0 0% 0% / 0.3);
+  --shadow-lg: 0 8px 16px hsl(0 0% 0% / 0.35);
+  --shadow-xl: 0 16px 32px hsl(0 0% 0% / 0.4);
+  
+  /* ============================================
+     ⏱️ TRANSITIONS SYSTEM
+     ============================================ */
+  
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ============================================
+     📐 BORDER RADIUS
+     ============================================ */
+  
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+  
+  /* ============================================
+     📱 Z-INDEX LAYERS
+     ============================================ */
+  
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+}
+
+/* ============================================
+   🌙 DARK MODE TOKENS
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode Colors */
+    --bg-base: hsl(210 20% 8%);          /* #0f172a */
+    --bg-surface: hsl(210 18% 11%);      /* #1e293b */
+    --bg-elevated: hsl(210 16% 16%);     /* #334155 */
+    
+    --text-primary: hsl(210 40% 98%);    /* #f8fafc */
+    --text-secondary: hsl(210 20% 75%);  /* #94a3b8 */
+    --text-muted: hsl(210 14% 53%);      /* #64748b */
+    
+    --border: hsl(210 18% 20%);          /* #334155 */
+    --border-strong: hsl(210 14% 35%);   /* #64748b */
+  }
+}
+
+/* Explicit dark mode class */
+[data-theme="dark"] {
+  /* Same as dark mode media query */
+  --bg-base: hsl(210 20% 8%);
+  --bg-surface: hsl(210 18% 11%);
+  --bg-elevated: hsl(210 16% 16%);
+  
+  --text-primary: hsl(210 40% 98%);
+  --text-secondary: hsl(210 20% 75%);
+  --text-muted: hsl(210 14% 53%);
+  
+  --border: hsl(210 18% 20%);
+  --border-strong: hsl(210 14% 35%);
+}
+
+/* Explicit light mode class */
+[data-theme="light"] {
+  --bg-base: hsl(210 20% 98%);
+  --bg-surface: hsl(210 40% 100%);
+  --bg-elevated: hsl(210 25% 97%);
+  
+  --text-primary: hsl(210 22% 22%);
+  --text-secondary: hsl(210 14% 53%);
+  --text-muted: hsl(210 9% 71%);
+  
+  --border: hsl(210 18% 87%);
+  --border-strong: hsl(210 25% 75%);
+}
+
+/* ============================================
+   🧪 DOMAIN-SPECIFIC TOKENS (BAMBU CRM)
+   ============================================ */
+
+:root {
+  /* Stock Level Colors */
+  --stock-critical: hsl(0 84% 60%);      /* Red for 0 stock */
+  --stock-low: hsl(38 92% 50%);          /* Orange for low stock */
+  --stock-warning: hsl(45 93% 47%);      /* Yellow for warning */
+  --stock-good: hsl(142 71% 45%);        /* Green for good stock */
+  
+  /* Product Type Colors */
+  --product-chemical: hsl(280 83% 57%);   /* Purple for chemical products */
+  --product-accessory: hsl(199 89% 48%);  /* Blue for accessories */
+  --product-combo: hsl(25 95% 53%);       /* Orange for combo products */
+  
+  /* Status Colors */
+  --status-draft: hsl(210 14% 53%);      /* Gray for draft */
+  --status-confirmed: hsl(199 89% 48%);  /* Blue for confirmed */
+  --status-processing: hsl(38 92% 50%);  /* Orange for processing */
+  --status-completed: hsl(142 71% 45%);  /* Green for completed */
+  --status-cancelled: hsl(0 84% 60%);    /* Red for cancelled */
+}
+
+/* ============================================
+   📝 USAGE NOTES
+   ============================================
+   
+   1. Este archivo es referenciado en app.css como:
+      @import './tokens.css';
+   
+   2. Todos los componentes deben usar estas variables
+      en lugar de valores hardcodeados
+   
+   3. Para agregar nuevas variables, seguir la
+      convención de naming existente
+      
+   4. Las variables semánticas (--success, --error)
+      deben usarse para estados, no las HSL directas
+      
+   5. El sistema de spacing sigue escala 4px base
+      
+   6. Las sombras están optimizadas para el contraste
+      del tema BAMBU
+      
+   ============================================ */

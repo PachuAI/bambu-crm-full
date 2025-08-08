@@ -1,11 +1,14 @@
 # Esquema de Base de Datos - Sistema BAMBU v2.0
 
+**Actualizado**: 2025-08-08 (Inconsistencias resueltas)
+**Estado**: Producción Ready
+
 ## 📊 Base de Datos PostgreSQL 15+
 
 ### 🔧 Estado Actual: **COMPLETADO** ✅
 - **Tablas principales**: 8 tablas implementadas
 - **Sistema de stock**: Auditoría completa implementada
-- **Tests**: 72/72 pasando con cobertura completa
+- **Tests**: Ver [STACK_TECH.md](./STACK_TECH.md) para estado oficial de testing
 
 ---
 
@@ -339,6 +342,6 @@ POST   /api/v1/configuraciones         # Auth required ⚠️
 
 ---
 
-**📅 Última actualización**: Agosto 2025  
+**📅 Última actualización**: 2025-08-08 (Inconsistencias resueltas)  
 **🔄 Estado**: Producción Ready  
-**🧪 Tests**: 72/72 pasando ✅
+**🧪 Tests**: Ver [STACK_TECH.md](./STACK_TECH.md) ✅

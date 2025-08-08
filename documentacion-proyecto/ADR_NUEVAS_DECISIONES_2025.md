@@ -1,8 +1,12 @@
-# Architecture Decision Records (ADR) - Decisiones Agosto 2025
+# Architecture Decision Records (ADR) - Decisiones 2025
+
+**Versión**: 1.0.0 (Decisiones consolidadas)  
+**Actualizado**: 2025-08-08 (Fecha estandarizada + inconsistencias resueltas)  
+**Estado**: Registro oficial de decisiones arquitectónicas  
 
 ## Introducción
 
-Este documento registra las decisiones arquitectónicas tomadas el **8 de Agosto de 2025** durante la refactorización completa del sistema BAMBU. Estas decisiones reemplazan y actualizan los ADRs previos.
+Este documento registra las decisiones arquitectónicas tomadas el **2025-08-08** durante la refactorización completa del sistema BAMBU. Estas decisiones reemplazan y actualizan los ADRs previos.
 
 ---
 

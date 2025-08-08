@@ -168,7 +168,7 @@ const form = reactive({
   RAZÓN: ROI decreciente después del 70%
 ```
 
-**🎯 RESULTADO COMPROBADO**: 47 tests implementados cubriendo todos los módulos  
+**🎯 ESTADO TESTING**: Ver [STACK_TECH.md](./STACK_TECH.md) para información actualizada  
 **📝 LECCIÓN**: Calidad > Cantidad en tests
 
 ### 🧬 Tests que VALEN LA PENA
@@ -361,7 +361,7 @@ CONSIDERA DOCKER SI:
 
 1. **"Base sólida antes de escalar"** - Perfeccionar Login + Dashboard antes de nuevos módulos
 2. **"Hybrid > Pure"** - Mejor de ambos mundos (Tailwind + CSS vars)  
-3. **"Tests que importan"** - 70% coverage en lo crítico, no 100% en trivial
+3. **"Tests que importan"** - 70% coverage en lo crítico, no 100% en trivial (detalles en [STACK_TECH.md](./STACK_TECH.md))
 4. **"Inspirarse, no copiar"** - Adaptar patterns probados, no reinventar
 5. **"Simple > Complex"** - Laravel + Vue > microservicios para equipos pequeños
 
@@ -376,14 +376,14 @@ CONSIDERA DOCKER SI:
   
 📈 RESULTADO BAMBU CRM:
   - Setup: ✅ < 30 min (Laragon + clone + migrate)
-  - Tests: ✅ 47 tests implementados
+  - Tests: ✅ Ver [STACK_TECH.md](./STACK_TECH.md) para estado actual
   - Frontend: ✅ Vue SPA operativo (login + dashboard)
   - Performance: ⏳ Pending measurement
 ```
 
 ---
 
-**📝 ÚLTIMA ACTUALIZACIÓN**: Agosto 2025 (Commit 462534a)  
+**📝 ÚLTIMA ACTUALIZACIÓN**: 2025-08-08 (Inconsistencias resueltas)  
 **🔄 PRÓXIMA REVISIÓN**: Después de UI refinement completado  
 **📧 AUTOR**: Equipo BAMBU CRM v2.0
 

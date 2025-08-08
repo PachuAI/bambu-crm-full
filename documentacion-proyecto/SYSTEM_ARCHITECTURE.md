@@ -1,6 +1,6 @@
 # SISTEMA BAMBU CRM v2 - ARQUITECTURA COMPLETA
-**Última actualización**: 07/08/2025
-**Estado**: Sistema completamente implementado - Pendiente feedback
+**Última actualización**: 2025-08-08 (Inconsistencias resueltas)
+**Estado**: Sistema completamente implementado - Documentación actualizada
 
 ## 🏗️ OVERVIEW ARQUITECTÓNICO
 
@@ -251,58 +251,19 @@ disponible | programado | en_ruta | libre | inactivo
 
 ### API Endpoints
 
-```
-AUTENTICACIÓN:
-POST   /api/login
-POST   /api/register
-POST   /api/logout
+> **🔗 Documentación completa de API**: Ver [API_ENDPOINTS.md](./API_ENDPOINTS.md) como fuente de verdad única
+>
+> El archivo API_ENDPOINTS.md contiene:
+> - 49+ endpoints operativos con documentación completa
+> - Ejemplos de request/response
+> - Validaciones y códigos de error
+> - Testing y casos de uso
 
-CLIENTES:
-GET    /api/v1/clientes
-POST   /api/v1/clientes
-GET    /api/v1/clientes/{id}
-PUT    /api/v1/clientes/{id}
-DELETE /api/v1/clientes/{id}
-
-PRODUCTOS:
-GET    /api/v1/productos
-POST   /api/v1/productos
-GET    /api/v1/productos/{id}
-PUT    /api/v1/productos/{id}
-DELETE /api/v1/productos/{id}
-
-VEHÍCULOS:
-GET    /api/v1/vehiculos
-POST   /api/v1/vehiculos
-GET    /api/v1/vehiculos/{id}
-PUT    /api/v1/vehiculos/{id}
-DELETE /api/v1/vehiculos/{id}
-GET    /api/v1/vehiculos-disponibles
-PATCH  /api/v1/vehiculos/{id}/activar
-PATCH  /api/v1/vehiculos/{id}/desactivar
-
-REPARTOS (PLANIFICACIÓN/SEGUIMIENTO):
-GET    /api/v1/repartos
-POST   /api/v1/repartos
-GET    /api/v1/repartos/{id}
-PUT    /api/v1/repartos/{id}
-DELETE /api/v1/repartos/{id}
-PATCH  /api/v1/repartos/{id}/estado
-GET    /api/v1/planificacion-semanal
-GET    /api/v1/seguimiento-tiempo-real
-
-REPORTES:
-GET    /api/v1/reportes/dashboard
-GET    /api/v1/reportes/vehiculos
-GET    /api/v1/reportes/entregas
-GET    /api/v1/reportes/operativo
-
-STOCK:
-GET    /api/v1/stock
-POST   /api/v1/stock/ajustar
-POST   /api/v1/stock/ingreso
-GET    /api/v1/stock/alertas
-```
+**Resumen arquitectónico:**
+- Autenticación: Laravel Sanctum
+- Versión API: v1
+- Formato: REST + JSON
+- Estado: 49+ endpoints operativos
 
 ## 🎨 SISTEMA DE DISEÑO
 
@@ -441,4 +402,4 @@ Se esperan ajustes y mejoras según sus requerimientos específicos.
 ---
 
 *Documento actualizado - Sistema BAMBU v2 - Versión Operativa*
-*Fecha: 07/08/2025*
+*Fecha: 2025-08-08 (Inconsistencias resueltas)*
