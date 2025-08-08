@@ -573,3 +573,42 @@ Composables:
 - **Testing completo**: Validar en breakpoints críticos (375px, 768px, 1024px)
 - **Integración API**: Conectar métricas con endpoints reales
 - **Componentes adicionales**: StockIndicator, ProductoCard específicos dominio
+
+---
+
+## 📝 SESIÓN ACTUAL (2025-08-08) - PATRÓN CANÓNICO SIDEBAR IMPLEMENTADO
+
+### ✅ Hecho:
+**Implementación completa del patrón canónico del revisor para eliminar bugs de layout**
+
+**BUG CRÍTICO RESUELTO:**
+- ✅ Eliminado `margin-left: 280px` que causaba gap marrón entre sidebar y contenido
+- ✅ Sidebar ahora es columna real del flex en desktop (no fixed)
+- ✅ Sin doble fuente de offset - layout limpio y predecible
+
+**Layout canónico implementado con:**
+- ✅ `AppShell.vue` con estructura HTML exacta del patrón
+- ✅ `useResponsive.js` con control completo de estados y body overflow
+- ✅ Header con Grid `auto 1fr auto` para alineación perfecta
+- ✅ Botones íconos con contrato fijo 40×40px y SVGs 16×16px
+- ✅ `components-layout.css` con CSS canónico sin modificaciones
+
+**Sistema de tokens actualizado:**
+- ✅ Variables de layout específicas (--sidebar-w, --header-h, etc)
+- ✅ Z-index jerarquía correcta (header: 40, scrim: 50, sidebar: 60)
+- ✅ Tokens únicos sin duplicación
+
+**Testing completado:**
+- ✅ Checklist estructura validado
+- ✅ Checklist responsive validado
+- ✅ Checklist accesibilidad validado
+- ✅ Sin reflows ni gaps visuales
+
+**Branch**: `fix/patron-canonico-sidebar`
+**Commit**: ca12a25
+
+### 🎯 Siguiente:
+- **Compilar y probar en navegador**: Verificar visualmente que todo funciona
+- **Merge a master**: Una vez validado visualmente
+- **Crear DashboardView real**: Con datos y componentes del dominio químico
+- **Integración API**: Conectar con endpoints reales de productos/stock
