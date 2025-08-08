@@ -40,6 +40,6 @@ class Ciudad extends Model
 
     public function getNombreCompletoAttribute()
     {
-        return $this->nombre . ', ' . $this->provincia->nombre;
+        return $this->nombre.', '.$this->provincia->nombre;
     }
 }

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Provincia;
 use App\Models\Ciudad;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Provincia;
 use Illuminate\Database\Seeder;
 
 class CiudadesSeeder extends Seeder

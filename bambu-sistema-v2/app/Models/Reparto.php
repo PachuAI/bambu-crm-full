@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Reparto extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'repartos';
 
     protected $fillable = [
@@ -25,8 +25,6 @@ class Reparto extends Model
 
     protected $casts = [
         'fecha_programada' => 'date',
-        'hora_salida' => 'datetime:H:i',
-        'hora_entrega' => 'datetime:H:i',
         'km_recorridos' => 'decimal:2',
     ];
 
@@ -55,11 +53,46 @@ class Reparto extends Model
         return $query->whereBetween('fecha_programada', [$desde, $hasta]);
     }
 
+    // Accessors para formateo de horas
+    public function getHoraSalidaAttribute($value)
+    {
+        if ($value) {
+            return \Carbon\Carbon::createFromFormat('H:i:s', $value)->format('H:i');
+        }
+        return $value;
+    }
+
+    public function getHoraEntregaAttribute($value)
+    {
+        if ($value) {
+            return \Carbon\Carbon::createFromFormat('H:i:s', $value)->format('H:i');
+        }
+        return $value;
+    }
+
+    // Mutators para almacenar horas
+    public function setHoraSalidaAttribute($value)
+    {
+        if ($value && is_string($value)) {
+            $this->attributes['hora_salida'] = $value . ':00';
+        }
+    }
+
+    public function setHoraEntregaAttribute($value)
+    {
+        if ($value && is_string($value)) {
+            $this->attributes['hora_entrega'] = $value . ':00';
+        }
+    }
+
     public function getDuracionEntregaAttribute()
     {
-        if ($this->hora_salida && $this->hora_entrega) {
-            return $this->hora_entrega->diffInMinutes($this->hora_salida);
+        if ($this->attributes['hora_salida'] && $this->attributes['hora_entrega']) {
+            $salida = \Carbon\Carbon::createFromFormat('H:i:s', $this->attributes['hora_salida']);
+            $entrega = \Carbon\Carbon::createFromFormat('H:i:s', $this->attributes['hora_entrega']);
+            return $salida->diffInMinutes($entrega);
         }
+
         return null;
     }
 }

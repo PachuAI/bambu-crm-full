@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 trait HasStandardPagination
@@ -13,19 +13,19 @@ trait HasStandardPagination
      * Aplica paginación estándar con filtros y ordenamiento
      */
     protected function paginateQuery(
-        Builder $query, 
+        Builder $query,
         Request $request,
         array $allowedSorts = ['id', 'created_at', 'updated_at'],
         array $allowedFilters = [],
         int $defaultPerPage = 25,
         int $maxPerPage = 100
     ): LengthAwarePaginator {
-        
+
         // Filtros
         foreach ($allowedFilters as $filter => $column) {
             if ($request->has($filter)) {
                 $value = $request->input($filter);
-                
+
                 if (is_array($column)) {
                     // Filtro customizado con callback
                     $column($query, $value);
@@ -35,30 +35,30 @@ trait HasStandardPagination
                 }
             }
         }
-        
+
         // Búsqueda general
         if ($request->has('search') && $request->filled('search')) {
             $searchTerm = $request->input('search');
             $this->applySearch($query, $searchTerm);
         }
-        
+
         // Ordenamiento
         $sort = $request->input('sort', 'created_at');
         $order = $request->input('order', 'desc');
-        
+
         if (in_array($sort, $allowedSorts)) {
             $query->orderBy($sort, in_array(strtolower($order), ['asc', 'desc']) ? $order : 'desc');
         }
-        
+
         // Paginación
         $perPage = min(
             (int) $request->input('per_page', $defaultPerPage),
             $maxPerPage
         );
-        
+
         return $query->paginate($perPage);
     }
-    
+
     /**
      * Retorna respuesta JSON paginada estándar
      */
@@ -82,10 +82,10 @@ trait HasStandardPagination
                 'last' => $paginator->url($paginator->lastPage()),
                 'prev' => $paginator->previousPageUrl(),
                 'next' => $paginator->nextPageUrl(),
-            ]
+            ],
         ]);
     }
-    
+
     /**
      * Aplica búsqueda - debe ser implementado por cada controller
      */

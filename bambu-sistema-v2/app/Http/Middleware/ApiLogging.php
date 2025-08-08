@@ -12,11 +12,11 @@ class ApiLogging
     public function handle(Request $request, Closure $next): Response
     {
         $startTime = microtime(true);
-        
+
         $response = $next($request);
-        
+
         $duration = round((microtime(true) - $startTime) * 1000, 2);
-        
+
         // Log a canal específico de accesos API
         Log::channel('api_access')->info('API Request', [
             'timestamp' => now()->toISOString(),
@@ -31,7 +31,7 @@ class ApiLogging
             'content_length' => strlen($response->getContent()),
             'route' => optional($request->route())->getName(),
         ]);
-        
+
         // Log errores con más detalle
         if ($response->getStatusCode() >= 400) {
             Log::channel('json')->error('API Error Response', [
@@ -47,7 +47,7 @@ class ApiLogging
                 'response_data' => $response->getStatusCode() < 500 ? json_decode($response->getContent(), true) : null,
             ]);
         }
-        
+
         return $response;
     }
 }

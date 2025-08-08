@@ -23,7 +23,7 @@ class DatabaseCrudTest extends TestCase
             'descripcion' => 'Descripción del producto test',
             'peso_kg' => 2.750,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // READ - Verificar inserción
@@ -33,7 +33,7 @@ class DatabaseCrudTest extends TestCase
         $this->assertEquals('TEST-CRUD-001', $producto->sku);
         $this->assertEquals('150.50', $producto->precio_base_l1);
         $this->assertEquals(25, $producto->stock_actual);
-        $this->assertFalse((bool)$producto->es_combo);
+        $this->assertFalse((bool) $producto->es_combo);
         $this->assertEquals('BAMBU', $producto->marca_producto);
 
         // UPDATE - Actualizar producto
@@ -42,7 +42,7 @@ class DatabaseCrudTest extends TestCase
             ->update([
                 'precio_base_l1' => 175.00,
                 'stock_actual' => 30,
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
         $productoActualizado = DB::table('productos')->where('id', $productoId)->first();
@@ -68,14 +68,14 @@ class DatabaseCrudTest extends TestCase
             'nombre' => 'Buenos Aires',
             'codigo' => 'BA',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'La Plata',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // CREATE - Insertar cliente
@@ -86,7 +86,7 @@ class DatabaseCrudTest extends TestCase
             'email' => 'cliente@test.com',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // READ - Verificar inserción con JOIN
@@ -109,7 +109,7 @@ class DatabaseCrudTest extends TestCase
             ->update([
                 'email' => 'nuevo@email.com',
                 'telefono' => '221-999-8888',
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
         $clienteActualizado = DB::table('clientes')->where('id', $clienteId)->first();
@@ -124,14 +124,14 @@ class DatabaseCrudTest extends TestCase
             'nombre' => 'Córdoba',
             'codigo' => 'CB',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'Córdoba Capital',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $cliente = DB::table('clientes')->insertGetId([
@@ -140,7 +140,7 @@ class DatabaseCrudTest extends TestCase
             'telefono' => '351-123-4567',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto1 = DB::table('productos')->insertGetId([
@@ -150,7 +150,7 @@ class DatabaseCrudTest extends TestCase
             'stock_actual' => 50,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto2 = DB::table('productos')->insertGetId([
@@ -160,7 +160,7 @@ class DatabaseCrudTest extends TestCase
             'stock_actual' => 30,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Crear pedido
@@ -170,7 +170,7 @@ class DatabaseCrudTest extends TestCase
             'monto_final' => 630.00, // 10% descuento
             'estado' => 'borrador',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Agregar items al pedido
@@ -182,7 +182,7 @@ class DatabaseCrudTest extends TestCase
                 'precio_unit_l1' => 100.00,
                 'subtotal' => 300.00,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ],
             [
                 'pedido_id' => $pedido,
@@ -191,8 +191,8 @@ class DatabaseCrudTest extends TestCase
                 'precio_unit_l1' => 200.00,
                 'subtotal' => 400.00,
                 'created_at' => now(),
-                'updated_at' => now()
-            ]
+                'updated_at' => now(),
+            ],
         ]);
 
         // Verificar pedido completo con JOINs
@@ -214,7 +214,7 @@ class DatabaseCrudTest extends TestCase
             ->get();
 
         $this->assertCount(2, $items);
-        
+
         $totalCalculado = $items->sum('subtotal');
         $this->assertEquals(700.00, $totalCalculado);
 
@@ -224,7 +224,7 @@ class DatabaseCrudTest extends TestCase
             ->update([
                 'estado' => 'confirmado',
                 'fecha_reparto' => now()->addDays(3)->toDateString(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
         $pedidoConfirmado = DB::table('pedidos')->where('id', $pedido)->first();
@@ -243,13 +243,13 @@ class DatabaseCrudTest extends TestCase
             'datos_nuevos' => json_encode([
                 'nombre' => 'Producto Nuevo',
                 'sku' => 'NEW-001',
-                'precio_base_l1' => 100.00
+                'precio_base_l1' => 100.00,
             ]),
             'user_id' => null,
             'ip_address' => '127.0.0.1',
             'user_agent' => 'TestAgent/1.0',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Verificar log
@@ -257,7 +257,7 @@ class DatabaseCrudTest extends TestCase
         $this->assertNotNull($log);
         $this->assertEquals('productos', $log->modelo);
         $this->assertEquals('CREATE', $log->accion);
-        
+
         $datosNuevos = json_decode($log->datos_nuevos, true);
         $this->assertEquals('Producto Nuevo', $datosNuevos['nombre']);
         $this->assertEquals('NEW-001', $datosNuevos['sku']);
@@ -270,13 +270,13 @@ class DatabaseCrudTest extends TestCase
         for ($i = 1; $i <= 10; $i++) {
             $productos[] = [
                 'nombre' => "Producto Bulk {$i}",
-                'sku' => "BULK-" . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'sku' => 'BULK-'.str_pad($i, 3, '0', STR_PAD_LEFT),
                 'precio_base_l1' => 100.00 * $i,
                 'stock_actual' => 10 * $i,
                 'es_combo' => $i % 2 === 0,
                 'marca_producto' => $i <= 5 ? 'BAMBU' : 'SAPHIRUS',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ];
         }
 
@@ -307,10 +307,10 @@ class DatabaseCrudTest extends TestCase
             ->where('marca_producto', 'BAMBU')
             ->orderBy('id')
             ->get(['id', 'precio_base_l1']);
-        
+
         foreach ($productos as $index => $producto) {
             $precioEsperado = round(100.00 * ($index + 1) * 1.1, 2);
-            $this->assertEquals($precioEsperado, round((float)$producto->precio_base_l1, 2));
+            $this->assertEquals($precioEsperado, round((float) $producto->precio_base_l1, 2));
         }
     }
 }

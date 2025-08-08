@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('fecha_reparto')->nullable(); // Para logística
             $table->timestamps();
             $table->softDeletes(); // Para auditoría
-            
+
             $table->index(['estado', 'fecha_reparto']);
             $table->index('cliente_id');
         });

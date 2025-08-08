@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Producto extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'productos';
 
@@ -67,7 +68,7 @@ class Producto extends Model
     public function scopeParaFabricar($query)
     {
         return $query->where('fabricar_siguiente', true)
-                    ->orWhereColumn('stock_actual', '<=', 'stock_minimo');
+            ->orWhereColumn('stock_actual', '<=', 'stock_minimo');
     }
 
     public function getPesoTotalAttribute()
@@ -80,11 +81,11 @@ class Producto extends Model
         if ($this->stock_actual <= 0) {
             return 'sin_stock';
         }
-        
+
         if ($this->stock_actual <= $this->stock_minimo) {
             return 'stock_bajo';
         }
-        
+
         return 'stock_ok';
     }
 
@@ -95,12 +96,13 @@ class Producto extends Model
             ->porTipo('venta')
             ->entreFechas(now()->subDays(30), now())
             ->sum('cantidad');
-        
+
         if ($ventasRecientes > 0) {
             $promedioVentaDiaria = $ventasRecientes / 30;
+
             return $this->stock_actual > 0 ? round($this->stock_actual / $promedioVentaDiaria) : 0;
         }
-        
+
         return null;
     }
 }

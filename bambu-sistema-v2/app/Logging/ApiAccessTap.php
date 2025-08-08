@@ -2,8 +2,8 @@
 
 namespace App\Logging;
 
-use Monolog\Formatter\JsonFormatter;
 use Illuminate\Log\Logger;
+use Monolog\Formatter\JsonFormatter;
 
 class ApiAccessTap
 {

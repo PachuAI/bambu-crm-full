@@ -2,24 +2,26 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use App\Models\Cliente;
+use App\Models\Pedido;
+use App\Models\Reparto;
 use App\Models\User;
 use App\Models\Vehiculo;
-use App\Models\Reparto;
-use App\Models\Pedido;
-use App\Models\Cliente;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
+use Tests\TestCase;
 
 class ReportesTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $cliente;
+
     protected $vehiculo;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
@@ -41,7 +43,7 @@ class ReportesTest extends TestCase
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado',
-            'km_recorridos' => 25.5
+            'km_recorridos' => 25.5,
         ]);
 
         // Reparto en ruta
@@ -49,7 +51,7 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'en_ruta'
+            'estado' => 'en_ruta',
         ]);
 
         // Reparto programado
@@ -57,25 +59,25 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido3->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $response = $this->getJson('/api/v1/reportes/dashboard');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'metricas' => [
-                        'entregas_hoy',
-                        'pendientes_entrega',
-                        'vehiculos_activos',
-                        'efectividad_entregas',
-                        'km_recorridos_hoy'
-                    ],
-                    'fecha'
-                ]);
+            ->assertJsonStructure([
+                'metricas' => [
+                    'entregas_hoy',
+                    'pendientes_entrega',
+                    'vehiculos_activos',
+                    'efectividad_entregas',
+                    'km_recorridos_hoy',
+                ],
+                'fecha',
+            ]);
 
         $metricas = $response->json('metricas');
-        
+
         $this->assertEquals(1, $metricas['entregas_hoy']);
         $this->assertEquals(2, $metricas['pendientes_entrega']); // en_ruta + programado
         $this->assertEquals(1, $metricas['vehiculos_activos']);
@@ -93,27 +95,27 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido3->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'fallido'
+            'estado' => 'fallido',
         ]);
 
         $response = $this->getJson('/api/v1/reportes/dashboard');
 
         $response->assertStatus(200);
-        
+
         $efectividad = $response->json('metricas.efectividad_entregas');
         $this->assertEquals(66.67, $efectividad);
     }
@@ -130,7 +132,7 @@ class ReportesTest extends TestCase
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'entregado',
-            'km_recorridos' => 30
+            'km_recorridos' => 30,
         ]);
 
         // Repartos para vehiculo2
@@ -139,7 +141,7 @@ class ReportesTest extends TestCase
             'vehiculo_id' => $vehiculo2->id,
             'fecha_programada' => today()->format('Y-m-d'),
             'estado' => 'fallido',
-            'km_recorridos' => 15
+            'km_recorridos' => 15,
         ]);
 
         $desde = now()->format('Y-m-d');
@@ -148,24 +150,24 @@ class ReportesTest extends TestCase
         $response = $this->getJson("/api/v1/reportes/vehiculos?desde={$desde}&hasta={$hasta}");
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'vehiculos' => [
-                        '*' => [
-                            'id',
-                            'nombre_completo',
-                            'total_repartos',
-                            'repartos_entregados',
-                            'repartos_fallidos',
-                            'km_totales',
-                            'efectividad',
-                            'dias_trabajados'
-                        ]
+            ->assertJsonStructure([
+                'vehiculos' => [
+                    '*' => [
+                        'id',
+                        'nombre_completo',
+                        'total_repartos',
+                        'repartos_entregados',
+                        'repartos_fallidos',
+                        'km_totales',
+                        'efectividad',
+                        'dias_trabajados',
                     ],
-                    'periodo'
-                ]);
+                ],
+                'periodo',
+            ]);
 
         $vehiculos = $response->json('vehiculos');
-        
+
         // Vehiculo 1: 100% efectividad (1 entregado de 1 total)
         $vehiculo1Data = collect($vehiculos)->firstWhere('id', $this->vehiculo->id);
         $this->assertEquals(1, $vehiculo1Data['total_repartos']);
@@ -183,7 +185,7 @@ class ReportesTest extends TestCase
     public function test_obtiene_reporte_entregas()
     {
         $cliente2 = Cliente::factory()->create(['nombre' => 'Cliente Test 2']);
-        
+
         $pedido1 = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
         $pedido2 = Pedido::factory()->create(['cliente_id' => $cliente2->id]);
         $pedido3 = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
@@ -192,21 +194,21 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido3->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'fallido'
+            'estado' => 'fallido',
         ]);
 
         $desde = now()->format('Y-m-d');
@@ -215,18 +217,18 @@ class ReportesTest extends TestCase
         $response = $this->getJson("/api/v1/reportes/entregas?desde={$desde}&hasta={$hasta}");
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'resumen' => [
-                        'total_repartos',
-                        'total_entregados',
-                        'total_fallidos',
-                        'km_totales',
-                        'efectividad_general'
-                    ],
-                    'por_dia',
-                    'por_cliente',
-                    'periodo'
-                ]);
+            ->assertJsonStructure([
+                'resumen' => [
+                    'total_repartos',
+                    'total_entregados',
+                    'total_fallidos',
+                    'km_totales',
+                    'efectividad_general',
+                ],
+                'por_dia',
+                'por_cliente',
+                'periodo',
+            ]);
 
         $resumen = $response->json('resumen');
         $this->assertEquals(3, $resumen['total_repartos']);
@@ -236,7 +238,7 @@ class ReportesTest extends TestCase
 
         $porCliente = $response->json('por_cliente');
         $this->assertCount(2, $porCliente);
-        
+
         // El cliente con más repartos debería estar primero
         $primerCliente = $porCliente[0];
         $this->assertEquals($this->cliente->nombre, $primerCliente['nombre']);
@@ -251,12 +253,12 @@ class ReportesTest extends TestCase
         $response = $this->getJson("/api/v1/reportes/operativo?desde={$desde}&hasta={$hasta}");
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'tiempo_promedio_entrega',
-                    'capacidad_vehiculos',
-                    'repartos_por_hora',
-                    'periodo'
-                ]);
+            ->assertJsonStructure([
+                'tiempo_promedio_entrega',
+                'capacidad_vehiculos',
+                'repartos_por_hora',
+                'periodo',
+            ]);
     }
 
     public function test_reporte_vehiculos_con_fechas_personalizadas()
@@ -268,7 +270,7 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => now()->subDay(),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         // Reparto de hoy
@@ -276,7 +278,7 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         // Solo pedir reporte de hoy
@@ -286,10 +288,10 @@ class ReportesTest extends TestCase
         $response = $this->getJson("/api/v1/reportes/vehiculos?desde={$desde}&hasta={$hasta}");
 
         $response->assertStatus(200);
-        
+
         $vehiculos = $response->json('vehiculos');
         $vehiculoData = collect($vehiculos)->firstWhere('id', $this->vehiculo->id);
-        
+
         // Solo debería contar el reparto de hoy
         $this->assertEquals(1, $vehiculoData['total_repartos']);
     }
@@ -299,7 +301,7 @@ class ReportesTest extends TestCase
         $response = $this->getJson('/api/v1/reportes/dashboard');
 
         $response->assertStatus(200);
-        
+
         $metricas = $response->json('metricas');
         $this->assertEquals(0, $metricas['entregas_hoy']);
         $this->assertEquals(0, $metricas['pendientes_entrega']);
@@ -315,13 +317,13 @@ class ReportesTest extends TestCase
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'programado' // Estado pendiente
+            'estado' => 'programado', // Estado pendiente
         ]);
 
         $response = $this->getJson('/api/v1/reportes/dashboard');
 
         $response->assertStatus(200);
-        
+
         // No hay repartos finalizados, efectividad debería ser 0
         $efectividad = $response->json('metricas.efectividad_entregas');
         $this->assertEquals(0, $efectividad);

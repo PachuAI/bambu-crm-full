@@ -34,21 +34,21 @@ class ClienteFactory extends Factory
             ['provincia' => 'Neuquén', 'codigo' => 'NQ', 'ciudad' => 'Plottier', 'cp' => '8316'],
             ['provincia' => 'Neuquén', 'codigo' => 'NQ', 'ciudad' => 'Centenario', 'cp' => '8309'],
         ];
-        
+
         // Seleccionar una ciudad aleatoria
         $ciudadData = $this->faker->randomElement($ciudadesAltoValle);
-        
+
         // Crear o usar provincia existente
         $provincia = Provincia::firstOrCreate(
             ['nombre' => $ciudadData['provincia']],
             ['codigo' => $ciudadData['codigo']]
         );
-        
+
         // Crear o usar ciudad existente
         $ciudad = Ciudad::firstOrCreate(
             [
                 'nombre' => $ciudadData['ciudad'],
-                'provincia_id' => $provincia->id
+                'provincia_id' => $provincia->id,
             ],
             ['codigo_postal' => $ciudadData['cp']]
         );

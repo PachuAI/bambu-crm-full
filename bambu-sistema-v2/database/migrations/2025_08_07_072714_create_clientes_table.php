@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('telefono', 20);
             $table->string('email', 150)->nullable();
             $table->foreignId('ciudad_id')
-                  ->constrained('ciudades')
-                  ->cascadeOnUpdate()
-                  ->restrictOnDelete();
+                ->constrained('ciudades')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index('telefono');
             $table->index('email');
         });

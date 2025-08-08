@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Models;
 
-use App\Models\Cliente;
 use App\Models\Ciudad;
+use App\Models\Cliente;
 use App\Models\Provincia;
-use App\Models\Pedido;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -24,7 +23,7 @@ class ClienteModelTest extends TestCase
     public function test_puede_crear_cliente_basico(): void
     {
         $ciudad = Ciudad::first();
-        
+
         $cliente = Cliente::create([
             'nombre' => 'Juan Pérez',
             'direccion' => 'San Martín 123',
@@ -46,7 +45,7 @@ class ClienteModelTest extends TestCase
     public function test_cliente_requiere_campos_obligatorios(): void
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Cliente::create([
             // Falta nombre, direccion, telefono, ciudad_id
             'email' => 'test@example.com',
@@ -57,7 +56,7 @@ class ClienteModelTest extends TestCase
     {
         $provincia = Provincia::where('codigo', 'MZ')->first();
         $ciudad = $provincia->ciudades()->first();
-        
+
         $cliente = Cliente::create([
             'nombre' => 'Test Cliente',
             'direccion' => 'Test 123',
@@ -73,7 +72,7 @@ class ClienteModelTest extends TestCase
     public function test_relacion_con_pedidos(): void
     {
         $ciudad = Ciudad::first();
-        
+
         $cliente = Cliente::create([
             'nombre' => 'Test Pedidos',
             'direccion' => 'Test 123',
@@ -151,7 +150,7 @@ class ClienteModelTest extends TestCase
     {
         $provincia = Provincia::where('codigo', 'MZ')->first();
         $ciudad = $provincia->ciudades()->first();
-        
+
         $cliente = Cliente::create([
             'nombre' => 'Test Direccion',
             'direccion' => 'San Martín 123',
@@ -159,14 +158,14 @@ class ClienteModelTest extends TestCase
             'ciudad_id' => $ciudad->id,
         ]);
 
-        $direccionEsperada = 'San Martín 123, ' . $ciudad->nombre . ', ' . $provincia->nombre;
+        $direccionEsperada = 'San Martín 123, '.$ciudad->nombre.', '.$provincia->nombre;
         $this->assertEquals($direccionEsperada, $cliente->direccion_completa);
     }
 
     public function test_soft_deletes_funcionan(): void
     {
         $ciudad = Ciudad::first();
-        
+
         $cliente = Cliente::create([
             'nombre' => 'Test Delete',
             'direccion' => 'Test 123',
@@ -178,13 +177,13 @@ class ClienteModelTest extends TestCase
 
         // Soft delete
         $cliente->delete();
-        
+
         // No debe aparecer en consultas normales
         $this->assertCount(0, Cliente::where('id', $clienteId)->get());
-        
+
         // Debe aparecer con withTrashed
         $this->assertCount(1, Cliente::withTrashed()->where('id', $clienteId)->get());
-        
+
         // Debe estar marcado como eliminado
         $clienteEliminado = Cliente::withTrashed()->find($clienteId);
         $this->assertNotNull($clienteEliminado->deleted_at);
@@ -193,7 +192,7 @@ class ClienteModelTest extends TestCase
     public function test_cliente_puede_ser_restaurado(): void
     {
         $ciudad = Ciudad::first();
-        
+
         $cliente = Cliente::create([
             'nombre' => 'Test Restore',
             'direccion' => 'Test 123',
@@ -209,7 +208,7 @@ class ClienteModelTest extends TestCase
 
         // Debe aparecer en consultas normales después del restore
         $this->assertCount(1, Cliente::where('id', $clienteId)->get());
-        
+
         $clienteRestaurado = Cliente::find($clienteId);
         $this->assertNull($clienteRestaurado->deleted_at);
     }
@@ -217,7 +216,7 @@ class ClienteModelTest extends TestCase
     public function test_validacion_foreign_key_ciudad(): void
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Cliente::create([
             'nombre' => 'Test FK',
             'direccion' => 'Test 123',

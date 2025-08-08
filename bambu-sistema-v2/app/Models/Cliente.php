@@ -41,13 +41,13 @@ class Cliente extends Model
     {
         return $query->where(function ($q) use ($termino) {
             $q->where('nombre', 'LIKE', "%{$termino}%")
-              ->orWhere('telefono', 'LIKE', "%{$termino}%")
-              ->orWhere('email', 'LIKE', "%{$termino}%");
+                ->orWhere('telefono', 'LIKE', "%{$termino}%")
+                ->orWhere('email', 'LIKE', "%{$termino}%");
         });
     }
 
     public function getDireccionCompletaAttribute()
     {
-        return $this->direccion . ', ' . $this->ciudad->nombre . ', ' . $this->ciudad->provincia->nombre;
+        return $this->direccion.', '.$this->ciudad->nombre.', '.$this->ciudad->provincia->nombre;
     }
 }

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 100);
             $table->foreignId('provincia_id')
-                  ->constrained('provincias')
-                  ->cascadeOnUpdate()
-                  ->restrictOnDelete();
+                ->constrained('provincias')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
             $table->string('codigo_postal', 10)->nullable();
             $table->decimal('latitud', 10, 8)->nullable();
             $table->decimal('longitud', 11, 8)->nullable();

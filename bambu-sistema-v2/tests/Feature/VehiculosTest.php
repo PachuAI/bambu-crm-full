@@ -2,15 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use App\Models\Cliente;
+use App\Models\Pedido;
+use App\Models\Reparto;
 use App\Models\User;
 use App\Models\Vehiculo;
-use App\Models\Reparto;
-use App\Models\Pedido;
-use App\Models\Cliente;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
+use Tests\TestCase;
 
 class VehiculosTest extends TestCase
 {
@@ -18,7 +17,7 @@ class VehiculosTest extends TestCase
 
     protected $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
@@ -32,23 +31,23 @@ class VehiculosTest extends TestCase
         $response = $this->getJson('/api/v1/vehiculos');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'vehiculos' => [
-                        '*' => [
-                            'id',
-                            'patente',
-                            'marca',
-                            'modelo',
-                            'anio',
-                            'capacidad_kg',
-                            'capacidad_bultos',
-                            'activo',
-                            'nombre_completo',
-                            'estado_hoy',
-                            'repartos_hoy'
-                        ]
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'vehiculos' => [
+                    '*' => [
+                        'id',
+                        'patente',
+                        'marca',
+                        'modelo',
+                        'anio',
+                        'capacidad_kg',
+                        'capacidad_bultos',
+                        'activo',
+                        'nombre_completo',
+                        'estado_hoy',
+                        'repartos_hoy',
+                    ],
+                ],
+            ]);
     }
 
     public function test_puede_crear_vehiculo()
@@ -61,17 +60,17 @@ class VehiculosTest extends TestCase
             'capacidad_kg' => 1000.50,
             'capacidad_bultos' => 50.25,
             'activo' => true,
-            'observaciones' => 'Vehículo en buen estado'
+            'observaciones' => 'Vehículo en buen estado',
         ];
 
         $response = $this->postJson('/api/v1/vehiculos', $vehiculoData);
 
         $response->assertStatus(201)
-                ->assertJsonFragment(['patente' => 'ABC123']);
+            ->assertJsonFragment(['patente' => 'ABC123']);
 
         $this->assertDatabaseHas('vehiculos', [
             'patente' => 'ABC123',
-            'marca' => 'Ford'
+            'marca' => 'Ford',
         ]);
     }
 
@@ -84,13 +83,13 @@ class VehiculosTest extends TestCase
             'marca' => 'Chevrolet',
             'modelo' => 'Sprinter',
             'capacidad_kg' => 800,
-            'capacidad_bultos' => 40
+            'capacidad_bultos' => 40,
         ];
 
         $response = $this->postJson('/api/v1/vehiculos', $vehiculoData);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['patente']);
+            ->assertJsonValidationErrors(['patente']);
     }
 
     public function test_puede_obtener_detalle_vehiculo()
@@ -100,22 +99,22 @@ class VehiculosTest extends TestCase
         $response = $this->getJson("/api/v1/vehiculos/{$vehiculo->id}");
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'vehiculo' => [
-                        'id',
-                        'patente',
-                        'marca',
-                        'modelo',
-                        'repartos'
-                    ],
-                    'estadisticas' => [
-                        'total_repartos',
-                        'repartos_entregados',
-                        'repartos_fallidos',
-                        'km_totales',
-                        'repartos_mes_actual'
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'vehiculo' => [
+                    'id',
+                    'patente',
+                    'marca',
+                    'modelo',
+                    'repartos',
+                ],
+                'estadisticas' => [
+                    'total_repartos',
+                    'repartos_entregados',
+                    'repartos_fallidos',
+                    'km_totales',
+                    'repartos_mes_actual',
+                ],
+            ]);
     }
 
     public function test_puede_actualizar_vehiculo()
@@ -129,18 +128,18 @@ class VehiculosTest extends TestCase
             'anio' => 2021,
             'capacidad_kg' => 1200,
             'capacidad_bultos' => 60,
-            'activo' => false
+            'activo' => false,
         ];
 
         $response = $this->putJson("/api/v1/vehiculos/{$vehiculo->id}", $updateData);
 
         $response->assertStatus(200)
-                ->assertJsonFragment(['patente' => 'XYZ789']);
+            ->assertJsonFragment(['patente' => 'XYZ789']);
 
         $this->assertDatabaseHas('vehiculos', [
             'id' => $vehiculo->id,
             'patente' => 'XYZ789',
-            'marca' => 'Mercedes'
+            'marca' => 'Mercedes',
         ]);
     }
 
@@ -153,7 +152,7 @@ class VehiculosTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('vehiculos', [
             'id' => $vehiculo->id,
-            'activo' => true
+            'activo' => true,
         ]);
     }
 
@@ -166,7 +165,7 @@ class VehiculosTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('vehiculos', [
             'id' => $vehiculo->id,
-            'activo' => false
+            'activo' => false,
         ]);
     }
 
@@ -175,22 +174,22 @@ class VehiculosTest extends TestCase
         $vehiculo = Vehiculo::factory()->create(['activo' => true]);
         $cliente = Cliente::factory()->create();
         $pedido = Pedido::factory()->create(['cliente_id' => $cliente->id]);
-        
+
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $response = $this->patchJson("/api/v1/vehiculos/{$vehiculo->id}/desactivar");
 
         $response->assertStatus(422)
-                ->assertJsonFragment(['message' => 'No se puede desactivar el vehículo porque tiene repartos activos']);
+            ->assertJsonFragment(['message' => 'No se puede desactivar el vehículo porque tiene repartos activos']);
 
         $this->assertDatabaseHas('vehiculos', [
             'id' => $vehiculo->id,
-            'activo' => true
+            'activo' => true,
         ]);
     }
 
@@ -199,12 +198,12 @@ class VehiculosTest extends TestCase
         $vehiculo = Vehiculo::factory()->create();
         $cliente = Cliente::factory()->create();
         $pedido = Pedido::factory()->create(['cliente_id' => $cliente->id]);
-        
+
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'en_ruta'
+            'estado' => 'en_ruta',
         ]);
 
         $response = $this->deleteJson("/api/v1/vehiculos/{$vehiculo->id}");
@@ -218,7 +217,7 @@ class VehiculosTest extends TestCase
         $vehiculo1 = Vehiculo::factory()->create(['activo' => true]);
         $vehiculo2 = Vehiculo::factory()->create(['activo' => true]);
         $vehiculo3 = Vehiculo::factory()->create(['activo' => false]); // Inactivo
-        
+
         // Vehiculo2 tiene reparto hoy
         $cliente = Cliente::factory()->create();
         $pedido = Pedido::factory()->create(['cliente_id' => $cliente->id]);
@@ -226,23 +225,23 @@ class VehiculosTest extends TestCase
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $vehiculo2->id,
             'fecha_programada' => today()->format('Y-m-d'),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $response = $this->getJson('/api/v1/vehiculos-disponibles');
 
         $response->assertStatus(200);
-        
+
         // Verificar que solo devuelve vehículos activos sin repartos
         $vehiculosDisponibles = $response->json('vehiculos');
-        
+
         // Debug: Ver qué vehículos están devolviendo
         $ids = collect($vehiculosDisponibles)->pluck('id')->toArray();
-        
+
         // Solo vehiculo1 debe estar disponible
-        $this->assertCount(1, $vehiculosDisponibles, 
-            'Se esperaba 1 vehículo disponible, pero se encontraron: ' . count($vehiculosDisponibles) . 
-            ' (IDs: ' . implode(', ', $ids) . '). Solo ID ' . $vehiculo1->id . ' debería estar disponible.');
+        $this->assertCount(1, $vehiculosDisponibles,
+            'Se esperaba 1 vehículo disponible, pero se encontraron: '.count($vehiculosDisponibles).
+            ' (IDs: '.implode(', ', $ids).'). Solo ID '.$vehiculo1->id.' debería estar disponible.');
         $this->assertEquals($vehiculo1->id, $vehiculosDisponibles[0]['id']);
     }
 
@@ -258,7 +257,7 @@ class VehiculosTest extends TestCase
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $vehiculoOcupado->id,
             'fecha_programada' => today(),
-            'estado' => 'en_ruta'
+            'estado' => 'en_ruta',
         ]);
 
         $disponibles = Vehiculo::disponibles(today())->get();
@@ -272,7 +271,7 @@ class VehiculosTest extends TestCase
         $vehiculo = Vehiculo::factory()->create([
             'marca' => 'Ford',
             'modelo' => 'Transit',
-            'patente' => 'ABC123'
+            'patente' => 'ABC123',
         ]);
 
         $this->assertEquals('Ford Transit (ABC123)', $vehiculo->nombre_completo);

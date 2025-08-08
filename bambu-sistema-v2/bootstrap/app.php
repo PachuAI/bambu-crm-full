@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Middleware\ApiLogging;
+use App\Http\Middleware\CorrelationId;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Http\Middleware\CorrelationId;
-use App\Http\Middleware\Idempotency;
-use App\Http\Middleware\ApiLogging;
-use App\Http\Middleware\SecurityHeaders;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -32,16 +31,16 @@ return Application::configure(basePath: dirname(__DIR__))
                 $message = 'Ha ocurrido un error interno';
                 $details = [];
                 $status = 500;
-                
+
                 if ($e instanceof ValidationException) {
                     // Para tests, mantener el formato original de Laravel
                     if (app()->environment('testing')) {
                         return response()->json([
                             'message' => $e->getMessage(),
-                            'errors' => $e->errors()
+                            'errors' => $e->errors(),
                         ], 422);
                     }
-                    
+
                     $code = 'VALIDATION_ERROR';
                     $message = 'Los datos proporcionados no son válidos';
                     $details = $e->errors();
@@ -49,7 +48,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 } elseif ($e instanceof HttpException) {
                     $status = $e->getStatusCode();
                     $message = $e->getMessage() ?: 'Error HTTP';
-                    
+
                     switch ($status) {
                         case 401:
                             $code = 'UNAUTHORIZED';
@@ -80,14 +79,14 @@ return Application::configure(basePath: dirname(__DIR__))
                     $message = 'No autenticado';
                     $status = 401;
                 }
-                
+
                 return response()->json([
                     'error' => [
                         'code' => $code,
                         'message' => $message,
                         'details' => $details,
-                        'requestId' => $request->header('X-Request-ID', 'unknown')
-                    ]
+                        'requestId' => $request->header('X-Request-ID', 'unknown'),
+                    ],
                 ], $status);
             }
         });

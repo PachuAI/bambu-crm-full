@@ -9,13 +9,13 @@ use App\Models\Producto;
 use App\Services\StockService;
 use App\Traits\HasStandardPagination;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
     use HasStandardPagination;
-    
+
     protected StockService $stockService;
 
     public function __construct(StockService $stockService)
@@ -29,41 +29,46 @@ class StockController extends Controller
     public function index(Request $request): JsonResponse
     {
         $query = Producto::select([
-            'id', 'nombre', 'sku', 'stock_actual', 'stock_minimo', 
-            'fabricar_siguiente', 'marca_producto', 'precio_base_l1'
+            'id', 'nombre', 'sku', 'stock_actual', 'stock_minimo',
+            'fabricar_siguiente', 'marca_producto', 'precio_base_l1',
         ]);
-        
+
         $paginator = $this->paginateQuery(
             $query,
             $request,
             ['nombre', 'sku', 'stock_actual', 'stock_minimo', 'created_at'],
             [
-                'stock_bajo' => function($query, $value) {
-                    if ($value) $query->stockBajo();
+                'stock_bajo' => function ($query, $value) {
+                    if ($value) {
+                        $query->stockBajo();
+                    }
                 },
-                'sin_stock' => function($query, $value) {
-                    if ($value) $query->where('stock_actual', 0);
+                'sin_stock' => function ($query, $value) {
+                    if ($value) {
+                        $query->where('stock_actual', 0);
+                    }
                 },
-                'marca' => 'marca_producto'
+                'marca' => 'marca_producto',
             ],
             20,
             50
         );
-        
+
         // Agregar estado de stock a cada producto
         $paginator->getCollection()->transform(function ($producto) {
             $producto->estado_stock = $producto->estado_stock;
+
             return $producto;
         });
-        
+
         return $this->paginatedResponse($paginator);
     }
 
     protected function applySearch(Builder $query, string $term): void
     {
-        $query->where(function($q) use ($term) {
+        $query->where(function ($q) use ($term) {
             $q->where('nombre', 'LIKE', "%{$term}%")
-              ->orWhere('sku', 'LIKE', "%{$term}%");
+                ->orWhere('sku', 'LIKE', "%{$term}%");
         });
     }
 
@@ -76,9 +81,9 @@ class StockController extends Controller
             $producto = Producto::findOrFail($request->producto_id);
             $stockAnterior = $producto->stock_actual;
             $nuevaCantidad = $request->nueva_cantidad;
-            
+
             $tipo = $nuevaCantidad > $stockAnterior ? 'ajuste_positivo' : 'ajuste_negativo';
-            
+
             $movimiento = $this->stockService->ajustarStock(
                 $producto,
                 $nuevaCantidad,
@@ -96,14 +101,14 @@ class StockController extends Controller
                     'nombre' => $producto->nombre,
                     'stock_anterior' => $stockAnterior,
                     'stock_actual' => $producto->fresh()->stock_actual,
-                    'estado_stock' => $producto->fresh()->estado_stock
-                ]
+                    'estado_stock' => $producto->fresh()->estado_stock,
+                ],
             ]);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error al ajustar stock',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
@@ -116,7 +121,7 @@ class StockController extends Controller
         try {
             $producto = Producto::findOrFail($request->producto_id);
             $stockAnterior = $producto->stock_actual;
-            
+
             $movimiento = $this->stockService->incrementarStock(
                 $producto,
                 $request->cantidad,
@@ -132,14 +137,14 @@ class StockController extends Controller
                     'nombre' => $producto->nombre,
                     'stock_anterior' => $stockAnterior,
                     'stock_actual' => $producto->fresh()->stock_actual,
-                    'estado_stock' => $producto->fresh()->estado_stock
-                ]
+                    'estado_stock' => $producto->fresh()->estado_stock,
+                ],
             ]);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error al ingresar stock',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
@@ -150,9 +155,9 @@ class StockController extends Controller
     public function historial(Producto $producto, Request $request): JsonResponse
     {
         $limite = $request->get('limite', 50);
-        
+
         $movimientos = $this->stockService->getHistorialProducto($producto, $limite);
-        
+
         return response()->json([
             'producto' => [
                 'id' => $producto->id,
@@ -160,9 +165,9 @@ class StockController extends Controller
                 'sku' => $producto->sku,
                 'stock_actual' => $producto->stock_actual,
                 'stock_minimo' => $producto->stock_minimo,
-                'estado_stock' => $producto->estado_stock
+                'estado_stock' => $producto->estado_stock,
             ],
-            'movimientos' => $movimientos
+            'movimientos' => $movimientos,
         ]);
     }
 
@@ -172,9 +177,9 @@ class StockController extends Controller
     public function alertas(): JsonResponse
     {
         $productosStockBajo = $this->stockService->getProductosStockBajo();
-        
+
         return response()->json([
-            'productos_stock_bajo' => $productosStockBajo->map(function($producto) {
+            'productos_stock_bajo' => $productosStockBajo->map(function ($producto) {
                 return [
                     'id' => $producto->id,
                     'nombre' => $producto->nombre,
@@ -186,7 +191,7 @@ class StockController extends Controller
                     'fabricar_siguiente' => $producto->fabricar_siguiente,
                 ];
             }),
-            'total' => $productosStockBajo->count()
+            'total' => $productosStockBajo->count(),
         ]);
     }
 
@@ -196,9 +201,9 @@ class StockController extends Controller
     public function paraFabricar(): JsonResponse
     {
         $productos = $this->stockService->getProductosParaFabricar();
-        
+
         return response()->json([
-            'productos_para_fabricar' => $productos->map(function($producto) {
+            'productos_para_fabricar' => $productos->map(function ($producto) {
                 return [
                     'id' => $producto->id,
                     'nombre' => $producto->nombre,
@@ -207,11 +212,11 @@ class StockController extends Controller
                     'stock_minimo' => $producto->stock_minimo,
                     'estado_stock' => $producto->estado_stock,
                     'fabricar_siguiente' => $producto->fabricar_siguiente,
-                    'prioridad' => $producto->stock_actual <= 0 ? 'alta' : 
+                    'prioridad' => $producto->stock_actual <= 0 ? 'alta' :
                                  ($producto->stock_actual <= $producto->stock_minimo ? 'media' : 'baja'),
                 ];
             }),
-            'total' => $productos->count()
+            'total' => $productos->count(),
         ]);
     }
 
@@ -221,18 +226,18 @@ class StockController extends Controller
     public function marcarFabricar(Producto $producto, Request $request): JsonResponse
     {
         $fabricar = $request->get('fabricar', true);
-        
+
         $this->stockService->marcarParaFabricar($producto, $fabricar);
-        
+
         return response()->json([
-            'message' => $fabricar ? 
-                'Producto marcado para fabricar en próximo lote' : 
+            'message' => $fabricar ?
+                'Producto marcado para fabricar en próximo lote' :
                 'Producto desmarcado de fabricación',
             'producto' => [
                 'id' => $producto->id,
                 'nombre' => $producto->nombre,
-                'fabricar_siguiente' => $producto->fresh()->fabricar_siguiente
-            ]
+                'fabricar_siguiente' => $producto->fresh()->fabricar_siguiente,
+            ],
         ]);
     }
 }

@@ -35,7 +35,7 @@ class NivelDescuento extends Model
 
     public function calcularDescuento($monto)
     {
-        if (!$this->activo) {
+        if (! $this->activo) {
             return 0;
         }
 

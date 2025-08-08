@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('stock_nuevo');
             $table->text('motivo')->nullable(); // Razón del movimiento
             $table->timestamps();
-            
+
             $table->index(['producto_id', 'tipo']);
             $table->index('pedido_id');
         });

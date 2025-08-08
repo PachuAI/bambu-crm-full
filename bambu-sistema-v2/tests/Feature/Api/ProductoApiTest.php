@@ -24,29 +24,29 @@ class ProductoApiTest extends TestCase
         $response = $this->getJson('/api/v1/productos');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'success',
+            ->assertJsonStructure([
+                'success',
+                'data' => [
+                    'current_page',
                     'data' => [
-                        'current_page',
-                        'data' => [
-                            '*' => [
-                                'id',
-                                'nombre',
-                                'sku',
-                                'precio_base_l1',
-                                'stock_actual',
-                                'es_combo',
-                                'marca_producto',
-                                'descripcion',
-                                'peso_kg',
-                                'created_at',
-                                'updated_at',
-                            ]
+                        '*' => [
+                            'id',
+                            'nombre',
+                            'sku',
+                            'precio_base_l1',
+                            'stock_actual',
+                            'es_combo',
+                            'marca_producto',
+                            'descripcion',
+                            'peso_kg',
+                            'created_at',
+                            'updated_at',
                         ],
-                        'total',
-                        'per_page'
-                    ]
-                ]);
+                    ],
+                    'total',
+                    'per_page',
+                ],
+            ]);
 
         $this->assertTrue($response->json('success'));
         $this->assertGreaterThan(0, $response->json('data.total'));
@@ -59,16 +59,16 @@ class ProductoApiTest extends TestCase
         $response = $this->getJson("/api/v1/productos/{$producto->id}");
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'success',
-                    'data' => [
-                        'id',
-                        'nombre',
-                        'sku',
-                        'precio_base_l1',
-                        'stock_actual',
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'success',
+                'data' => [
+                    'id',
+                    'nombre',
+                    'sku',
+                    'precio_base_l1',
+                    'stock_actual',
+                ],
+            ]);
 
         $this->assertTrue($response->json('success'));
         $this->assertEquals($producto->id, $response->json('data.id'));
@@ -79,10 +79,10 @@ class ProductoApiTest extends TestCase
         $response = $this->getJson('/api/v1/productos/99999');
 
         $response->assertStatus(404)
-                ->assertJson([
-                    'success' => false,
-                    'message' => 'Producto no encontrado'
-                ]);
+            ->assertJson([
+                'success' => false,
+                'message' => 'Producto no encontrado',
+            ]);
     }
 
     public function test_puede_buscar_productos_por_termino(): void
@@ -90,20 +90,20 @@ class ProductoApiTest extends TestCase
         $response = $this->getJson('/api/v1/productos/buscar/BAMBU');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'success',
-                    'data' => [
-                        '*' => [
-                            'id',
-                            'nombre',
-                            'sku',
-                            'precio_base_l1',
-                        ]
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'success',
+                'data' => [
+                    '*' => [
+                        'id',
+                        'nombre',
+                        'sku',
+                        'precio_base_l1',
+                    ],
+                ],
+            ]);
 
         $this->assertTrue($response->json('success'));
-        
+
         // Verificar que todos los resultados contienen 'BAMBU'
         $productos = $response->json('data');
         foreach ($productos as $producto) {
@@ -204,16 +204,16 @@ class ProductoApiTest extends TestCase
         $response = $this->postJson('/api/v1/productos', $productData);
 
         $response->assertStatus(201)
-                ->assertJsonStructure([
-                    'success',
-                    'message',
-                    'data' => [
-                        'id',
-                        'nombre',
-                        'sku',
-                        'precio_base_l1',
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'success',
+                'message',
+                'data' => [
+                    'id',
+                    'nombre',
+                    'sku',
+                    'precio_base_l1',
+                ],
+            ]);
 
         $this->assertTrue($response->json('success'));
         $this->assertEquals('Producto creado exitosamente', $response->json('message'));
@@ -233,7 +233,7 @@ class ProductoApiTest extends TestCase
         $response = $this->postJson('/api/v1/productos', []);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['nombre', 'sku', 'precio_base_l1']);
+            ->assertJsonValidationErrors(['nombre', 'sku', 'precio_base_l1']);
     }
 
     public function test_valida_sku_unico_al_crear(): void
@@ -252,7 +252,7 @@ class ProductoApiTest extends TestCase
         $response = $this->postJson('/api/v1/productos', $productData);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['sku']);
+            ->assertJsonValidationErrors(['sku']);
     }
 
     public function test_puede_actualizar_producto_autenticado(): void
@@ -272,10 +272,10 @@ class ProductoApiTest extends TestCase
         $response = $this->putJson("/api/v1/productos/{$producto->id}", $updateData);
 
         $response->assertStatus(200)
-                ->assertJson([
-                    'success' => true,
-                    'message' => 'Producto actualizado exitosamente'
-                ]);
+            ->assertJson([
+                'success' => true,
+                'message' => 'Producto actualizado exitosamente',
+            ]);
 
         $this->assertDatabaseHas('productos', [
             'id' => $producto->id,
@@ -299,10 +299,10 @@ class ProductoApiTest extends TestCase
         $response = $this->deleteJson("/api/v1/productos/{$producto->id}");
 
         $response->assertStatus(200)
-                ->assertJson([
-                    'success' => true,
-                    'message' => 'Producto eliminado exitosamente'
-                ]);
+            ->assertJson([
+                'success' => true,
+                'message' => 'Producto eliminado exitosamente',
+            ]);
 
         // Verificar soft delete
         $this->assertSoftDeleted('productos', ['id' => $producto->id]);
@@ -313,7 +313,7 @@ class ProductoApiTest extends TestCase
         $response = $this->getJson('/api/v1/productos?per_page=5');
 
         $response->assertStatus(200);
-        
+
         $data = $response->json('data');
         $this->assertArrayHasKey('current_page', $data);
         $this->assertArrayHasKey('per_page', $data);

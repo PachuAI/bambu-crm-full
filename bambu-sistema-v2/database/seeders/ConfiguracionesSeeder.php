@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -47,7 +46,7 @@ class ConfiguracionesSeeder extends Seeder
                 'categoria' => 'descuentos',
                 'es_publico' => true,
             ],
-            
+
             // COTIZACIONES
             [
                 'clave' => 'vigencia_cotizacion_dias',
@@ -65,7 +64,7 @@ class ConfiguracionesSeeder extends Seeder
                 'categoria' => 'cotizaciones',
                 'es_publico' => false,
             ],
-            
+
             // LOGÍSTICA
             [
                 'clave' => 'peso_maximo_bulto_kg',
@@ -83,7 +82,7 @@ class ConfiguracionesSeeder extends Seeder
                 'categoria' => 'logistica',
                 'es_publico' => true,
             ],
-            
+
             // SISTEMA
             [
                 'clave' => 'empresa_nombre',

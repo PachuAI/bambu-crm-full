@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Vehiculo extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'vehiculos';
 
     protected $fillable = [
@@ -45,12 +45,12 @@ class Vehiculo extends Model
         return $query->activos()
             ->whereDoesntHave('repartos', function ($query) use ($fecha) {
                 $query->whereDate('fecha_programada', $fecha)
-                      ->whereIn('estado', ['programado', 'en_ruta']);
+                    ->whereIn('estado', ['programado', 'en_ruta']);
             });
     }
 
     public function getNombreCompletoAttribute()
     {
-        return $this->marca . ' ' . $this->modelo . ' (' . $this->patente . ')';
+        return $this->marca.' '.$this->modelo.' ('.$this->patente.')';
     }
 }

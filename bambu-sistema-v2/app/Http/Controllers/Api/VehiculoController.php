@@ -4,22 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vehiculo;
-use App\Models\Reparto;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class VehiculoController extends Controller
 {
     public function index(): JsonResponse
     {
-        $vehiculos = Vehiculo::with(['repartos' => function($query) {
+        $vehiculos = Vehiculo::with(['repartos' => function ($query) {
             $query->where('fecha_programada', today())
-                  ->where('estado', '!=', 'entregado');
+                ->where('estado', '!=', 'entregado');
         }])->get();
 
         return response()->json([
-            'vehiculos' => $vehiculos->map(function($vehiculo) {
+            'vehiculos' => $vehiculos->map(function ($vehiculo) {
                 return [
                     'id' => $vehiculo->id,
                     'patente' => $vehiculo->patente,
@@ -36,7 +35,7 @@ class VehiculoController extends Controller
                     'created_at' => $vehiculo->created_at,
                     'updated_at' => $vehiculo->updated_at,
                 ];
-            })
+            }),
         ]);
     }
 
@@ -46,7 +45,7 @@ class VehiculoController extends Controller
             'patente' => 'required|string|max:10|unique:vehiculos,patente',
             'marca' => 'required|string|max:50',
             'modelo' => 'required|string|max:50',
-            'anio' => 'nullable|integer|min:1900|max:' . (date('Y') + 1),
+            'anio' => 'nullable|integer|min:1900|max:'.(date('Y') + 1),
             'capacidad_kg' => 'required|numeric|min:0',
             'capacidad_bultos' => 'required|numeric|min:0',
             'activo' => 'boolean',
@@ -57,7 +56,7 @@ class VehiculoController extends Controller
 
         return response()->json([
             'message' => 'Vehículo creado exitosamente',
-            'vehiculo' => $vehiculo
+            'vehiculo' => $vehiculo,
         ], 201);
     }
 
@@ -78,7 +77,7 @@ class VehiculoController extends Controller
 
         return response()->json([
             'vehiculo' => $vehiculo,
-            'estadisticas' => $estadisticas
+            'estadisticas' => $estadisticas,
         ]);
     }
 
@@ -89,11 +88,11 @@ class VehiculoController extends Controller
                 'required',
                 'string',
                 'max:10',
-                Rule::unique('vehiculos')->ignore($vehiculo->id)
+                Rule::unique('vehiculos')->ignore($vehiculo->id),
             ],
             'marca' => 'required|string|max:50',
             'modelo' => 'required|string|max:50',
-            'anio' => 'nullable|integer|min:1900|max:' . (date('Y') + 1),
+            'anio' => 'nullable|integer|min:1900|max:'.(date('Y') + 1),
             'capacidad_kg' => 'required|numeric|min:0',
             'capacidad_bultos' => 'required|numeric|min:0',
             'activo' => 'boolean',
@@ -104,7 +103,7 @@ class VehiculoController extends Controller
 
         return response()->json([
             'message' => 'Vehículo actualizado exitosamente',
-            'vehiculo' => $vehiculo
+            'vehiculo' => $vehiculo,
         ]);
     }
 
@@ -112,26 +111,26 @@ class VehiculoController extends Controller
     {
         if ($vehiculo->repartos()->where('estado', '!=', 'entregado')->exists()) {
             return response()->json([
-                'message' => 'No se puede eliminar el vehículo porque tiene repartos activos'
+                'message' => 'No se puede eliminar el vehículo porque tiene repartos activos',
             ], 422);
         }
 
         $vehiculo->delete();
 
         return response()->json([
-            'message' => 'Vehículo eliminado exitosamente'
+            'message' => 'Vehículo eliminado exitosamente',
         ]);
     }
 
     public function disponibles(Request $request): JsonResponse
     {
         $fecha = $request->input('fecha', today()->format('Y-m-d'));
-        
+
         $vehiculos = Vehiculo::disponibles($fecha)->get();
 
         return response()->json([
             'vehiculos' => $vehiculos,
-            'fecha' => $fecha
+            'fecha' => $fecha,
         ]);
     }
 
@@ -141,7 +140,7 @@ class VehiculoController extends Controller
 
         return response()->json([
             'message' => 'Vehículo activado exitosamente',
-            'vehiculo' => $vehiculo
+            'vehiculo' => $vehiculo,
         ]);
     }
 
@@ -149,7 +148,7 @@ class VehiculoController extends Controller
     {
         if ($vehiculo->repartos()->whereIn('estado', ['programado', 'en_ruta'])->exists()) {
             return response()->json([
-                'message' => 'No se puede desactivar el vehículo porque tiene repartos activos'
+                'message' => 'No se puede desactivar el vehículo porque tiene repartos activos',
             ], 422);
         }
 
@@ -157,13 +156,13 @@ class VehiculoController extends Controller
 
         return response()->json([
             'message' => 'Vehículo desactivado exitosamente',
-            'vehiculo' => $vehiculo
+            'vehiculo' => $vehiculo,
         ]);
     }
 
     private function determinarEstadoHoy(Vehiculo $vehiculo): string
     {
-        if (!$vehiculo->activo) {
+        if (! $vehiculo->activo) {
             return 'inactivo';
         }
 
@@ -171,11 +170,11 @@ class VehiculoController extends Controller
             ->where('fecha_programada', today())
             ->first();
 
-        if (!$repartoHoy) {
+        if (! $repartoHoy) {
             return 'disponible';
         }
 
-        return match($repartoHoy->estado) {
+        return match ($repartoHoy->estado) {
             'programado' => 'programado',
             'en_ruta' => 'en_ruta',
             'entregado' => 'libre',

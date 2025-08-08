@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Reparto;
 use App\Models\Pedido;
+use App\Models\Reparto;
 use App\Models\Vehiculo;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RepartoFactory extends Factory
 {
@@ -74,7 +74,7 @@ class RepartoFactory extends Factory
                 'Dirección incorrecta',
                 'Cliente rechazó la entrega',
                 'Problemas de acceso al domicilio',
-                'Horario no conveniente para el cliente'
+                'Horario no conveniente para el cliente',
             ]),
             'km_recorridos' => $this->faker->randomFloat(2, 5, 25),
         ]);

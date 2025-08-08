@@ -3,14 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClienteResource\Pages;
-use App\Filament\Resources\ClienteResource\RelationManagers;
 use App\Models\Cliente;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -19,9 +18,9 @@ class ClienteResource extends Resource
     protected static ?string $model = Cliente::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    
+
     protected static ?string $navigationGroup = 'Ventas';
-    
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -34,7 +33,7 @@ class ClienteResource extends Resource
                             ->required()
                             ->maxLength(100)
                             ->columnSpan(2),
-                            
+
                         Forms\Components\TextInput::make('telefono')
                             ->label('Teléfono')
                             ->tel()
@@ -42,13 +41,13 @@ class ClienteResource extends Resource
                             ->maxLength(20),
                     ])
                     ->columns(3),
-                    
+
                 Forms\Components\Section::make('Contacto')
                     ->schema([
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->maxLength(150),
-                            
+
                         Forms\Components\Textarea::make('direccion')
                             ->label('Dirección')
                             ->required()
@@ -56,7 +55,7 @@ class ClienteResource extends Resource
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
-                    
+
                 Forms\Components\Section::make('Ubicación')
                     ->schema([
                         Forms\Components\Select::make('ciudad_id')
@@ -78,34 +77,35 @@ class ClienteResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->limit(30),
-                    
+
                 Tables\Columns\TextColumn::make('telefono')
                     ->label('Teléfono')
                     ->searchable()
                     ->copyable(),
-                    
+
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->copyable()
                     ->toggleable(),
-                    
+
                 Tables\Columns\TextColumn::make('ciudad.nombre')
                     ->label('Ciudad')
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('direccion')
                     ->label('Dirección')
                     ->limit(40)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) <= 40 ? null : $state;
                     }),
-                    
+
                 Tables\Columns\TextColumn::make('pedidos_count')
                     ->label('Pedidos')
                     ->counts('pedidos')
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado')
                     ->dateTime()
@@ -117,7 +117,7 @@ class ClienteResource extends Resource
                     ->relationship('ciudad', 'nombre')
                     ->searchable()
                     ->preload(),
-                    
+
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('peso_kg', 8, 3)->nullable(); // Para cálculo de bultos
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index(['marca_producto', 'es_combo']);
             $table->index('stock_actual');
         });

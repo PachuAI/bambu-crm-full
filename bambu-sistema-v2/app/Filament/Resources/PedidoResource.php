@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PedidoResource\Pages;
-use App\Filament\Resources\PedidoResource\RelationManagers;
 use App\Models\Pedido;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,11 +17,11 @@ class PedidoResource extends Resource
     protected static ?string $model = Pedido::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
-    
+
     protected static ?string $navigationGroup = 'Ventas';
-    
+
     protected static ?int $navigationSort = 2;
-    
+
     protected static ?string $recordTitleAttribute = 'id';
 
     public static function form(Form $form): Form
@@ -38,7 +37,7 @@ class PedidoResource extends Resource
                             ->preload()
                             ->required()
                             ->columnSpan(2),
-                            
+
                         Forms\Components\Select::make('estado')
                             ->options([
                                 'borrador' => 'Borrador',
@@ -52,7 +51,7 @@ class PedidoResource extends Resource
                             ->native(false),
                     ])
                     ->columns(3),
-                    
+
                 Forms\Components\Section::make('Descuentos y Montos')
                     ->schema([
                         Forms\Components\Select::make('nivel_descuento_id')
@@ -60,14 +59,14 @@ class PedidoResource extends Resource
                             ->relationship('nivelDescuento', 'nombre')
                             ->searchable()
                             ->preload(),
-                            
+
                         Forms\Components\TextInput::make('monto_bruto')
                             ->label('Monto Bruto')
                             ->numeric()
                             ->prefix('$')
                             ->step(0.01)
                             ->required(),
-                            
+
                         Forms\Components\TextInput::make('monto_final')
                             ->label('Monto Final')
                             ->numeric()
@@ -76,7 +75,7 @@ class PedidoResource extends Resource
                             ->required(),
                     ])
                     ->columns(3),
-                    
+
                 Forms\Components\Section::make('Logística')
                     ->schema([
                         Forms\Components\DatePicker::make('fecha_reparto')
@@ -96,13 +95,13 @@ class PedidoResource extends Resource
                     ->label('ID')
                     ->sortable()
                     ->searchable(),
-                    
+
                 Tables\Columns\TextColumn::make('cliente.nombre')
                     ->label('Cliente')
                     ->searchable()
                     ->sortable()
                     ->limit(30),
-                    
+
                 Tables\Columns\TextColumn::make('estado')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -119,39 +118,39 @@ class PedidoResource extends Resource
                         'entregado' => 'Entregado',
                         'cancelado' => 'Cancelado',
                     }),
-                    
+
                 Tables\Columns\TextColumn::make('monto_bruto')
                     ->label('Monto Bruto')
                     ->money('ARS')
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('monto_final')
                     ->label('Monto Final')
                     ->money('ARS')
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('descuento_aplicado')
                     ->label('Descuento')
                     ->money('ARS')
                     ->getStateUsing(fn (Pedido $record): float => $record->descuento_aplicado)
                     ->color('success'),
-                    
+
                 Tables\Columns\TextColumn::make('items_count')
                     ->label('Items')
                     ->counts('items')
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('peso_total')
                     ->label('Peso Total')
-                    ->getStateUsing(fn (Pedido $record): string => number_format($record->peso_total, 2) . ' kg')
+                    ->getStateUsing(fn (Pedido $record): string => number_format($record->peso_total, 2).' kg')
                     ->toggleable(),
-                    
+
                 Tables\Columns\TextColumn::make('fecha_reparto')
                     ->label('Fecha Reparto')
                     ->date('d/m/Y')
                     ->sortable()
                     ->toggleable(),
-                    
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado')
                     ->dateTime('d/m/Y H:i')
@@ -167,12 +166,12 @@ class PedidoResource extends Resource
                         'entregado' => 'Entregado',
                         'cancelado' => 'Cancelado',
                     ]),
-                    
+
                 Tables\Filters\SelectFilter::make('cliente')
                     ->relationship('cliente', 'nombre')
                     ->searchable()
                     ->preload(),
-                    
+
                 Tables\Filters\Filter::make('fecha_reparto')
                     ->form([
                         Forms\Components\DatePicker::make('desde')
@@ -191,7 +190,7 @@ class PedidoResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('fecha_reparto', '<=', $date),
                             );
                     }),
-                    
+
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
@@ -226,7 +225,7 @@ class PedidoResource extends Resource
             'edit' => Pages\EditPedido::route('/{record}/edit'),
         ];
     }
-    
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

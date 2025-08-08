@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('categoria', 50)->default('general'); // general, descuentos, cotizaciones, sistema
             $table->boolean('es_publico')->default(false); // Si puede ser leído por API pública
             $table->timestamps();
-            
+
             $table->index(['categoria', 'es_publico']);
             $table->index('clave');
         });

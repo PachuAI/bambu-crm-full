@@ -3,26 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ConfiguracionResource\Pages;
-use App\Filament\Resources\ConfiguracionResource\RelationManagers;
 use App\Models\Configuracion;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ConfiguracionResource extends Resource
 {
     protected static ?string $model = Configuracion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-    
+
     protected static ?string $navigationGroup = 'Administración';
-    
+
     protected static ?int $navigationSort = 1;
-    
+
     protected static ?string $recordTitleAttribute = 'clave';
 
     public static function form(Form $form): Form
@@ -36,7 +33,7 @@ class ConfiguracionResource extends Resource
                             ->unique(Configuracion::class, 'clave', ignoreRecord: true)
                             ->maxLength(100)
                             ->columnSpan(2),
-                            
+
                         Forms\Components\Select::make('categoria')
                             ->options([
                                 'general' => 'General',
@@ -51,7 +48,7 @@ class ConfiguracionResource extends Resource
                             ->native(false),
                     ])
                     ->columns(3),
-                    
+
                 Forms\Components\Section::make('Valor y Tipo')
                     ->schema([
                         Forms\Components\Select::make('tipo')
@@ -65,7 +62,7 @@ class ConfiguracionResource extends Resource
                             ->required()
                             ->native(false)
                             ->reactive(),
-                            
+
                         Forms\Components\TextInput::make('valor')
                             ->required()
                             ->maxLength(500)
@@ -78,14 +75,14 @@ class ConfiguracionResource extends Resource
                             }),
                     ])
                     ->columns(3),
-                    
+
                 Forms\Components\Section::make('Configuración Adicional')
                     ->schema([
                         Forms\Components\Toggle::make('es_publico')
                             ->label('Es Público')
                             ->helperText('Las configuraciones públicas son accesibles sin autenticación')
                             ->default(false),
-                            
+
                         Forms\Components\Textarea::make('descripcion')
                             ->label('Descripción')
                             ->maxLength(255)
@@ -105,7 +102,7 @@ class ConfiguracionResource extends Resource
                     ->sortable()
                     ->copyable()
                     ->weight('bold'),
-                    
+
                 Tables\Columns\TextColumn::make('categoria')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -118,7 +115,7 @@ class ConfiguracionResource extends Resource
                         default => 'gray',
                     })
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('tipo')
                     ->badge()
                     ->color('secondary')
@@ -129,15 +126,16 @@ class ConfiguracionResource extends Resource
                         'json' => 'JSON',
                         default => $state
                     }),
-                    
+
                 Tables\Columns\TextColumn::make('valor')
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) <= 50 ? null : $state;
                     })
                     ->copyable(),
-                    
+
                 Tables\Columns\TextColumn::make('valor_parsed')
                     ->label('Valor Procesado')
                     ->getStateUsing(function (Configuracion $record) {
@@ -146,26 +144,28 @@ class ConfiguracionResource extends Resource
                             return $valor ? 'Verdadero' : 'Falso';
                         }
                         if (is_array($valor)) {
-                            return 'Array (' . count($valor) . ' elementos)';
+                            return 'Array ('.count($valor).' elementos)';
                         }
+
                         return is_string($valor) ? $valor : json_encode($valor);
                     })
                     ->limit(30)
                     ->toggleable(),
-                    
+
                 Tables\Columns\IconColumn::make('es_publico')
                     ->label('Público')
                     ->boolean()
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('descripcion')
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) <= 50 ? null : $state;
                     })
                     ->toggleable(),
-                    
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Actualizado')
                     ->dateTime('d/m/Y H:i')
@@ -182,7 +182,7 @@ class ConfiguracionResource extends Resource
                         'logistica' => 'Logística',
                         'integraciones' => 'Integraciones',
                     ]),
-                    
+
                 Tables\Filters\SelectFilter::make('tipo')
                     ->options([
                         'string' => 'Texto',
@@ -190,7 +190,7 @@ class ConfiguracionResource extends Resource
                         'boolean' => 'Booleano',
                         'json' => 'JSON',
                     ]),
-                    
+
                 Tables\Filters\TernaryFilter::make('es_publico')
                     ->label('Es Público')
                     ->boolean()

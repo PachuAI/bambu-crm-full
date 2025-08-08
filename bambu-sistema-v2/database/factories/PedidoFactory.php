@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Pedido;
 use App\Models\Cliente;
+use App\Models\Pedido;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PedidoFactory extends Factory
 {
@@ -15,7 +15,7 @@ class PedidoFactory extends Factory
         $estados = ['borrador', 'confirmado', 'listo_envio', 'en_transito', 'entregado', 'fallido', 'cancelado'];
         $montoBruto = $this->faker->randomFloat(2, 1000, 50000);
         $descuento = $this->faker->randomFloat(2, 0, $montoBruto * 0.2); // Hasta 20% descuento
-        
+
         return [
             'cliente_id' => Cliente::factory(),
             'nivel_descuento_id' => null,

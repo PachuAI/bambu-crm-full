@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('pedido_id')->nullable()->constrained('pedidos');
             $table->string('lote_produccion')->nullable();
             $table->timestamps();
-            
+
             // Índices para consultas frecuentes
             $table->index(['producto_id', 'created_at']);
             $table->index(['tipo', 'created_at']);

@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -13,14 +13,14 @@ return new class extends Migration
     public function up(): void
     {
         $driver = DB::connection()->getDriverName();
-        
+
         if ($driver === 'pgsql') {
             // Para PostgreSQL necesitamos usar SQL raw para modificar enums
-            DB::statement("
+            DB::statement('
                 ALTER TABLE pedidos 
                 DROP CONSTRAINT IF EXISTS pedidos_estado_check
-            ");
-            
+            ');
+
             DB::statement("
                 ALTER TABLE pedidos 
                 ADD CONSTRAINT pedidos_estado_check 
@@ -41,13 +41,13 @@ return new class extends Migration
     public function down(): void
     {
         $driver = DB::connection()->getDriverName();
-        
+
         if ($driver === 'pgsql') {
-            DB::statement("
+            DB::statement('
                 ALTER TABLE pedidos 
                 DROP CONSTRAINT IF EXISTS pedidos_estado_check
-            ");
-            
+            ');
+
             DB::statement("
                 ALTER TABLE pedidos 
                 ADD CONSTRAINT pedidos_estado_check 

@@ -18,12 +18,12 @@ class SecurityHeaders
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('X-Permitted-Cross-Domain-Policies', 'none');
-        
+
         // CSP básico para APIs (solo para endpoints que retornen HTML si los hay)
         if ($request->is('api/*')) {
             $response->headers->set('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none';");
         }
-        
+
         // Strict Transport Security (solo en producción con HTTPS)
         if (app()->environment('production') && $request->secure()) {
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');

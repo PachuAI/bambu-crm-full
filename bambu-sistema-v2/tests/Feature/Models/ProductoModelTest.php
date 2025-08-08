@@ -3,8 +3,6 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Producto;
-use App\Models\PedidoItem;
-use App\Models\MovimientoStock;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -39,14 +37,14 @@ class ProductoModelTest extends TestCase
         ]);
 
         $this->assertEquals('Test Producto', $producto->nombre);
-        $this->assertEquals(1000.50, (float)$producto->precio_base_l1);
+        $this->assertEquals(1000.50, (float) $producto->precio_base_l1);
         $this->assertFalse($producto->es_combo);
     }
 
     public function test_producto_requiere_campos_obligatorios(): void
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Producto::create([
             // Falta nombre, sku, precio_base_l1
             'stock_actual' => 10,
@@ -63,7 +61,7 @@ class ProductoModelTest extends TestCase
         ]);
 
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Producto::create([
             'nombre' => 'Producto 2',
             'sku' => 'UNIQUE-001', // SKU duplicado
@@ -195,13 +193,13 @@ class ProductoModelTest extends TestCase
 
         // Soft delete
         $producto->delete();
-        
+
         // No debe aparecer en consultas normales
         $this->assertCount(0, Producto::where('id', $productoId)->get());
-        
+
         // Debe aparecer con withTrashed
         $this->assertCount(1, Producto::withTrashed()->where('id', $productoId)->get());
-        
+
         // Debe estar marcado como eliminado
         $productoEliminado = Producto::withTrashed()->find($productoId);
         $this->assertNotNull($productoEliminado->deleted_at);
@@ -224,7 +222,7 @@ class ProductoModelTest extends TestCase
 
         // Debe aparecer en consultas normales después del restore
         $this->assertCount(1, Producto::where('id', $productoId)->get());
-        
+
         $productoRestaurado = Producto::find($productoId);
         $this->assertNull($productoRestaurado->deleted_at);
     }

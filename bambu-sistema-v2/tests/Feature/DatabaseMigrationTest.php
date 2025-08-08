@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class DatabaseMigrationTest extends TestCase
@@ -32,7 +31,7 @@ class DatabaseMigrationTest extends TestCase
             'vehiculos',
             'repartos',
             'system_logs',
-            'configuraciones'
+            'configuraciones',
         ];
     }
 
@@ -49,13 +48,13 @@ class DatabaseMigrationTest extends TestCase
     public function test_productos_table_structure(): void
     {
         $this->assertTrue(Schema::hasTable('productos'));
-        
+
         $columns = [
             'id', 'nombre', 'sku', 'precio_base_l1', 'stock_actual',
             'es_combo', 'marca_producto', 'descripcion', 'peso_kg',
-            'created_at', 'updated_at', 'deleted_at'
+            'created_at', 'updated_at', 'deleted_at',
         ];
-        
+
         foreach ($columns as $column) {
             $this->assertTrue(
                 Schema::hasColumn('productos', $column),
@@ -67,12 +66,12 @@ class DatabaseMigrationTest extends TestCase
     public function test_clientes_table_structure(): void
     {
         $this->assertTrue(Schema::hasTable('clientes'));
-        
+
         $columns = [
             'id', 'nombre', 'direccion', 'telefono', 'email', 'ciudad_id',
-            'created_at', 'updated_at', 'deleted_at'
+            'created_at', 'updated_at', 'deleted_at',
         ];
-        
+
         foreach ($columns as $column) {
             $this->assertTrue(
                 Schema::hasColumn('clientes', $column),
@@ -84,13 +83,13 @@ class DatabaseMigrationTest extends TestCase
     public function test_pedidos_table_structure(): void
     {
         $this->assertTrue(Schema::hasTable('pedidos'));
-        
+
         $columns = [
             'id', 'cliente_id', 'nivel_descuento_id', 'monto_bruto',
             'monto_final', 'estado', 'fecha_reparto',
-            'created_at', 'updated_at', 'deleted_at'
+            'created_at', 'updated_at', 'deleted_at',
         ];
-        
+
         foreach ($columns as $column) {
             $this->assertTrue(
                 Schema::hasColumn('pedidos', $column),
@@ -102,12 +101,12 @@ class DatabaseMigrationTest extends TestCase
     public function test_pedido_items_table_structure(): void
     {
         $this->assertTrue(Schema::hasTable('pedido_items'));
-        
+
         $columns = [
             'id', 'pedido_id', 'producto_id', 'cantidad', 'precio_unit_l1',
-            'subtotal', 'created_at', 'updated_at'
+            'subtotal', 'created_at', 'updated_at',
         ];
-        
+
         foreach ($columns as $column) {
             $this->assertTrue(
                 Schema::hasColumn('pedido_items', $column),
@@ -119,13 +118,13 @@ class DatabaseMigrationTest extends TestCase
     public function test_system_logs_table_structure(): void
     {
         $this->assertTrue(Schema::hasTable('system_logs'));
-        
+
         $columns = [
             'id', 'user_id', 'accion', 'modelo', 'modelo_id', 'datos_anteriores',
             'datos_nuevos', 'ip_address', 'user_agent',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at',
         ];
-        
+
         foreach ($columns as $column) {
             $this->assertTrue(
                 Schema::hasColumn('system_logs', $column),
@@ -137,12 +136,12 @@ class DatabaseMigrationTest extends TestCase
     public function test_configuraciones_table_structure(): void
     {
         $this->assertTrue(Schema::hasTable('configuraciones'));
-        
+
         $columns = [
             'id', 'clave', 'valor', 'tipo', 'descripcion', 'categoria',
-            'es_publico', 'created_at', 'updated_at'
+            'es_publico', 'created_at', 'updated_at',
         ];
-        
+
         foreach ($columns as $column) {
             $this->assertTrue(
                 Schema::hasColumn('configuraciones', $column),

@@ -20,7 +20,7 @@ class SoftDeletesTest extends TestCase
             'stock_actual' => 10,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Verificar que existe
@@ -58,14 +58,14 @@ class SoftDeletesTest extends TestCase
             'nombre' => 'Buenos Aires',
             'codigo' => 'BA',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'La Plata',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Crear cliente
@@ -76,7 +76,7 @@ class SoftDeletesTest extends TestCase
             'email' => 'cliente@test.com',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Crear pedido para el cliente
@@ -86,7 +86,7 @@ class SoftDeletesTest extends TestCase
             'monto_final' => 450.00,
             'estado' => 'confirmado',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Soft delete del cliente
@@ -121,14 +121,14 @@ class SoftDeletesTest extends TestCase
             'nombre' => 'Córdoba',
             'codigo' => 'CB',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'Córdoba Capital',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $cliente = DB::table('clientes')->insertGetId([
@@ -137,7 +137,7 @@ class SoftDeletesTest extends TestCase
             'telefono' => '987654321',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->insertGetId([
@@ -147,7 +147,7 @@ class SoftDeletesTest extends TestCase
             'stock_actual' => 20,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Crear pedido
@@ -157,7 +157,7 @@ class SoftDeletesTest extends TestCase
             'monto_final' => 540.00,
             'estado' => 'confirmado',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Crear item del pedido
@@ -168,7 +168,7 @@ class SoftDeletesTest extends TestCase
             'precio_unit_l1' => 200.00,
             'subtotal' => 600.00,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Soft delete del pedido
@@ -207,7 +207,7 @@ class SoftDeletesTest extends TestCase
             'es_combo' => false,
             'marca_producto' => 'BAMBU',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Log del sistema antes de eliminar
@@ -219,13 +219,13 @@ class SoftDeletesTest extends TestCase
             'datos_nuevos' => json_encode([
                 'nombre' => 'Producto Auditoría',
                 'sku' => 'AUDIT-001',
-                'precio_base_l1' => 150.00
+                'precio_base_l1' => 150.00,
             ]),
             'user_id' => null,
             'ip_address' => '127.0.0.1',
             'user_agent' => 'Test',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Soft delete
@@ -240,16 +240,16 @@ class SoftDeletesTest extends TestCase
             'modelo_id' => $productoId,
             'accion' => 'SOFT_DELETE',
             'datos_anteriores' => json_encode([
-                'deleted_at' => null
+                'deleted_at' => null,
             ]),
             'datos_nuevos' => json_encode([
-                'deleted_at' => $fechaEliminacion->toISOString()
+                'deleted_at' => $fechaEliminacion->toISOString(),
             ]),
             'user_id' => null,
             'ip_address' => '127.0.0.1',
             'user_agent' => 'Test',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Verificar historial completo del producto
@@ -277,13 +277,13 @@ class SoftDeletesTest extends TestCase
         for ($i = 1; $i <= 5; $i++) {
             $productos[] = [
                 'nombre' => "Producto SAPHIRUS {$i}",
-                'sku' => "SAPH-" . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'sku' => 'SAPH-'.str_pad($i, 3, '0', STR_PAD_LEFT),
                 'precio_base_l1' => 100.00 * $i,
                 'stock_actual' => 10 * $i,
                 'es_combo' => false,
                 'marca_producto' => 'SAPHIRUS',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ];
         }
 
@@ -298,7 +298,7 @@ class SoftDeletesTest extends TestCase
             'es_combo' => false,
             'marca_producto' => 'BAMBU',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Verificar conteo inicial
@@ -342,7 +342,7 @@ class SoftDeletesTest extends TestCase
             'stock_actual' => 25,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Soft delete

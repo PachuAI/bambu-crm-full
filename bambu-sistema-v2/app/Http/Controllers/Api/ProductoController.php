@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class ProductoController extends Controller
@@ -35,14 +35,14 @@ class ProductoController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nombre', 'LIKE', "%{$search}%")
-                  ->orWhere('sku', 'LIKE', "%{$search}%")
-                  ->orWhere('descripcion', 'LIKE', "%{$search}%");
+                    ->orWhere('sku', 'LIKE', "%{$search}%")
+                    ->orWhere('descripcion', 'LIKE', "%{$search}%");
             });
         }
 
         // Paginación
         $productos = $query->orderBy('nombre')
-                          ->paginate($request->get('per_page', 15));
+            ->paginate($request->get('per_page', 15));
 
         return response()->json([
             'success' => true,
@@ -82,7 +82,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
 
-        if (!$producto) {
+        if (! $producto) {
             return response()->json([
                 'success' => false,
                 'message' => 'Producto no encontrado',
@@ -102,7 +102,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
 
-        if (!$producto) {
+        if (! $producto) {
             return response()->json([
                 'success' => false,
                 'message' => 'Producto no encontrado',
@@ -136,7 +136,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
 
-        if (!$producto) {
+        if (! $producto) {
             return response()->json([
                 'success' => false,
                 'message' => 'Producto no encontrado',
@@ -158,12 +158,12 @@ class ProductoController extends Controller
     {
         $productos = Producto::where(function ($query) use ($termino) {
             $query->where('nombre', 'LIKE', "%{$termino}%")
-                  ->orWhere('sku', 'LIKE', "%{$termino}%")
-                  ->orWhere('descripcion', 'LIKE', "%{$termino}%");
+                ->orWhere('sku', 'LIKE', "%{$termino}%")
+                ->orWhere('descripcion', 'LIKE', "%{$termino}%");
         })
-        ->orderBy('nombre')
-        ->limit(20)
-        ->get();
+            ->orderBy('nombre')
+            ->limit(20)
+            ->get();
 
         return response()->json([
             'success' => true,

@@ -41,12 +41,12 @@ class StockAjustarRequest extends FormRequest
         // Si es un ajuste negativo, asegurar que hay motivo
         $productoId = $this->input('producto_id');
         $nuevaCantidad = $this->input('nueva_cantidad');
-        
+
         if ($productoId && $nuevaCantidad !== null) {
             $producto = \App\Models\Producto::find($productoId);
             if ($producto && $nuevaCantidad < $producto->stock_actual && empty($this->input('motivo'))) {
                 $this->merge([
-                    'motivo_requerido_por_ajuste_negativo' => true
+                    'motivo_requerido_por_ajuste_negativo' => true,
                 ]);
             }
         }

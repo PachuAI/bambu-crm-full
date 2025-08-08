@@ -54,7 +54,7 @@ class Configuracion extends Model
     public static function establecer($clave, $valor, $tipo = 'string', $descripcion = null, $categoria = 'general', $esPublico = false)
     {
         $valorString = is_array($valor) || is_object($valor) ? json_encode($valor) : (string) $valor;
-        
+
         $configuracion = self::updateOrCreate(
             ['clave' => $clave],
             [
@@ -67,7 +67,7 @@ class Configuracion extends Model
         );
 
         Cache::forget("config.{$clave}");
-        
+
         return $configuracion;
     }
 

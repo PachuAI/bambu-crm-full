@@ -2,26 +2,27 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use App\Models\Cliente;
+use App\Models\Pedido;
+use App\Models\Reparto;
 use App\Models\User;
 use App\Models\Vehiculo;
-use App\Models\Reparto;
-use App\Models\Pedido;
-use App\Models\Cliente;
-use Laravel\Sanctum\Sanctum;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
+use Tests\TestCase;
 
 class RepartosTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $cliente;
+
     protected $vehiculo;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
@@ -35,56 +36,56 @@ class RepartosTest extends TestCase
         $pedido = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
         Reparto::factory()->count(3)->create([
             'pedido_id' => $pedido->id,
-            'vehiculo_id' => $this->vehiculo->id
+            'vehiculo_id' => $this->vehiculo->id,
         ]);
 
         $response = $this->getJson('/api/v1/repartos');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'repartos' => [
-                        '*' => [
-                            'id',
-                            'pedido_id',
-                            'vehiculo_id',
-                            'fecha_programada',
-                            'estado',
-                            'pedido',
-                            'vehiculo'
-                        ]
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'repartos' => [
+                    '*' => [
+                        'id',
+                        'pedido_id',
+                        'vehiculo_id',
+                        'fecha_programada',
+                        'estado',
+                        'pedido',
+                        'vehiculo',
+                    ],
+                ],
+            ]);
     }
 
     public function test_puede_filtrar_repartos_por_fecha()
     {
         $pedido = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
-        
+
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->addDay(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
-        $response = $this->getJson('/api/v1/repartos?fecha=' . today()->format('Y-m-d'));
+        $response = $this->getJson('/api/v1/repartos?fecha='.today()->format('Y-m-d'));
 
         $response->assertStatus(200)
-                ->assertJsonCount(1, 'repartos');
+            ->assertJsonCount(1, 'repartos');
     }
 
     public function test_puede_crear_reparto()
     {
         $pedido = Pedido::factory()->create([
             'cliente_id' => $this->cliente->id,
-            'estado' => 'confirmado'
+            'estado' => 'confirmado',
         ]);
 
         $repartoData = [
@@ -92,17 +93,17 @@ class RepartosTest extends TestCase
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->format('Y-m-d'),
             'hora_salida' => '08:30',
-            'observaciones' => 'Entrega matutina'
+            'observaciones' => 'Entrega matutina',
         ];
 
         $response = $this->postJson('/api/v1/repartos', $repartoData);
 
         $response->assertStatus(201)
-                ->assertJsonFragment(['estado' => 'programado']);
+            ->assertJsonFragment(['estado' => 'programado']);
 
         $this->assertDatabaseHas('repartos', [
             'pedido_id' => $pedido->id,
-            'vehiculo_id' => $this->vehiculo->id
+            'vehiculo_id' => $this->vehiculo->id,
         ]);
 
         // Verificar que el estado del pedido cambió
@@ -113,24 +114,24 @@ class RepartosTest extends TestCase
     public function test_no_puede_crear_reparto_duplicado()
     {
         $pedido = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
-        
+
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $repartoData = [
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
-            'fecha_programada' => today()->format('Y-m-d')
+            'fecha_programada' => today()->format('Y-m-d'),
         ];
 
         $response = $this->postJson('/api/v1/repartos', $repartoData);
 
         $response->assertStatus(422)
-                ->assertJsonFragment(['message' => 'Este pedido ya tiene un reparto asignado']);
+            ->assertJsonFragment(['message' => 'Este pedido ya tiene un reparto asignado']);
     }
 
     public function test_no_puede_asignar_vehiculo_inactivo()
@@ -141,32 +142,32 @@ class RepartosTest extends TestCase
         $repartoData = [
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $vehiculoInactivo->id,
-            'fecha_programada' => today()->format('Y-m-d')
+            'fecha_programada' => today()->format('Y-m-d'),
         ];
 
         $response = $this->postJson('/api/v1/repartos', $repartoData);
 
         $response->assertStatus(422)
-                ->assertJsonFragment(['message' => 'El vehículo seleccionado no está activo']);
+            ->assertJsonFragment(['message' => 'El vehículo seleccionado no está activo']);
     }
 
     public function test_puede_cambiar_estado_a_en_ruta()
     {
         $pedido = Pedido::factory()->create([
             'cliente_id' => $this->cliente->id,
-            'estado' => 'listo_envio'
+            'estado' => 'listo_envio',
         ]);
 
         $reparto = Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $response = $this->patchJson("/api/v1/repartos/{$reparto->id}/estado", [
             'estado' => 'en_ruta',
-            'hora_salida' => '09:00'
+            'hora_salida' => '09:00',
         ]);
 
         $response->assertStatus(200);
@@ -183,7 +184,7 @@ class RepartosTest extends TestCase
     {
         $pedido = Pedido::factory()->create([
             'cliente_id' => $this->cliente->id,
-            'estado' => 'en_transito'
+            'estado' => 'en_transito',
         ]);
 
         $reparto = Reparto::create([
@@ -191,13 +192,13 @@ class RepartosTest extends TestCase
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
             'estado' => 'en_ruta',
-            'hora_salida' => '09:00'
+            'hora_salida' => '09:00',
         ]);
 
         $response = $this->patchJson("/api/v1/repartos/{$reparto->id}/estado", [
             'estado' => 'entregado',
             'hora_entrega' => '10:30',
-            'km_recorridos' => 25.5
+            'km_recorridos' => 25.5,
         ]);
 
         $response->assertStatus(200);
@@ -215,7 +216,7 @@ class RepartosTest extends TestCase
     {
         $pedido = Pedido::factory()->create([
             'cliente_id' => $this->cliente->id,
-            'estado' => 'en_transito'
+            'estado' => 'en_transito',
         ]);
 
         $reparto = Reparto::create([
@@ -223,12 +224,12 @@ class RepartosTest extends TestCase
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
             'estado' => 'en_ruta',
-            'hora_salida' => '09:00'
+            'hora_salida' => '09:00',
         ]);
 
         $response = $this->patchJson("/api/v1/repartos/{$reparto->id}/estado", [
             'estado' => 'fallido',
-            'observaciones' => 'Cliente no estaba en domicilio'
+            'observaciones' => 'Cliente no estaba en domicilio',
         ]);
 
         $response->assertStatus(200);
@@ -245,32 +246,32 @@ class RepartosTest extends TestCase
     {
         $fechaLunes = Carbon::now()->startOfWeek();
         $pedido = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
-        
+
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => $fechaLunes,
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => $fechaLunes->copy()->addDays(2),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $response = $this->getJson('/api/v1/planificacion-semanal');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'planificacion',
-                    'vehiculos',
-                    'semana' => [
-                        'inicio',
-                        'fin'
-                    ]
-                ]);
+            ->assertJsonStructure([
+                'planificacion',
+                'vehiculos',
+                'semana' => [
+                    'inicio',
+                    'fin',
+                ],
+            ]);
 
         $planificacion = $response->json('planificacion');
         $this->assertCount(7, $planificacion); // 7 días de la semana
@@ -285,31 +286,31 @@ class RepartosTest extends TestCase
             'pedido_id' => $pedido1->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         Reparto::create([
             'pedido_id' => $pedido2->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'en_ruta'
+            'estado' => 'en_ruta',
         ]);
 
         $response = $this->getJson('/api/v1/seguimiento-tiempo-real');
 
         $response->assertStatus(200)
-                ->assertJsonStructure([
-                    'repartos',
-                    'estadisticas' => [
-                        'total_programados',
-                        'en_ruta',
-                        'entregados',
-                        'fallidos',
-                        'pendientes'
-                    ],
-                    'vehiculos_activos',
-                    'fecha'
-                ]);
+            ->assertJsonStructure([
+                'repartos',
+                'estadisticas' => [
+                    'total_programados',
+                    'en_ruta',
+                    'entregados',
+                    'fallidos',
+                    'pendientes',
+                ],
+                'vehiculos_activos',
+                'fecha',
+            ]);
 
         $estadisticas = $response->json('estadisticas');
         $this->assertEquals(2, $estadisticas['total_programados']);
@@ -321,14 +322,14 @@ class RepartosTest extends TestCase
     {
         $pedido = Pedido::factory()->create([
             'cliente_id' => $this->cliente->id,
-            'estado' => 'listo_envio'
+            'estado' => 'listo_envio',
         ]);
 
         $reparto = Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $response = $this->deleteJson("/api/v1/repartos/{$reparto->id}");
@@ -345,20 +346,20 @@ class RepartosTest extends TestCase
     {
         $pedido = Pedido::factory()->create([
             'cliente_id' => $this->cliente->id,
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         $reparto = Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         $response = $this->deleteJson("/api/v1/repartos/{$reparto->id}");
 
         $response->assertStatus(422)
-                ->assertJsonFragment(['message' => 'No se puede eliminar un reparto ya entregado']);
+            ->assertJsonFragment(['message' => 'No se puede eliminar un reparto ya entregado']);
 
         $this->assertDatabaseHas('repartos', ['id' => $reparto->id]);
     }
@@ -367,7 +368,7 @@ class RepartosTest extends TestCase
     {
         $reparto = new Reparto([
             'hora_salida' => '09:00',
-            'hora_entrega' => '10:30'
+            'hora_entrega' => '10:30',
         ]);
 
         // El atributo debería devolver 90 minutos
@@ -377,19 +378,19 @@ class RepartosTest extends TestCase
     public function test_scopes_funcionan_correctamente()
     {
         $pedido = Pedido::factory()->create(['cliente_id' => $this->cliente->id]);
-        
+
         $reparto1 = Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today(),
-            'estado' => 'programado'
+            'estado' => 'programado',
         ]);
 
         $reparto2 = Reparto::create([
             'pedido_id' => $pedido->id,
             'vehiculo_id' => $this->vehiculo->id,
             'fecha_programada' => today()->addDay(),
-            'estado' => 'entregado'
+            'estado' => 'entregado',
         ]);
 
         // Test scope porEstado

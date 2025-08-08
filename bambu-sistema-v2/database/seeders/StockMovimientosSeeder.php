@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class StockMovimientosSeeder extends Seeder
@@ -14,16 +13,18 @@ class StockMovimientosSeeder extends Seeder
     {
         // Obtener usuario administrador
         $usuario = \App\Models\User::first();
-        if (!$usuario) {
+        if (! $usuario) {
             $this->command->warn('No hay usuarios en la base de datos. Saltando StockMovimientosSeeder.');
+
             return;
         }
 
         // Obtener algunos productos para generar movimientos
         $productos = \App\Models\Producto::take(5)->get();
-        
+
         if ($productos->isEmpty()) {
             $this->command->warn('No hay productos en la base de datos. Ejecuta ProductosSeeder primero.');
+
             return;
         }
 
@@ -53,7 +54,7 @@ class StockMovimientosSeeder extends Seeder
                     'cantidad' => $ventasCantidad,
                     'stock_anterior' => $producto->stock_actual,
                     'stock_nuevo' => $producto->stock_actual - $ventasCantidad,
-                    'motivo' => 'Venta - Pedido #' . rand(1, 50),
+                    'motivo' => 'Venta - Pedido #'.rand(1, 50),
                     'usuario_id' => $usuario->id,
                     'created_at' => now()->subDays(rand(1, 8)),
                     'updated_at' => now()->subDays(rand(1, 8)),
@@ -85,14 +86,14 @@ class StockMovimientosSeeder extends Seeder
 
         // Marcar algunos productos para fabricar
         \App\Models\Producto::whereIn('id', $productos->take(2)->pluck('id'))
-                ->update(['fabricar_siguiente' => true]);
+            ->update(['fabricar_siguiente' => true]);
 
         // Configurar stock mínimo para algunos productos
         \App\Models\Producto::whereIn('id', $productos->pluck('id'))
-                ->update(['stock_minimo' => 10]);
+            ->update(['stock_minimo' => 10]);
 
         $this->command->info('✓ Movimientos de stock generados correctamente');
-        $this->command->info('✓ ' . \App\Models\StockMovimiento::count() . ' movimientos creados');
-        $this->command->info('✓ ' . \App\Models\Producto::where('fabricar_siguiente', true)->count() . ' productos marcados para fabricar');
+        $this->command->info('✓ '.\App\Models\StockMovimiento::count().' movimientos creados');
+        $this->command->info('✓ '.\App\Models\Producto::where('fabricar_siguiente', true)->count().' productos marcados para fabricar');
     }
 }

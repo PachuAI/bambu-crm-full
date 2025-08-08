@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('observaciones')->nullable();
             $table->decimal('km_recorridos', 8, 2)->nullable();
             $table->timestamps();
-            
+
             $table->index(['fecha_programada', 'estado']);
             $table->index('vehiculo_id');
         });

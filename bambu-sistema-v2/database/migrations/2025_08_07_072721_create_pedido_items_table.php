@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('precio_unit_l1', 12, 2); // Precio en el momento del pedido
             $table->decimal('subtotal', 12, 2); // cantidad * precio_unit_l1
             $table->timestamps();
-            
+
             $table->index('pedido_id');
             $table->index('producto_id');
         });

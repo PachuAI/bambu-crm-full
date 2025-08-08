@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Reparto;
 use App\Models\Pedido;
+use App\Models\Reparto;
 use App\Models\Vehiculo;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RepartoController extends Controller
 {
@@ -18,7 +18,7 @@ class RepartoController extends Controller
         $query = Reparto::with(['pedido.cliente', 'vehiculo']);
 
         if ($request->has('fecha')) {
-            $query->where('fecha_programada', $request->fecha);
+            $query->whereDate('fecha_programada', $request->fecha);
         }
 
         if ($request->has('estado')) {
@@ -30,11 +30,11 @@ class RepartoController extends Controller
         }
 
         $repartos = $query->orderBy('fecha_programada', 'desc')
-                         ->orderBy('hora_salida', 'asc')
-                         ->get();
+            ->orderBy('hora_salida', 'asc')
+            ->get();
 
         return response()->json([
-            'repartos' => $repartos
+            'repartos' => $repartos,
         ]);
     }
 
@@ -52,27 +52,31 @@ class RepartoController extends Controller
             // Verificar que el pedido no tenga ya un reparto asignado
             if (Reparto::where('pedido_id', $validated['pedido_id'])->exists()) {
                 return response()->json([
-                    'message' => 'Este pedido ya tiene un reparto asignado'
+                    'message' => 'Este pedido ya tiene un reparto asignado',
                 ], 422);
             }
 
             // Verificar disponibilidad del vehículo
             $vehiculo = Vehiculo::find($validated['vehiculo_id']);
-            if (!$vehiculo->activo) {
+            if (! $vehiculo->activo) {
                 return response()->json([
-                    'message' => 'El vehículo seleccionado no está activo'
+                    'message' => 'El vehículo seleccionado no está activo',
                 ], 422);
             }
 
-            $reparto = Reparto::create($validated);
+            $reparto = Reparto::create(array_merge($validated, [
+                'estado' => 'programado'
+            ]));
 
             // Actualizar estado del pedido a "Listo para enviar"
             $pedido = Pedido::find($validated['pedido_id']);
             $pedido->update(['estado' => 'listo_envio']);
 
+            $reparto->load(['pedido.cliente', 'vehiculo']);
+            
             return response()->json([
                 'message' => 'Reparto programado exitosamente',
-                'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
+                'reparto' => $reparto,
             ], 201);
         });
     }
@@ -82,7 +86,7 @@ class RepartoController extends Controller
         $reparto->load(['pedido.cliente', 'pedido.items.producto', 'vehiculo']);
 
         return response()->json([
-            'reparto' => $reparto
+            'reparto' => $reparto,
         ]);
     }
 
@@ -101,7 +105,7 @@ class RepartoController extends Controller
 
         return response()->json([
             'message' => 'Reparto actualizado exitosamente',
-            'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
+            'reparto' => $reparto->load(['pedido.cliente', 'vehiculo']),
         ]);
     }
 
@@ -150,7 +154,7 @@ class RepartoController extends Controller
 
             return response()->json([
                 'message' => 'Estado del reparto actualizado exitosamente',
-                'reparto' => $reparto->load(['pedido.cliente', 'vehiculo'])
+                'reparto' => $reparto->load(['pedido.cliente', 'vehiculo']),
             ]);
         });
     }
@@ -162,7 +166,8 @@ class RepartoController extends Controller
         $fechaFin = Carbon::parse($fecha)->endOfWeek();
 
         $repartos = Reparto::with(['pedido.cliente', 'vehiculo'])
-            ->whereBetween('fecha_programada', [$fechaInicio, $fechaFin])
+            ->whereDate('fecha_programada', '>=', $fechaInicio->format('Y-m-d'))
+            ->whereDate('fecha_programada', '<=', $fechaFin->format('Y-m-d'))
             ->orderBy('fecha_programada')
             ->orderBy('hora_salida')
             ->get();
@@ -176,7 +181,9 @@ class RepartoController extends Controller
             $planificacion[$dia->format('Y-m-d')] = [
                 'fecha' => $dia->format('Y-m-d'),
                 'dia_semana' => $dia->locale('es')->dayName,
-                'repartos' => $repartos->where('fecha_programada', $dia->format('Y-m-d'))->values()
+                'repartos' => $repartos->filter(function($reparto) use ($dia) {
+                    return Carbon::parse($reparto->fecha_programada)->format('Y-m-d') === $dia->format('Y-m-d');
+                })->values(),
             ];
         }
 
@@ -185,15 +192,15 @@ class RepartoController extends Controller
             'vehiculos' => $vehiculos,
             'semana' => [
                 'inicio' => $fechaInicio->format('Y-m-d'),
-                'fin' => $fechaFin->format('Y-m-d')
-            ]
+                'fin' => $fechaFin->format('Y-m-d'),
+            ],
         ]);
     }
 
     public function seguimientoTiempoReal(): JsonResponse
     {
         $hoy = today();
-        
+
         $repartos = Reparto::with(['pedido.cliente', 'vehiculo'])
             ->where('fecha_programada', $hoy)
             ->orderBy('hora_salida')
@@ -207,7 +214,7 @@ class RepartoController extends Controller
             'pendientes' => $repartos->where('estado', 'programado')->count(),
         ];
 
-        $vehiculos_activos = Vehiculo::with(['repartos' => function($query) use ($hoy) {
+        $vehiculos_activos = Vehiculo::with(['repartos' => function ($query) use ($hoy) {
             $query->where('fecha_programada', $hoy);
         }])->activos()->get();
 
@@ -215,7 +222,7 @@ class RepartoController extends Controller
             'repartos' => $repartos,
             'estadisticas' => $estadisticas,
             'vehiculos_activos' => $vehiculos_activos,
-            'fecha' => $hoy->format('Y-m-d')
+            'fecha' => $hoy->format('Y-m-d'),
         ]);
     }
 
@@ -224,17 +231,17 @@ class RepartoController extends Controller
         return DB::transaction(function () use ($reparto) {
             if ($reparto->estado === 'entregado') {
                 return response()->json([
-                    'message' => 'No se puede eliminar un reparto ya entregado'
+                    'message' => 'No se puede eliminar un reparto ya entregado',
                 ], 422);
             }
 
             // Revertir estado del pedido a confirmado
             $reparto->pedido->update(['estado' => 'confirmado']);
-            
+
             $reparto->delete();
 
             return response()->json([
-                'message' => 'Reparto eliminado exitosamente'
+                'message' => 'Reparto eliminado exitosamente',
             ]);
         });
     }

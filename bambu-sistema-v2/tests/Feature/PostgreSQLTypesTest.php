@@ -20,7 +20,7 @@ class PostgreSQLTypesTest extends TestCase
             'stock_actual' => 1,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->where('id', $productoId)->first();
@@ -41,14 +41,14 @@ class PostgreSQLTypesTest extends TestCase
             'nombre' => 'Buenos Aires',
             'codigo' => 'BA',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'La Plata',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Test varchar(150) para nombre de producto
@@ -60,7 +60,7 @@ class PostgreSQLTypesTest extends TestCase
             'stock_actual' => 1,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->where('id', $productoId)->first();
@@ -75,7 +75,7 @@ class PostgreSQLTypesTest extends TestCase
             'telefono' => '123456789',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $cliente = DB::table('clientes')->where('id', $clienteId)->first();
@@ -95,7 +95,7 @@ class PostgreSQLTypesTest extends TestCase
     {
         // Test text para descripción de producto (sin límite de longitud)
         $descripcionLarga = str_repeat('Lorem ipsum dolor sit amet. ', 1000); // ~28,000 caracteres
-        
+
         $productoId = DB::table('productos')->insertGetId([
             'nombre' => 'Producto Text',
             'sku' => 'TEXT-001',
@@ -104,7 +104,7 @@ class PostgreSQLTypesTest extends TestCase
             'es_combo' => false,
             'descripcion' => $descripcionLarga,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->where('id', $productoId)->first();
@@ -122,7 +122,7 @@ class PostgreSQLTypesTest extends TestCase
             'stock_actual' => 1,
             'es_combo' => true,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $productoFalse = DB::table('productos')->insertGetId([
@@ -132,14 +132,14 @@ class PostgreSQLTypesTest extends TestCase
             'stock_actual' => 1,
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $prodTrue = DB::table('productos')->where('id', $productoTrue)->first();
         $prodFalse = DB::table('productos')->where('id', $productoFalse)->first();
 
-        $this->assertTrue((bool)$prodTrue->es_combo);
-        $this->assertFalse((bool)$prodFalse->es_combo);
+        $this->assertTrue((bool) $prodTrue->es_combo);
+        $this->assertFalse((bool) $prodFalse->es_combo);
     }
 
     public function test_unsigned_integer_type(): void
@@ -152,7 +152,7 @@ class PostgreSQLTypesTest extends TestCase
             'stock_actual' => 4294967295, // Máximo valor para unsigned int
             'es_combo' => false,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->where('id', $productoId)->first();
@@ -173,14 +173,14 @@ class PostgreSQLTypesTest extends TestCase
             'nombre' => 'Mendoza',
             'codigo' => 'MZ',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'Mendoza Capital',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $cliente = DB::table('clientes')->insertGetId([
@@ -189,12 +189,12 @@ class PostgreSQLTypesTest extends TestCase
             'telefono' => '123',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Test todos los valores del enum estado
         $estadosEnum = ['borrador', 'confirmado', 'en_reparto', 'entregado', 'cancelado'];
-        
+
         foreach ($estadosEnum as $estado) {
             $pedidoId = DB::table('pedidos')->insertGetId([
                 'cliente_id' => $cliente,
@@ -202,7 +202,7 @@ class PostgreSQLTypesTest extends TestCase
                 'monto_final' => 100.00,
                 'estado' => $estado,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
             $pedido = DB::table('pedidos')->where('id', $pedidoId)->first();
@@ -216,7 +216,7 @@ class PostgreSQLTypesTest extends TestCase
         $datosAnteriores = [
             'nombre' => 'Producto Viejo',
             'precio' => 100.00,
-            'stock' => 10
+            'stock' => 10,
         ];
 
         $datosNuevos = [
@@ -225,8 +225,8 @@ class PostgreSQLTypesTest extends TestCase
             'stock' => 15,
             'metadata' => [
                 'categoria' => 'electronica',
-                'proveedor' => 'Proveedor ABC'
-            ]
+                'proveedor' => 'Proveedor ABC',
+            ],
         ];
 
         $logId = DB::table('system_logs')->insertGetId([
@@ -239,11 +239,11 @@ class PostgreSQLTypesTest extends TestCase
             'ip_address' => '192.168.1.100',
             'user_agent' => 'Mozilla/5.0 Test',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $log = DB::table('system_logs')->where('id', $logId)->first();
-        
+
         $anterioresRecuperados = json_decode($log->datos_anteriores, true);
         $nuevosRecuperados = json_decode($log->datos_nuevos, true);
 
@@ -258,14 +258,14 @@ class PostgreSQLTypesTest extends TestCase
             'nombre' => 'Santa Fe',
             'codigo' => 'SF',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'Santa Fe Capital',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $cliente = DB::table('clientes')->insertGetId([
@@ -274,7 +274,7 @@ class PostgreSQLTypesTest extends TestCase
             'telefono' => '123',
             'ciudad_id' => $ciudad,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         // Test date para fecha_reparto
@@ -286,7 +286,7 @@ class PostgreSQLTypesTest extends TestCase
             'estado' => 'confirmado',
             'fecha_reparto' => $fechaReparto,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $pedido = DB::table('pedidos')->where('id', $pedidoId)->first();
@@ -305,7 +305,7 @@ class PostgreSQLTypesTest extends TestCase
     {
         // Test timestamps (created_at, updated_at) con timezone
         $fechaEspecifica = '2025-08-07 15:30:45';
-        
+
         $productoId = DB::table('productos')->insertGetId([
             'nombre' => 'Producto Timestamp',
             'sku' => 'TIMESTAMP-001',
@@ -315,14 +315,14 @@ class PostgreSQLTypesTest extends TestCase
             'created_at' => $fechaEspecifica,
             'updated_at' => $fechaEspecifica,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->where('id', $productoId)->first();
-        
+
         $this->assertNotNull($producto->created_at);
         $this->assertNotNull($producto->updated_at);
-        
+
         // Verificar formato timestamp
         $this->assertMatchesRegularExpression(
             '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/',
@@ -344,7 +344,7 @@ class PostgreSQLTypesTest extends TestCase
             'descripcion' => null,
             'peso_kg' => null,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $producto = DB::table('productos')->where('id', $productoId)->first();
@@ -357,14 +357,14 @@ class PostgreSQLTypesTest extends TestCase
             'nombre' => 'Tucumán',
             'codigo' => 'TU',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $ciudad = DB::table('ciudades')->insertGetId([
             'nombre' => 'San Miguel de Tucumán',
             'provincia_id' => $provincia,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $clienteId = DB::table('clientes')->insertGetId([
@@ -374,7 +374,7 @@ class PostgreSQLTypesTest extends TestCase
             'ciudad_id' => $ciudad,
             'email' => null, // nullable
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $cliente = DB::table('clientes')->where('id', $clienteId)->first();

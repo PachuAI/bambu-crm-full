@@ -38,11 +38,11 @@ class SystemLog extends Model
     public function scopePorModelo($query, $modelo, $modeloId = null)
     {
         $query = $query->where('modelo', $modelo);
-        
+
         if ($modeloId) {
             $query->where('modelo_id', $modeloId);
         }
-        
+
         return $query;
     }
 
