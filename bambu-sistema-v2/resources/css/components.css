@@ -3,9 +3,117 @@
    ============================================ */
 
 /* ============================================
-   🎛️ SIDEBAR SYSTEM
+   🔘 BOTÓN ÍCONO INFALIBLE - MÉTODO PROBADO
    ============================================ */
 
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  color: var(--text-secondary);
+}
+
+.btn-icon:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.btn-icon:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* ============================================
+   📱 APP LAYOUT INFALIBLE - MÉTODO PROBADO
+   ============================================ */
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* CRÍTICO: evita desborde */
+}
+
+/* ============================================
+   📋 HEADER CON CSS GRID INFALIBLE
+   ============================================ */
+
+.main-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;  /* hamburguesa, búsqueda, acciones */
+  align-items: center;
+  gap: var(--space-md);
+  height: 64px;
+  padding: 0 var(--space-md);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.header-search {
+  max-width: 560px;
+  display: none; /* Oculto en mobile */
+}
+
+@media (min-width: 768px) {
+  .header-search {
+    display: block;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  transition: var(--transition-normal);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-surface);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ============================================
+   🎛️ SIDEBAR SYSTEM RESPONSIVE INFALIBLE
+   ============================================ */
+
+/* Mobile: sidebar overlay */
 .sidebar {
   position: fixed;
   top: 0;
@@ -14,10 +122,101 @@
   height: 100vh;
   background: var(--bg-surface);
   border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  transition: transform var(--transition-normal);
   z-index: var(--z-overlay);
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-normal);
+}
+
+.sidebar-open {
+  transform: translateX(0);
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-text {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-md);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition-normal);
+  margin-bottom: var(--space-xs);
+  min-height: 44px; /* Touch target */
+}
+
+.nav-item:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.nav-item.router-link-active {
+  background: var(--primary-bg);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.nav-icon {
+  font-size: var(--font-lg);
+  width: 20px;
+  text-align: center;
+}
+
+.nav-text {
+  font-size: var(--font-sm);
+}
+
+/* Desktop: sidebar fijo */
+@media (min-width: 1024px) {
+  .sidebar {
+    transform: none;
+    position: relative;
+  }
+  
+  .hamburger-btn {
+    display: none;
+  }
+  
+  .sidebar-close {
+    display: none;
+  }
 }
 
 .sidebar-overlay {
@@ -34,6 +233,21 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* ============================================
+   📄 CONTENT AREA
+   ============================================ */
+
+.content-area {
+  flex: 1;
+  overflow-x: auto;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 /* ============================================
