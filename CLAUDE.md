@@ -127,7 +127,73 @@ bambu-sistema-v2/resources/
 - Testear en 320px, 768px, 1024px
 - Sin colores hardcodeados
 - Sin console.log()
+- Sin debugger statements
 - Componentes siguen nomenclatura PascalCase
+- Storybook build OK
+- Tests de regresión visual pasando
+
+## 🔍 REGLAS NUEVAS - POST REVISIÓN SENIOR FRONTEND
+
+**Fecha**: 2025-08-08  
+**Origen**: Revisión exhaustiva por senior frontend developer
+
+### 🚨 REGLA IMPERATIVA #10: TOKENS ÚNICOS
+
+**Trigger:** Cualquier definición de variables CSS
+
+**Obligatorio:**
+- **TODO** estilo debe usar tokens de `tokens.css`
+- **PROHIBIDO** definir `--space-*`, `--font-*`, `--shadow-*`, `--transition-*` fuera de `tokens.css`
+- **ÚNICA** fuente de verdad para todas las variables del sistema
+
+### 🚨 REGLA IMPERATIVA #11: ESTRUCTURA CSS CONSISTENTE
+
+**Trigger:** Creación o modificación de archivos CSS
+
+**Estructura OBLIGATORIA:**
+```
+resources/css/
+├── app.css           # Entry point (importa tokens, components, responsive)
+├── tokens.css        # ÚNICA fuente de verdad para variables
+├── components.css    # Estilos componentes
+└── responsive.css    # Media queries
+```
+
+**PROHIBIDO:**
+- Crear `reset.css`, `variables.css`, `utilities.css` como archivos separados
+- Inconsistencia con esta estructura
+
+### 🚨 REGLA IMPERATIVA #12: ACCESIBILIDAD OPERATIVA
+
+**Trigger:** Cualquier estado crítico o alert de seguridad
+
+**Obligatorio:**
+- **NINGÚN** estado crítico depende solo del color
+- **OBLIGATORIO** ícono + texto en alertas de seguridad y stock
+- **PICTOGRAMAS** GHS/ADR en productos químicos peligrosos
+- **ARIA** labels y roles en elementos críticos
+
+### 🚨 REGLA IMPERATIVA #13: SIDEBAR ACCESIBLE
+
+**Trigger:** Implementación o modificación del sidebar overlay
+
+**Cuando `sidebarOpen === true`:**
+- `body` sin scroll (`overflow: hidden`)
+- `main` con `inert` attribute
+- Focus-trap activo dentro del sidebar
+- Tecla `Esc` cierra el overlay
+- Navegación por teclado funcional
+
+### 🚨 REGLA IMPERATIVA #14: CALIDAD UI
+
+**Trigger:** Antes de cualquier merge a master
+
+**Checklist OBLIGATORIO:**
+- Storybook build exitoso sin errores
+- Tests de regresión visual pasando (Loki/Chromatic/Playwright)
+- `npm run lint` sin warnings
+- Touch targets ≥48px en vistas logísticas
+- Media queries por capabilities implementadas
 
 ## 🛠️ COMANDOS DE DESARROLLO
 
@@ -196,5 +262,69 @@ Para agregar nuevas reglas a este archivo:
 - **Documentación Completa**: Ver `documentacion-proyecto/INDICE.md`
 
 ---
-**Última actualización**: 2025-08-07
-**Versión**: 1.0.0
+
+## 🔍 REVISIÓN SENIOR FRONTEND - CAMBIOS PROPUESTOS
+
+**Fecha revisión**: 2025-08-08  
+**Estado**: Pendientes de implementación  
+
+Luego de someter el sistema a una revisión exhaustiva por parte de un senior frontend developer, se propusieron los siguientes cambios críticos para mejorar la robustez y mantenibilidad del sistema:
+
+### 🚨 **CAMBIOS CRÍTICOS IMPLEMENTADOS EN REGLAS**
+
+1. **Tokens únicos centralizados (Regla #10)**
+   - **Problema**: Duplicación de variables CSS entre documentos
+   - **Solución**: `tokens.css` como única fuente de verdad
+   - **Impacto**: Eliminación de inconsistencias y deuda técnica
+
+2. **Estructura CSS consistente (Regla #11)**
+   - **Problema**: Conflicto entre CLAUDE.md #8 y BAMBU_FRONTEND_SYSTEM.md
+   - **Solución**: Estructura CSS única y obligatoria
+   - **Impacto**: Claridad para desarrolladores junior
+
+3. **Accesibilidad operativa (Regla #12)**
+   - **Problema**: Estados críticos dependientes solo del color
+   - **Solución**: Ícono + texto + pictogramas GHS/ADR obligatorios
+   - **Impacto**: Cumplimiento normativas industriales y accesibilidad
+
+4. **Sidebar completamente accesible (Regla #13)**
+   - **Problema**: Overlay solo visual, sin bloqueo de navegación
+   - **Solución**: Focus-trap + inert + Esc + overflow control
+   - **Impacto**: Accesibilidad completa para usuarios de teclado
+
+5. **Calidad UI garantizada (Regla #14)**
+   - **Problema**: Sin validación visual sistemática
+   - **Solución**: Storybook + regresión visual + touch targets
+   - **Impacto**: Calidad consistente en producción
+
+### ⚡ **PRÓXIMOS PASOS DE IMPLEMENTACIÓN**
+
+**Prioridad ALTA (1-3 días):**
+1. Crear `tokens.css` unificado con todas las variables
+2. Corregir `BambuCard.vue` - agregar `const emit = defineEmits(['click'])`
+3. Implementar focus-trap completo en sidebar overlay
+4. Agregar `--shadow-sm/md/lg` tokens faltantes
+
+**Prioridad MEDIA (1 semana):**
+5. Migrar a `data-theme` en `<html>` lugar de `body.light-mode`
+6. Agregar `--bg-overlay` y `--on-*` tokens
+7. Subir contraste de bordes dark mode (20% → 26-28% L)
+8. Implementar media queries por capabilities
+
+**Prioridad BAJA (2 semanas):**
+9. Eliminar utilidades duplicadas de Tailwind
+10. Setup de tests de regresión visual
+11. Documentar casos edge de responsive
+
+### 💡 **BENEFICIOS ESPERADOS**
+
+- **Mantenibilidad**: Sistema único de tokens y estructura
+- **Accesibilidad**: Cumplimiento AA y normas industriales
+- **Performance**: Menos CSS duplicado, mejor cascada
+- **Developer Experience**: Claridad en estructura, menos confusión
+- **Calidad**: Validación visual automática, menos bugs
+
+---
+
+**Última actualización**: 2025-08-08
+**Versión**: 2.0.0 (Post-revisión senior frontend)

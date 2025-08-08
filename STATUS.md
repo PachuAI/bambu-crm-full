@@ -378,6 +378,30 @@ PREREQUISITO: UI refinement total completado
 
 ---
 
+## 📝 SESIÓN ACTUAL (2025-08-08) - REVISIÓN SENIOR FRONTEND COMPLETADA
+
+### ✅ Hecho:
+- **Revisión exhaustiva completada**: Senior frontend developer analizó todo el sistema
+- **Cambios críticos documentados**: 5 nuevas reglas imperativas agregadas a CLAUDE.md (#10-#14)
+- **Todos los documentos actualizados**: Secciones "REVISIÓN SENIOR FRONTEND" en los 5 archivos core
+- **Mejoras identificadas**: Tokens únicos, accesibilidad, focus-trap, media queries, contraste
+- **Plan de implementación**: Prioridades definidas (ALTA/MEDIA/BAJA) con cronograma
+
+### 📋 Cambios Críticos a Implementar:
+1. **Tokens únicos centralizados** - Crear tokens.css como única fuente de verdad
+2. **Estructura CSS consistente** - Resolver conflicto CLAUDE.md vs FRONTEND_SYSTEM.md
+3. **Accesibilidad operativa** - Alertas no-solo-color con pictogramas GHS/ADR
+4. **Sidebar completamente accesible** - Focus-trap + inert + Esc + overflow control
+5. **Calidad UI garantizada** - Storybook + regresión visual + touch targets 48px
+
+### 🎯 Siguiente:
+- Implementar las mejoras críticas usando el plan documentado
+- Crear tokens.css unificado con todas las variables del sistema
+- Corregir BambuCard.vue - agregar const emit = defineEmits(['click'])
+- Implementar focus-trap completo en sidebar overlay con inert y Esc
+
+---
+
 **🎯 RECORDATORIO**: Este es el único archivo que se actualiza con el estado del proyecto.  
-**🔄 PRÓXIMA ACTUALIZACIÓN**: Después de implementar dashboard con nuevos sistemas  
-**✅ SITUACIÓN ACTUAL**: Backend completo - Sistema de Diseño definido - Listo para implementar
+**🔄 PRÓXIMA ACTUALIZACIÓN**: Después de implementar mejoras críticas de la revisión  
+**✅ SITUACIÓN ACTUAL**: Backend completo - Sistema de Diseño revisado y mejorado - Listo para implementar fixes

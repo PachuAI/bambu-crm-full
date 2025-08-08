@@ -874,4 +874,170 @@ resources/js/
 
 ---
 
+## 🔍 REVISIÓN SENIOR FRONTEND - CAMBIOS PROPUESTOS
+
+**Fecha revisión**: 2025-08-08  
+**Estado**: Pendientes de implementación  
+
+Luego de someter el sistema a una revisión exhaustiva por parte de un senior frontend developer, se propusieron los siguientes cambios para mejorar la accesibilidad y robustez responsive:
+
+### 🚨 **CAMBIOS CRÍTICOS**
+
+1. **Implementar focus-trap completo en sidebar overlay**
+   - **Problema**: Solo overlay visual, sin bloqueo de navegación por teclado
+   - **Solución**: Focus-trap + inert en main + overflow:hidden en body + Esc cierra
+   - **Impacto**: Accesibilidad completa para usuarios de teclado
+
+### ⚡ **CAMBIOS IMPORTANTES**
+
+1. **Agregar media queries por capabilities**
+   - **Problema**: No consideramos touch vs mouse capabilities
+   - **Solución**: `@media (hover: none) and (pointer: coarse)` + `prefers-reduced-motion`
+   - **Impacto**: Mejor UX en dispositivos táctiles y usuarios con mareo/estrés
+
+2. **Validar landscape tablet**
+   - **Problema**: Operarios usan tablets en horizontal, header/búsqueda pueden fallar
+   - **Solución**: Layout específico para landscape tablet
+   - **Impacto**: Usabilidad real en contexto logístico
+
+3. **Subir touch targets a 48px en logística**
+   - **Problema**: Checklist marca 44px, pero con guantes 48px funciona mejor
+   - **Solución**: Touch targets ≥48px en vistas de logística
+   - **Impacto**: Usabilidad mejorada para operarios
+
+### 💡 **CAMBIOS NICE-TO-HAVE**
+
+1. **Activar DebugResponsive con flag**
+   - **Problema**: Componente existe pero no está activo
+   - **Solución**: Flag de env para QA/development
+   - **Impacto**: Testing más eficiente
+
+### 📋 **IMPLEMENTACIÓN PROPUESTA**
+
+**Sidebar accesible completo:**
+```javascript
+// Al abrir sidebar
+function openSidebar() {
+  sidebarOpen.value = true
+  
+  // Bloquear scroll del body
+  document.body.style.overflow = 'hidden'
+  
+  // Marcar main como inert (no interactuable)
+  const main = document.querySelector('main')
+  main.setAttribute('inert', '')
+  
+  // Focus-trap dentro del sidebar
+  const sidebar = document.querySelector('[data-sidebar]')
+  const focusableElements = sidebar.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  )
+  focusableElements[0]?.focus()
+  
+  // Listener para Esc
+  document.addEventListener('keydown', handleEscapeKey)
+}
+
+function closeSidebar() {
+  sidebarOpen.value = false
+  document.body.style.overflow = ''
+  document.querySelector('main').removeAttribute('inert')
+  document.removeEventListener('keydown', handleEscapeKey)
+}
+
+function handleEscapeKey(event) {
+  if (event.key === 'Escape') {
+    closeSidebar()
+  }
+}
+```
+
+**Media queries por capabilities:**
+```css
+/* Touch devices - mayores hit areas, sin hover */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 16px;
+  }
+  
+  /* Remover efectos hover */
+  .card:hover {
+    transform: none;
+    box-shadow: inherit;
+  }
+  
+  /* Espaciado mayor en interfaces táctiles */
+  .nav-item {
+    padding: 16px 12px;
+  }
+}
+
+/* Usuarios con sensibilidad al movimiento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .sidebar {
+    transition: none;
+  }
+}
+```
+
+**Landscape tablet considerations:**
+```css
+/* Tablet en horizontal - ajustar header/búsqueda */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+  .dashboard-header {
+    height: 56px; /* Más compacto */
+  }
+  
+  .search-input-wrapper {
+    max-width: 400px; /* No ocupar todo el ancho */
+  }
+  
+  .sidebar-overlay {
+    width: 320px; /* Sidebar más ancho en landscape */
+  }
+}
+```
+
+**Touch targets logística:**
+```css
+/* Vistas de logística - touch targets mayores */
+.page-picking .btn,
+.page-stock .btn,
+.page-productos .btn {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 12px;
+}
+
+.page-picking .checkbox,
+.page-stock .checkbox {
+  width: 48px;
+  height: 48px;
+}
+
+.page-picking .qr-scanner-btn {
+  min-height: 64px;
+  min-width: 64px;
+}
+```
+
+### ✅ **PRÓXIMOS PASOS DE IMPLEMENTACIÓN**
+
+1. **Implementar focus-trap** completo en sidebar overlay
+2. **Agregar media queries** por capabilities (touch/reduced-motion)
+3. **Testing landscape** en tablets reales
+4. **Subir touch targets** a 48px en vistas logísticas
+5. **Activar DebugResponsive** con flag de desarrollo
+6. **Documentar casos edge** (orientación, capabilities)
+
+---
+
 *Sistema Responsive definitivo BAMBU v1.0 - Seguir estrictamente el mobile-first approach*

@@ -998,4 +998,109 @@ function getNivelTexto(nivel) {
 - [UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md)
 - [DEV_HANDBOOK_LARAVEL_VUE.md](./DEV_HANDBOOK_LARAVEL_VUE.md)
 
+---
+
+## 🔍 REVISIÓN SENIOR FRONTEND - CAMBIOS PROPUESTOS
+
+**Fecha revisión**: 2025-08-08  
+**Estado**: Pendientes de implementación  
+
+Luego de someter el sistema a una revisión exhaustiva por parte de un senior frontend developer, se propusieron los siguientes cambios críticos e importantes:
+
+### 🚨 **CAMBIOS CRÍTICOS**
+
+1. **Unificar estructura CSS**
+   - **Problema**: Inconsistencia entre CLAUDE.md #8 y este documento
+   - **Solución**: Estructura única `app.css + tokens.css + components.css + responsive.css`
+   - **Impacto**: Elimina confusión para developers junior
+
+2. **Corregir BambuCard.vue**
+   - **Problema**: `emit('click')` usado sin declarar `defineEmits`
+   - **Solución**: `const emit = defineEmits(['click'])`
+   - **Impacto**: Fix de error de compilación
+
+3. **Crear tokens.css unificado**
+   - **Problema**: Tokens `--space-*`, `--font-*`, `--shadow-*` no están definidos
+   - **Solución**: Archivo único `tokens.css` con todas las variables del sistema
+   - **Impacto**: Fuente de verdad única para el design system
+
+4. **Agregar tokens de sombras faltantes**
+   - **Problema**: CSS usa `--shadow-sm/md` pero no existen
+   - **Solución**: Definir `--shadow-sm/md/lg` con valores HSL
+   - **Impacto**: Fix de estilos rotos
+
+### ⚡ **CAMBIOS IMPORTANTES**
+
+1. **Eliminar utilidades duplicadas de Tailwind**
+   - **Problema**: Re-implementamos `flex`, `grid`, `spacing` que ya existen en Tailwind 4
+   - **Solución**: Mantener SOLO utilidades específicas del dominio
+   - **Impacto**: Reduce CSS bundle y elimina conflicts
+
+2. **Consolidar transiciones**
+   - **Problema**: Variables `--transition-*` duplicadas entre documentos
+   - **Solución**: Centralizar en `tokens.css`
+   - **Impacto**: Consistencia en todas las animaciones
+
+3. **Agregar tokens de focus y radius**
+   - **Problema**: Accesibilidad inconsistente
+   - **Solución**: `--focus-ring` y `--radius-1..n` tokens
+   - **Impacto**: Mejor experiencia para usuarios con teclado
+
+### 💡 **CAMBIOS NICE-TO-HAVE**
+
+1. **Mejorar arquitectura de componentes**
+   - Separar componentes por responsabilidad (ui/ domain/ layout/)
+   - Agregar composables específicos del negocio
+   - Documentar patrones de reutilización
+
+### 📋 **NUEVA ESTRUCTURA CSS PROPUESTA**
+
+```
+bambu-sistema-v2/resources/css/
+├── app.css              # Entry point (imports todos)
+├── tokens.css           # ÚNICA fuente de verdad (spacing, fonts, shadows, colors, transitions)  
+├── components.css       # Estilos componentes base
+└── responsive.css       # Media queries y breakpoints
+```
+
+### 🔧 **COMPONENTES A CORREGIR**
+
+**BambuCard.vue actualizado:**
+```vue
+<script setup>
+// ❌ Antes (error)
+// defineEmits(['click'])
+
+// ✅ Después (correcto)  
+const emit = defineEmits(['click'])
+
+function handleClick(event) {
+  if (clickable) {
+    emit('click', event)
+  }
+}
+</script>
+```
+
+**Tokens de sombras a agregar:**
+```css
+/* tokens.css */
+:root {
+  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.25);
+  --shadow-md: 0 2px 6px hsl(0 0% 0% / 0.3);  
+  --shadow-lg: 0 8px 16px hsl(0 0% 0% / 0.35);
+}
+```
+
+### ✅ **PRÓXIMOS PASOS DE IMPLEMENTACIÓN**
+
+1. **Crear `tokens.css`** con todas las variables del sistema
+2. **Migrar variables** desde otros archivos a `tokens.css`
+3. **Actualizar `app.css`** para importar nueva estructura
+4. **Corregir componentes** con bugs identificados
+5. **Eliminar utilidades duplicadas** manteniendo solo dominio-específicas
+6. **Testing** de todos los componentes tras los cambios
+
+---
+
 **🎯 Este documento es OBLIGATORIO para todo desarrollo frontend en el sistema Bambú.**

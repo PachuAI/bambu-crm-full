@@ -729,6 +729,169 @@ function animarBotonExito(botonElement) {
 
 ---
 
+## 🔍 REVISIÓN SENIOR FRONTEND - CAMBIOS PROPUESTOS
+
+**Fecha revisión**: 2025-08-08  
+**Estado**: Pendientes de implementación  
+
+Luego de someter el sistema a una revisión exhaustiva por parte de un senior frontend developer, se propusieron los siguientes cambios para mejorar la UX específica del dominio químico:
+
+### 🚨 **CAMBIOS CRÍTICOS**
+
+1. **Alertas de seguridad no-solo-color**
+   - **Problema**: Estados críticos dependen solo del color (insuficiente para accesibilidad)
+   - **Solución**: Ícono + texto obligatorio + pictogramas GHS/ADR en productos peligrosos
+   - **Impacto**: Cumplimiento accesibilidad AA y normas industriales
+
+### ⚡ **CAMBIOS IMPORTANTES**
+
+1. **Definir SLA de búsqueda omnipresente**
+   - **Problema**: No hay límites de latencia definidos
+   - **Solución**: <150ms local cache, <400ms red, fallback offline con últimos N resultados
+   - **Impacto**: UX predecible en depósito con conectividad variable
+
+2. **Estado "Bloqueado por seguridad" en timeline**
+   - **Problema**: No consideramos incompatibilidades químicas en flujo de pedidos
+   - **Solución**: Estado específico con acciones rápidas para resolver
+   - **Impacto**: Prevención de mezclas peligrosas
+
+3. **Modo alta densidad + modo guantes**
+   - **Problema**: Solo un tamaño de interfaz para contextos diferentes
+   - **Solución**: Modo escritorio (admin) compacto + modo tablet expandido ≥48px
+   - **Impacto**: Optimización específica por tipo de usuario
+
+### 📋 **PATRONES ACTUALIZADOS**
+
+**Alertas de productos peligrosos - Patrón accesible:**
+```vue
+<div 
+  class="producto-peligroso" 
+  role="alert" 
+  aria-live="assertive"
+>
+  <!-- Ícono + Color + Pictograma -->
+  <div class="alerta-visual">
+    <span class="icono-peligro" aria-hidden="true">⚠️</span>
+    <img src="/pictogramas/ghs-corrosivo.svg" alt="Producto corrosivo" class="ghs-pictogram">
+  </div>
+  
+  <!-- Texto descriptivo siempre presente -->
+  <div class="alerta-texto">
+    <strong>ÁCIDO MURIÁTICO</strong>
+    <span class="instruccion">Manipular con guantes y protección ocular</span>
+  </div>
+  
+  <!-- Patrón visual adicional -->
+  <div class="borde-peligro" aria-hidden="true"></div>
+</div>
+```
+
+**Estados de stock - Sin dependencia solo de color:**
+```vue
+<div class="stock-indicator" :class="`stock-${nivel}`">
+  <!-- Ícono semántico -->
+  <div class="stock-icono">
+    <component :is="getStockIcon(nivel)" />
+  </div>
+  
+  <!-- Información textual -->
+  <div class="stock-info">
+    <span class="cantidad">{{ formatCantidad }}</span>
+    <span class="nivel-texto">{{ getNivelTexto(nivel) }}</span>
+  </div>
+  
+  <!-- Indicador visual de barras -->
+  <div class="stock-bar">
+    <div class="stock-fill" :style="`width: ${porcentaje}%`"></div>
+  </div>
+</div>
+```
+
+**Timeline con estado bloqueado:**
+```vue
+<div class="pedido-timeline-item" v-if="pedido.bloqueado_seguridad">
+  <div class="timeline-dot blocked">
+    <span aria-hidden="true">🚫</span>
+  </div>
+  
+  <div class="timeline-content">
+    <div class="estado-bloqueado">
+      <h4>🚨 Bloqueado por Seguridad</h4>
+      <p class="motivo">{{ pedido.motivo_bloqueo }}</p>
+      
+      <div class="acciones-rapidas">
+        <button @click="revisarIncompatibilidades" class="btn-warning">
+          🧪 Revisar Compatibilidad
+        </button>
+        <button @click="contactarSeguridad" class="btn-secondary">
+          📞 Contactar Seguridad
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+**Búsqueda con SLA y offline:**
+```vue
+<div class="busqueda-omnipresente">
+  <input 
+    v-model="query"
+    @input="buscarConSLA"
+    placeholder="Buscar productos, clientes, pedidos..."
+  >
+  
+  <!-- Indicador de latencia -->
+  <div class="search-status">
+    <span v-if="searching" class="latency">⏱️ {{ latencia }}ms</span>
+    <span v-if="offline" class="offline-mode">📱 Modo offline</span>
+  </div>
+  
+  <!-- Resultados con fallback offline -->
+  <div class="search-results">
+    <div v-if="offline && cachedResults.length" class="cached-section">
+      <h5>📂 Resultados recientes (cache)</h5>
+      <!-- Mostrar últimos resultados cacheados -->
+    </div>
+  </div>
+</div>
+```
+
+**Modos de densidad:**
+```css
+/* Modo alta densidad para admin/desktop */
+.modo-alta-densidad {
+  --card-padding: var(--space-sm);
+  --table-row-height: 32px;
+  --font-size-base: 14px;
+}
+
+/* Modo guantes para logística/tablets */
+.modo-guantes {
+  --touch-target-min: 48px;
+  --card-padding: var(--space-lg);
+  --font-size-base: 16px;
+}
+
+.modo-guantes .btn,
+.modo-guantes .checkbox,
+.modo-guantes .form-input {
+  min-height: 48px;
+  min-width: 48px;
+}
+```
+
+### ✅ **PRÓXIMOS PASOS DE IMPLEMENTACIÓN**
+
+1. **Actualizar componentes** con patrones no-solo-color
+2. **Implementar SLA** de búsqueda con cache offline
+3. **Agregar estado "Bloqueado"** en timeline de pedidos
+4. **Crear toggle** modo alta densidad / modo guantes
+5. **Testing accesibilidad** con lectores de pantalla
+6. **Validar pictogramas** GHS/ADR con usuarios reales
+
+---
+
 **🧪 Guidelines UX específicas para CRM Químico Bambú**  
 **📅 Actualizado**: 2025-08-08  
 **🎯 Optimizado para**: Alto Valle, Productos Químicos, Operaciones Industriales

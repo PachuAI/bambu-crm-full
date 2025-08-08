@@ -504,4 +504,92 @@ export function useTheme() {
 
 ---
 
+## 🔍 REVISIÓN SENIOR FRONTEND - CAMBIOS PROPUESTOS
+
+**Fecha revisión**: 2025-08-08  
+**Estado**: Pendientes de implementación  
+
+Luego de someter el sistema a una revisión exhaustiva por parte de un senior frontend developer, se propusieron los siguientes cambios para mejorar el sistema de colores:
+
+### 🚨 **CAMBIOS CRÍTICOS**
+
+1. **Agregar 4º nivel de fondo**
+   - **Problema**: Solo 3 niveles (base/surface/elevated) insuficientes para overlays/modals
+   - **Solución**: Agregar `--bg-overlay` para capas superiores
+   - **Impacto**: Mejor jerarquía visual en interfaces complejas
+
+### ⚡ **CAMBIOS IMPORTANTES**
+
+1. **Mejorar contraste de bordes en dark mode**
+   - **Problema**: Bordes al 20% L muy lavados en pantallas industriales baratas
+   - **Solución**: Subir `--border` dark a 26-28% L
+   - **Impacto**: Mejor legibilidad en ambientes de trabajo reales
+
+2. **Agregar tokens "on-*" para texto sobre fondos**
+   - **Problema**: Sin definición clara de texto sobre fondos de estado
+   - **Solución**: Tokens `--on-primary`, `--on-success`, `--on-error`
+   - **Impacto**: Contraste garantizado en badges y alerts
+
+### 💡 **CAMBIOS NICE-TO-HAVE**
+
+1. **Migrar a `data-theme` en `<html>`**
+   - **Problema**: `body.light-mode` puede complicar SSR
+   - **Solución**: `html[data-theme="light|dark"]` + `prefers-color-scheme` fallback
+   - **Impacto**: Mejor compatibilidad y performance
+
+### 📋 **NUEVAS VARIABLES PROPUESTAS**
+
+**Cuarto nivel de fondo:**
+```css
+:root {
+  /* Agregar a los fondos existentes */
+  --bg-overlay: hsl(var(--brand-hue) 15% 15%);  /* Dark */
+}
+
+/* Light mode override */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-overlay: hsl(var(--brand-hue) 10% 98%);
+  }
+}
+```
+
+**Bordes mejorados para dark:**
+```css
+:root {
+  /* Actualizar contraste */
+  --border: hsl(var(--brand-hue) 8% 26%);        /* Subido de 20% a 26% */
+  --border-hover: hsl(var(--brand-hue) 12% 35%); /* Ajustado proporcionalmente */
+}
+```
+
+**Tokens "on-*" para texto:**
+```css
+:root {
+  /* Texto sobre fondos de estado */
+  --on-primary: hsl(0 0% 100%);
+  --on-success: hsl(0 0% 100%);
+  --on-warning: hsl(0 0% 10%);
+  --on-error: hsl(0 0% 100%);
+  --on-info: hsl(0 0% 100%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --on-warning: hsl(0 0% 0%);  /* Mejor contraste en light */
+  }
+}
+```
+
+### ✅ **PRÓXIMOS PASOS DE IMPLEMENTACIÓN**
+
+1. **Agregar `--bg-overlay`** a la paleta base
+2. **Ajustar contraste** de bordes en dark mode (26-28% L)
+3. **Crear tokens "on-*"** para texto sobre fondos de estado
+4. **Migrar a `data-theme`** en lugar de clases en body
+5. **Testing de contraste** en dispositivos industriales reales
+6. **Documentar casos de uso** para cada nivel de fondo
+
+---
+
 *Sistema de colores definitivo BAMBU v1.0 - No modificar sin aprobación del equipo*
