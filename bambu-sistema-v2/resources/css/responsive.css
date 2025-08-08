@@ -1,59 +1,24 @@
-/* =======================================
-   BAMBU RESPONSIVE CSS - Sistema Mobile-First
-   
-   Versión: 1.0.0
-   Fecha: 2025-08-08
-   
-   📱 Built mobile-first by ÍTERA
-   https://iteraestudio.com
-   ======================================= */
+/* ============================================
+   📱 BAMBU RESPONSIVE SYSTEM - MOBILE FIRST
+   ============================================ */
 
-/* =======================================
-   BREAKPOINTS DEFINIDOS
-   Mobile: 0-767px
-   Tablet: 768px-1023px  
-   Desktop: 1024px+
-   ======================================= */
+/* ============================================
+   📏 BREAKPOINTS DEFINIDOS
+   ============================================ */
 
-/* =======================================
-   MOBILE FIRST - BASE (0-767px)
-   ======================================= */
-
-/* Container responsive */
-.container {
-  width: 100%;
-  padding: 0 var(--space-md);
-  margin: 0 auto;
+:root {
+  --mobile: 0px;      /* 0-767px */
+  --tablet: 768px;    /* 768-1023px */
+  --desktop: 1024px;  /* 1024px+ */
 }
 
-/* Grid system mobile */
-.grid {
-  display: grid;
-  gap: var(--space-md);
-}
+/* ============================================
+   🎛️ SIDEBAR RESPONSIVE
+   ============================================ */
 
-.grid-cols-1 { grid-template-columns: 1fr; }
-
-/* Métricas grid - 1 columna mobile */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-md);
-  margin-bottom: var(--space-xl);
-}
-
-/* Charts row - stack vertical mobile */
-.charts-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-md);
-  margin-bottom: var(--space-xl);
-}
-
-/* Sidebar móvil - overlay */
+/* MOBILE: Sidebar como overlay (default) */
 .sidebar {
   transform: translateX(-100%);
-  z-index: var(--z-modal); /* Asegurar que esté encima del overlay */
 }
 
 .sidebar-open {
@@ -61,467 +26,253 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* Hamburger visible en mobile */
-.hamburger-btn {
-  display: flex;
+/* Body scroll lock cuando sidebar abierto en mobile */
+.sidebar-open-mobile {
+  overflow: hidden;
 }
 
-/* Main content móvil */
-.main-content {
-  margin-left: 0;
-}
-
-/* Header actions mobile - hamburger + theme toggle */
-.theme-toggle {
-  display: flex; /* Visible en mobile */
-}
-
-.notification-btn,
-.settings-btn {
-  display: none;
-}
-
-.hamburger-btn {
-  display: flex;
-}
-
-/* Header mobile */
-.main-header {
-  padding: 0 var(--space-md);
-}
-
-.header-content {
-  justify-content: space-between; /* Hamburger izq, tema der */
-}
-
-.header-search {
-  display: none; /* Oculto en mobile */
-}
-
-/* Content area mobile */
-.content-area {
-  flex: 1;
-  padding: var(--space-lg) var(--space-md);
-}
-
-/* Metric cards mobile */
-.metric-card {
-  padding: var(--space-md);
-  min-height: 100px;
-}
-
-.metric-value {
-  font-size: var(--font-xl);
-}
-
-/* Chart containers mobile */
-.chart-container {
-  padding: var(--space-md);
-  min-height: 200px;
-}
-
-/* Tablas mobile - scroll horizontal */
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.table-wrapper table {
-  min-width: 600px;
-}
-
-/* Botones mobile - touch targets */
-.btn {
-  min-height: 48px;
-  padding: var(--space-md) var(--space-lg);
-}
-
-.btn-icon {
-  min-width: 48px;
-  min-height: 48px;
-}
-
-/* Inputs mobile - touch targets */
-.form-input {
-  min-height: 48px;
-  font-size: 16px; /* Evita zoom en iOS */
-}
-
-/* =======================================
-   TABLET (768px - 1023px)
-   ======================================= */
-
-@media (min-width: 768px) {
-  /* Container tablet */
-  .container {
-    padding: 0 var(--space-lg);
-  }
-
-  /* Grid 2 columnas tablet */
-  .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-  
-  /* Métricas grid - 2 columnas tablet */
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
-  }
-
-  /* Charts row tablet - sigue stack vertical */
-  .charts-row {
-    gap: var(--space-lg);
-  }
-
-  /* Header tablet */
-  .main-header {
-    padding: 0 var(--space-lg);
-  }
-
-  .header-content {
-    justify-content: flex-start; /* Layout normal con flex */
-  }
-
-  .header-search {
-    display: block; /* Visible en tablet */
-    flex: 1;
-    max-width: 400px;
-  }
-
-  /* Header actions tablet - mostrar theme y notifications */
-  .theme-toggle,
-  .notification-btn {
-    display: flex;
-  }
-
-  .settings-btn {
-    display: none;
-  }
-
-  /* Content area tablet */
-  .content-area {
-    padding: var(--space-xl) var(--space-lg);
-  }
-
-  /* Metric cards tablet */
-  .metric-card {
-    padding: var(--space-lg);
-    min-height: 120px;
-  }
-
-  .metric-value {
-    font-size: var(--font-2xl);
-  }
-
-  /* Chart containers tablet */
-  .chart-container {
-    padding: var(--space-lg);
-    min-height: 300px;
-  }
-
-  /* Sidebar tablet - sigue siendo overlay pero más ancho */
-  .sidebar {
-    width: 320px;
-  }
-
-  /* Formularios tablet - 2 columnas */
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
-  }
-}
-
-/* =======================================
-   DESKTOP (1024px+)
-   ======================================= */
-
+/* DESKTOP: Sidebar fijo */
 @media (min-width: 1024px) {
-  /* Container desktop */
-  .container {
-    padding: 0 var(--space-xl);
-    max-width: var(--container-max);
+  .sidebar {
+    transform: translateX(0);
+    position: relative;
+    box-shadow: none;
   }
+  
+  .main-wrapper {
+    margin-left: 280px;
+  }
+  
+  .hamburger-btn {
+    display: none !important;
+  }
+  
+  .sidebar-overlay {
+    display: none !important;
+  }
+}
 
-  /* Grid desktop - más columnas */
-  .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-  .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+/* ============================================
+   🍔 HAMBURGER MENU
+   ============================================ */
 
-  /* Métricas grid - 4 columnas desktop */
-  .metrics-grid {
+.hamburger-btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.hamburger-btn span {
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition-fast);
+  display: block;
+}
+
+/* Animación X cuando sidebar abierto */
+.sidebar-open .hamburger-btn span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.sidebar-open .hamburger-btn span:nth-child(2) {
+  opacity: 0;
+}
+
+.sidebar-open .hamburger-btn span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ============================================
+   📊 DASHBOARD GRID
+   ============================================ */
+
+.dashboard-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* Mobile: 1 columna */
+.dashboard-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Tablet: 2 columnas */
+@media (min-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+/* Desktop: 4 columnas */
+@media (min-width: 1024px) {
+  .dashboard-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-xl);
   }
+}
 
-  /* Charts row desktop - 2/3 + 1/3 */
-  .charts-row {
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-xl);
+/* ============================================
+   📱 HEADER RESPONSIVE
+   ============================================ */
+
+.main-header {
+  height: 64px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-md);
+  gap: var(--space-md);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* Mobile: Búsqueda oculta */
+.header-search {
+  display: none;
+}
+
+/* Tablet+: Búsqueda visible */
+@media (min-width: 768px) {
+  .header-search {
+    display: block;
+    flex: 1;
+    max-width: 400px;
   }
-
-  /* Sidebar desktop - fijo y visible */
-  .sidebar {
-    position: fixed;
-    transform: translateX(0);
-    width: var(--sidebar-width);
+  
+  .main-header {
+    padding: 0 var(--space-lg);
   }
+}
 
-  /* Main content con margen para sidebar */
-  .main-content {
-    margin-left: var(--sidebar-width);
-  }
-
-  /* Hamburger oculto en desktop */
-  .hamburger-btn {
-    display: none;
-  }
-
-  /* Header actions desktop - mostrar todos */
-  .theme-toggle,
-  .notification-btn,
-  .settings-btn {
-    display: flex;
-  }
-
-  /* Overlay oculto en desktop - sidebar es fijo */
-  .sidebar-overlay {
-    display: none;
-  }
-
-  /* Header desktop */
+/* Desktop: Más espaciado */
+@media (min-width: 1024px) {
   .main-header {
     padding: 0 var(--space-xl);
   }
+}
 
-  .header-content {
-    justify-content: flex-start; /* Layout normal con flex */
-  }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-left: auto;
+}
 
-  .header-search {
-    flex: 1;
-    max-width: 600px;
-    margin: 0 var(--space-xl);
-  }
+/* ============================================
+   📋 FORM RESPONSIVE
+   ============================================ */
 
-  /* Content area desktop */
-  .content-area {
-    padding: var(--space-xl);
-  }
+.form-grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
 
-  /* Metric cards desktop */
-  .metric-card {
-    padding: var(--space-xl);
-    min-height: 140px;
-  }
-
-  .metric-value {
-    font-size: var(--font-3xl);
-  }
-
-  /* Chart containers desktop */
-  .chart-container {
-    padding: var(--space-xl);
-    min-height: 400px;
-  }
-
-  /* Hover states solo en desktop */
-  .card:hover {
-    transform: translateY(-2px);
-  }
-
-  .btn:hover {
-    transform: translateY(-1px);
-  }
-
-  /* Focus states mejorados desktop */
-  *:focus-visible {
-    outline-offset: 3px;
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
   }
 }
 
-/* =======================================
-   TABLET LANDSCAPE ESPECÍFICO
-   ======================================= */
-
-@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
-  /* Header más compacto en landscape */
-  .main-header {
-    height: 56px;
-  }
-
-  /* Sidebar más ancho en landscape */
-  .sidebar {
-    width: 320px;
-  }
-
-  /* Search más compacta */
-  .header-search {
-    max-width: 400px;
-  }
-}
-
-/* =======================================
-   MEDIA QUERIES POR CAPABILITIES
-   ======================================= */
-
-/* Touch devices - sin hover effects */
-@media (hover: none) and (pointer: coarse) {
-  .card:hover {
-    transform: none;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .btn:hover {
-    transform: none;
-  }
-
-  /* Touch targets más grandes */
-  .btn {
-    min-height: 48px;
-    min-width: 48px;
-    padding: var(--space-md) var(--space-lg);
-  }
-
-  .btn-icon {
-    min-height: 48px;
-    min-width: 48px;
-  }
-
-  .sidebar-link {
-    min-height: 48px;
-    padding: var(--space-md) var(--space-lg);
-  }
-
-  /* Spacing mayor en interfaces táctiles */
-  .nav-item {
-    padding: var(--space-md) var(--space-sm);
-  }
-}
-
-/* Usuarios con sensibilidad al movimiento */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .sidebar {
-    transition: none;
-  }
-
-  .card:hover {
-    transform: none;
-  }
-
-  .btn:hover {
-    transform: none;
-  }
-}
-
-/* =======================================
-   MODOS DE DENSIDAD RESPONSIVE
-   ======================================= */
-
-/* Modo guantes para logística (tablets/touch) */
-@media (max-width: 1023px) {
-  .modo-guantes .btn,
-  .modo-guantes .checkbox,
-  .modo-guantes .form-input {
-    min-height: 48px;
-    min-width: 48px;
-  }
-
-  .modo-guantes .sidebar-link {
-    min-height: 48px;
-  }
-}
-
-/* Modo alta densidad para admin (desktop) */
-@media (min-width: 1024px) {
-  .modo-alta-densidad .metric-card {
-    padding: var(--space-sm);
-    min-height: 100px;
-  }
-
-  .modo-alta-densidad .chart-container {
-    padding: var(--space-md);
-    min-height: 280px;
-  }
-
-  .modo-alta-densidad .btn {
-    min-height: 36px;
-    padding: var(--space-xs) var(--space-md);
-  }
-}
-
-/* =======================================
-   RESPONSIVE TABLES
-   ======================================= */
-
-/* Tabla modo cards en mobile */
+/* iOS Zoom Prevention */
 @media (max-width: 767px) {
-  .table-responsive {
-    display: block;
+  .form-input {
+    font-size: 16px; /* Evita zoom automático en iOS */
   }
+}
 
-  .table-responsive thead {
+/* ============================================
+   📊 TABLE RESPONSIVE
+   ============================================ */
+
+.table-wrapper {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* Mobile: Scroll horizontal */
+@media (max-width: 767px) {
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    min-width: 600px;
+  }
+}
+
+/* ============================================
+   🎯 SPACING RESPONSIVE
+   ============================================ */
+
+.p-responsive {
+  padding: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .p-responsive {
+    padding: var(--space-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .p-responsive {
+    padding: var(--space-xl);
+  }
+}
+
+/* ============================================
+   📱 UTILITY CLASSES MOBILE-FIRST
+   ============================================ */
+
+/* Visibility utilities */
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .mobile-only {
     display: none;
   }
-
-  .table-responsive tbody,
-  .table-responsive tr,
-  .table-responsive td {
+  
+  .desktop-only {
     display: block;
-  }
-
-  .table-responsive tr {
-    margin-bottom: var(--space-md);
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-base);
-    padding: var(--space-md);
-  }
-
-  .table-responsive td {
-    text-align: right;
-    padding: var(--space-xs) 0;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  .table-responsive td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    width: 45%;
-    text-align: left;
-    font-weight: 600;
-    color: var(--text-secondary);
   }
 }
 
-/* =======================================
-   PRINT STYLES
-   ======================================= */
+/* Typography responsive */
+.text-responsive {
+  font-size: var(--font-sm);
+}
 
-@media print {
-  * {
-    background: white !important;
-    color: black !important;
-    box-shadow: none !important;
+@media (min-width: 768px) {
+  .text-responsive {
+    font-size: var(--font-md);
   }
+}
 
-  .sidebar,
-  .hamburger-btn,
-  .btn:not(.print-show) {
-    display: none !important;
-  }
-
-  .main-wrapper {
-    margin-left: 0 !important;
-  }
-
-  .container {
-    max-width: none !important;
-    padding: 0 !important;
+@media (min-width: 1024px) {
+  .text-responsive {
+    font-size: var(--font-lg);
   }
 }

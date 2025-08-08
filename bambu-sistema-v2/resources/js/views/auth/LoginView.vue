@@ -197,7 +197,7 @@ const handleLogin = async () => {
 .login-card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   padding: var(--space-xl);
   display: flex;
   flex-direction: column;
@@ -221,7 +221,7 @@ const handleLogin = async () => {
   padding: var(--space-sm) var(--space-md);
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   color: var(--text-primary);
   font-size: var(--font-base);
   transition: var(--transition-fast);
@@ -286,9 +286,9 @@ const handleLogin = async () => {
   width: 100%;
   padding: var(--space-md) var(--space-lg);
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   font-size: var(--font-base);
   font-weight: 500;
   cursor: pointer;
@@ -322,7 +322,7 @@ const handleLogin = async () => {
   background: var(--bg-elevated);
   color: var(--text-secondary);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   font-size: var(--font-sm);
   font-weight: 500;
   cursor: pointer;
@@ -341,7 +341,7 @@ const handleLogin = async () => {
   height: 20px;
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   animation: spin 1s linear infinite;
 }
 
@@ -354,7 +354,7 @@ const handleLogin = async () => {
 .error-message {
   background: var(--error-bg);
   border: 1px solid var(--error);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   padding: var(--space-md);
   color: var(--error);
   font-size: var(--font-sm);
@@ -385,7 +385,7 @@ const handleLogin = async () => {
 .demo-credentials {
   background: var(--primary-bg);
   border: 1px solid var(--primary);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   padding: var(--space-md);
 }
 

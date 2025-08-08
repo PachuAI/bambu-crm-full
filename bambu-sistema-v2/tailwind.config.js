@@ -2,102 +2,96 @@
 export default {
   content: [
     "./resources/**/*.blade.php",
-    "./resources/**/*.js",
+    "./resources/**/*.js", 
     "./resources/**/*.vue",
     "./resources/**/*.ts",
   ],
-  darkMode: 'class',
+  
+  // DESACTIVAR PREFLIGHT - Usamos nuestro propio reset
+  corePlugins: {
+    preflight: false,
+  },
+  
   theme: {
     extend: {
+      // SOLO usar nuestras variables BAMBU del tokens.css
       colors: {
-        // Dark mode backgrounds (default)
-        'bg-primary': 'var(--bg-primary)',
-        'bg-secondary': 'var(--bg-secondary)',
-        'bg-sidebar': 'var(--bg-sidebar)',
-        'bg-tertiary': 'var(--bg-tertiary)',
+        'primary': 'var(--primary)',
+        'primary-hover': 'var(--primary-hover)', 
+        'primary-active': 'var(--primary-active)',
+        'primary-bg': 'var(--primary-bg)',
         
-        // Surfaces
-        'surface-1': 'var(--surface-1)',
-        'surface-2': 'var(--surface-2)',
-        'surface-3': 'var(--surface-3)',
+        'success': 'var(--success)',
+        'success-bg': 'var(--success-bg)',
+        'warning': 'var(--warning)',
+        'warning-bg': 'var(--warning-bg)',
+        'error': 'var(--error)',
+        'error-bg': 'var(--error-bg)',
+        'info': 'var(--info)',
+        'info-bg': 'var(--info-bg)',
         
-        // Text colors
+        'bg-base': 'var(--bg-base)',
+        'bg-surface': 'var(--bg-surface)',
+        'bg-elevated': 'var(--bg-elevated)',
+        'bg-overlay': 'var(--bg-overlay)',
+        
         'text-primary': 'var(--text-primary)',
         'text-secondary': 'var(--text-secondary)',
         'text-muted': 'var(--text-muted)',
-        'text-placeholder': 'var(--text-placeholder)',
+        'text-inverse': 'var(--text-inverse)',
         
-        // Brand colors
-        'primary': 'var(--primary)',
-        'primary-hover': 'var(--primary-hover)',
-        'primary-light': 'var(--primary-light)',
-        'primary-alpha': 'var(--primary-alpha)',
-        
-        // Status colors
-        'success': 'var(--success)',
-        'success-light': 'var(--success-light)',
-        'warning': 'var(--warning)',
-        'warning-light': 'var(--warning-light)',
-        'danger': 'var(--danger)',
-        'danger-light': 'var(--danger-light)',
-        
-        // Chart colors
-        'chart-1': 'var(--chart-1)',
-        'chart-2': 'var(--chart-2)',
-        'chart-3': 'var(--chart-3)',
-        'chart-4': 'var(--chart-4)',
-        'chart-5': 'var(--chart-5)',
-        'chart-6': 'var(--chart-6)',
+        'border-default': 'var(--border)',
+        'border-hover': 'var(--border-hover)',
+        'border-strong': 'var(--border-strong)',
       },
-      fontFamily: {
-        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'Fira Code', 'monospace'],
-      },
-      fontSize: {
-        'xs': '0.75rem',    // 12px
-        'sm': '0.875rem',   // 14px
-        'base': '1rem',     // 16px
-        'lg': '1.125rem',   // 18px
-        'xl': '1.25rem',    // 20px
-        '2xl': '1.5rem',    // 24px
-        '3xl': '1.875rem',  // 30px
-        '4xl': '2.25rem',   // 36px
-      },
+      
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '120': '30rem',
+        'xs': 'var(--space-xs)',
+        'sm': 'var(--space-sm)', 
+        'md': 'var(--space-md)',
+        'lg': 'var(--space-lg)',
+        'xl': 'var(--space-xl)',
+        '2xl': 'var(--space-2xl)',
+        '3xl': 'var(--space-3xl)',
       },
-      width: {
-        'sidebar': '280px',
+      
+      fontSize: {
+        'xs': 'var(--font-xs)',
+        'sm': 'var(--font-sm)',
+        'base': 'var(--font-base)',
+        'md': 'var(--font-md)',
+        'lg': 'var(--font-lg)',
+        'xl': 'var(--font-xl)',
+        '2xl': 'var(--font-2xl)',
+        '3xl': 'var(--font-3xl)',
+        '4xl': 'var(--font-4xl)',
       },
-      height: {
-        'header': '64px',
+      
+      borderRadius: {
+        'sm': 'var(--radius-sm)',
+        'md': 'var(--radius-md)', 
+        'lg': 'var(--radius-lg)',
+        'full': 'var(--radius-full)',
       },
-      zIndex: {
-        '90': '90',
-        '100': '100',
+      
+      boxShadow: {
+        'sm': 'var(--shadow-sm)',
+        'md': 'var(--shadow-md)',
+        'lg': 'var(--shadow-lg)',
+        'xl': 'var(--shadow-xl)',
       },
-      animation: {
-        'fade-in': 'fadeIn 0.2s ease-in-out',
-        'slide-up': 'slideUp 0.3s ease-out',
-        'slide-down': 'slideDown 0.3s ease-out',
+      
+      transitionDuration: {
+        'fast': 'var(--transition-fast)',
+        'normal': 'var(--transition-normal)',
+        'slow': 'var(--transition-slow)',
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        slideDown: {
-          '0%': { transform: 'translateY(-10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
+      
+      fontFamily: {
+        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
     },
   },
+  
   plugins: [],
 }
