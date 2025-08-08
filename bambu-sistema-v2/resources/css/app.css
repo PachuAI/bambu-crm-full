@@ -42,11 +42,24 @@ input, button, textarea, select {
     color: inherit;
 }
 
-/* Botones sin estilos por defecto */
+/* Botones sin estilos por defecto - RESET AGRESIVO */
 button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background: none;
     border: none;
     cursor: pointer;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    text-align: inherit;
+    text-decoration: none;
+    line-height: normal;
+    overflow: visible;
+    box-sizing: border-box;
 }
 
 /* Links sin decoración por defecto */

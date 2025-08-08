@@ -51,7 +51,7 @@ const handleLogout = async () => {
 
 .theme-toggle,
 .logout-btn {
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-xl) !important;
   background: var(--primary);
   color: var(--text-inverse);
   border: none;
@@ -59,6 +59,12 @@ const handleLogout = async () => {
   cursor: pointer;
   font-weight: 500;
   transition: var(--transition-fast);
+  font-size: var(--font-sm);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .theme-toggle:hover,

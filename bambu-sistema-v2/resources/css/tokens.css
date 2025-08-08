@@ -3,83 +3,132 @@
    ============================================ */
 
 :root {
-  /* Primary Brand Colors */
-  --primary: hsl(231 76% 60%);           /* #6366f1 */
-  --primary-hover: hsl(231 76% 55%);     /* Hover state */
-  --primary-active: hsl(231 76% 50%);    /* Active state */
-  --primary-bg: hsl(231 76% 60% / 0.1);  /* Background tint */
+  /* ============================================
+     🎨 BRAND COLORS - VIOLETA BAMBU CORRECTO
+     ============================================ */
   
-  /* Semantic Colors */
-  --success: hsl(142 71% 45%);           /* #10b981 */
-  --success-bg: hsl(142 71% 45% / 0.1);  /* Background tint */
-  --warning: hsl(38 92% 50%);            /* #f59e0b */
-  --warning-bg: hsl(38 92% 50% / 0.1);   /* Background tint */
-  --error: hsl(0 84% 60%);               /* #ef4444 */
-  --error-bg: hsl(0 84% 60% / 0.1);      /* Background tint */
-  --info: hsl(199 89% 48%);              /* #0ea5e9 */
-  --info-bg: hsl(199 89% 48% / 0.1);     /* Background tint */
+  --brand-hue: 238;                          /* Violeta BAMBU base */
+  --neutral-sat: 15%;                        /* Saturación sutil para neutrales */
   
-  /* Background Colors - LIGHT MODE DEFAULT */
-  --bg-base: hsl(210 20% 98%);           /* #f8fafc */
-  --bg-surface: hsl(210 40% 100%);       /* #ffffff */
-  --bg-elevated: hsl(210 25% 97%);       /* #f1f5f9 */
-  --bg-overlay: hsl(0 0% 0% / 0.5);      /* Modal overlays */
+  /* Primary Brand Colors - #6366f1 CORRECTO */
+  --primary: hsl(238, 84%, 67%);             /* #6366f1 - EXACTO */
+  --primary-hover: hsl(238, 84%, 62%);       /* Hover state */
+  --primary-active: hsl(238, 84%, 57%);      /* Active state */
+  --primary-bg: hsl(238, 84%, 67%, 0.1);    /* Background tint */
   
-  /* Text Colors - LIGHT MODE DEFAULT */
-  --text-primary: hsl(210 22% 22%);      /* #334155 */
-  --text-secondary: hsl(210 14% 53%);    /* #64748b */
-  --text-muted: hsl(210 9% 71%);         /* #94a3b8 */
-  --text-inverse: hsl(210 40% 100%);     /* #ffffff */
+  /* ============================================
+     🎨 SEMANTIC COLORS
+     ============================================ */
+  
+  --success: hsl(142, 71%, 45%);             /* #10b981 */
+  --success-bg: hsl(142, 71%, 45%, 0.1);    /* Background tint */
+  --warning: hsl(38, 92%, 50%);              /* #f59e0b */
+  --warning-bg: hsl(38, 92%, 50%, 0.1);     /* Background tint */
+  --error: hsl(0, 84%, 60%);                 /* #ef4444 */
+  --error-bg: hsl(0, 84%, 60%, 0.1);        /* Background tint */
+  --info: hsl(199, 89%, 48%);                /* #0ea5e9 */
+  --info-bg: hsl(199, 89%, 48%, 0.1);       /* Background tint */
+  
+  /* ============================================
+     🌈 THEME COLORS - LIGHT DEFAULT
+     ============================================ */
+  
+  /* Background Colors */
+  --bg-base: hsl(210 20% 98%);               /* #f8fafc */
+  --bg-surface: hsl(210 40% 100%);           /* #ffffff */
+  --bg-elevated: hsl(210 25% 97%);           /* #f1f5f9 */
+  --bg-overlay: hsl(0 0% 0% / 0.5);          /* Modal overlays */
+  
+  /* Text Colors */
+  --text-primary: hsl(210 22% 22%);          /* #334155 */
+  --text-secondary: hsl(210 14% 53%);        /* #64748b */
+  --text-muted: hsl(210 9% 71%);             /* #94a3b8 */
+  --text-inverse: hsl(210 40% 100%);         /* #ffffff */
   
   /* Border Colors */
-  --border: hsl(210 18% 87%);            /* #cbd5e1 */
-  --border-hover: hsl(210 25% 80%);      /* Hover state */
-  --border-strong: hsl(210 25% 75%);     /* #94a3b8 */
+  --border: hsl(210 18% 87%);                /* #cbd5e1 */
+  --border-hover: hsl(210 25% 80%);          /* Hover state */
+  --border-strong: hsl(210 25% 75%);         /* #94a3b8 */
   
-  /* Spacing System */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
+  /* ============================================
+     📏 SPACING SYSTEM
+     ============================================ */
   
-  /* Typography */
-  --font-xs: 0.75rem;
-  --font-sm: 0.875rem;
-  --font-base: 1rem;
-  --font-md: 1rem;
-  --font-lg: 1.125rem;
-  --font-xl: 1.25rem;
-  --font-2xl: 1.5rem;
-  --font-3xl: 2rem;
-  --font-4xl: 2.5rem;
+  --space-xs: 0.25rem;                       /* 4px */
+  --space-sm: 0.5rem;                        /* 8px */
+  --space-md: 1rem;                          /* 16px */
+  --space-lg: 1.5rem;                        /* 24px */
+  --space-xl: 2rem;                          /* 32px */
+  --space-2xl: 3rem;                         /* 48px */
+  --space-3xl: 4rem;                         /* 64px */
   
-  /* Shadow System */
+  /* ============================================
+     📱 RESPONSIVE BREAKPOINTS
+     ============================================ */
+  
+  --mobile: 0px;                             /* 0-767px */
+  --tablet: 768px;                           /* 768-1023px */
+  --desktop: 1024px;                         /* 1024px+ */
+  --wide: 1440px;                            /* 1440px+ */
+  
+  /* ============================================
+     🔤 TYPOGRAPHY SCALE
+     ============================================ */
+  
+  --font-xs: 0.75rem;                        /* 12px */
+  --font-sm: 0.875rem;                       /* 14px */
+  --font-base: 1rem;                         /* 16px */
+  --font-md: 1rem;                           /* 16px - alias */
+  --font-lg: 1.125rem;                       /* 18px */
+  --font-xl: 1.25rem;                        /* 20px */
+  --font-2xl: 1.5rem;                        /* 24px */
+  --font-3xl: 2rem;                          /* 32px */
+  --font-4xl: 2.5rem;                        /* 40px */
+  
+  /* ============================================
+     🎭 SHADOW SYSTEM
+     ============================================ */
+  
   --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.25);
   --shadow-md: 0 2px 6px hsl(0 0% 0% / 0.3);
   --shadow-lg: 0 8px 16px hsl(0 0% 0% / 0.35);
   --shadow-xl: 0 16px 32px hsl(0 0% 0% / 0.4);
   
-  /* Transitions */
+  /* ============================================
+     ⚡ TRANSITION SYSTEM
+     ============================================ */
+  
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Border Radius */
+  /* ============================================
+     🔘 BORDER RADIUS
+     ============================================ */
+  
   --radius-sm: 2px;
-  --radius-md: 4px;
+  --radius-md: 4px;                          /* Base - máximo permitido */
   --radius-lg: 8px;
   --radius-full: 9999px;
   
-  /* Z-index */
+  /* ============================================
+     📚 Z-INDEX SCALE
+     ============================================ */
+  
   --z-base: 0;
   --z-elevated: 10;
   --z-sticky: 20;
   --z-overlay: 30;
   --z-modal: 40;
   --z-toast: 50;
+  
+  /* ============================================
+     ✨ EFECTOS VISUALES
+     ============================================ */
+  
+  --highlight: hsl(var(--brand-hue), 20%, 25%);      /* Borde superior iluminado */
+  --shadow: none;                                     /* Sin sombras en dark */
+  --glow: 0 0 20px hsl(238, 84%, 67%, 0.3);         /* Resplandor violeta */
 }
 
 /* ============================================
@@ -88,47 +137,45 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark Mode Colors */
-    --bg-base: hsl(210 20% 8%);          /* #0f172a */
-    --bg-surface: hsl(210 18% 11%);      /* #1e293b */
-    --bg-elevated: hsl(210 16% 16%);     /* #334155 */
+    --bg-base: hsl(var(--brand-hue), var(--neutral-sat), 5%);    /* Más oscuro */
+    --bg-surface: hsl(var(--brand-hue), var(--neutral-sat), 10%); /* Cards */
+    --bg-elevated: hsl(var(--brand-hue), var(--neutral-sat), 15%); /* Elevado */
     
-    --text-primary: hsl(210 40% 98%);    /* #f8fafc */
-    --text-secondary: hsl(210 20% 75%);  /* #94a3b8 */
-    --text-muted: hsl(210 14% 53%);      /* #64748b */
+    --text-primary: hsl(var(--brand-hue), 5%, 95%);   /* Casi blanco, suave */
+    --text-secondary: hsl(var(--brand-hue), 5%, 70%); /* Gris azulado claro */
+    --text-muted: hsl(var(--brand-hue), 5%, 50%);     /* Texto terciario */
     
-    --border: hsl(210 18% 20%);          /* #334155 */
-    --border-hover: hsl(210 25% 25%);    /* Hover state */
-    --border-strong: hsl(210 14% 35%);   /* #64748b */
+    --border: hsl(var(--brand-hue), 10%, 20%);        /* Sutil pero visible */
+    --border-hover: hsl(var(--brand-hue), 10%, 30%);  /* Más claro en hover */
+    --border-strong: hsl(var(--brand-hue), 10%, 40%); /* Fuerte */
   }
 }
 
-/* Explicit dark mode class */
+/* Explicit theme classes para control manual */
 [data-theme="dark"] {
-  --bg-base: hsl(210 20% 8%);
-  --bg-surface: hsl(210 18% 11%);
-  --bg-elevated: hsl(210 16% 16%);
+  --bg-base: hsl(var(--brand-hue), var(--neutral-sat), 5%);
+  --bg-surface: hsl(var(--brand-hue), var(--neutral-sat), 10%);
+  --bg-elevated: hsl(var(--brand-hue), var(--neutral-sat), 15%);
   
-  --text-primary: hsl(210 40% 98%);
-  --text-secondary: hsl(210 20% 75%);
-  --text-muted: hsl(210 14% 53%);
+  --text-primary: hsl(var(--brand-hue), 5%, 95%);
+  --text-secondary: hsl(var(--brand-hue), 5%, 70%);
+  --text-muted: hsl(var(--brand-hue), 5%, 50%);
   
-  --border: hsl(210 18% 20%);
-  --border-hover: hsl(210 25% 25%);
-  --border-strong: hsl(210 14% 35%);
+  --border: hsl(var(--brand-hue), 10%, 20%);
+  --border-hover: hsl(var(--brand-hue), 10%, 30%);
+  --border-strong: hsl(var(--brand-hue), 10%, 40%);
 }
 
-/* Explicit light mode class */
 [data-theme="light"] {
-  --bg-base: hsl(210 20% 98%);
-  --bg-surface: hsl(210 40% 100%);
-  --bg-elevated: hsl(210 25% 97%);
+  --bg-base: hsl(var(--brand-hue), 10%, 98%);      /* Casi blanco */
+  --bg-surface: hsl(var(--brand-hue), 10%, 100%);  /* Blanco puro para cards */
+  --bg-elevated: hsl(var(--brand-hue), 10%, 96%);  /* Ligeramente gris */
   
-  --text-primary: hsl(210 22% 22%);
-  --text-secondary: hsl(210 14% 53%);
-  --text-muted: hsl(210 9% 71%);
+  --text-primary: hsl(var(--brand-hue), 15%, 10%);   /* Casi negro */
+  --text-secondary: hsl(var(--brand-hue), 10%, 35%); /* Gris oscuro */
+  --text-muted: hsl(var(--brand-hue), 8%, 55%);      /* Gris medio */
   
-  --border: hsl(210 18% 87%);
-  --border-hover: hsl(210 25% 80%);
-  --border-strong: hsl(210 25% 75%);
+  --border: hsl(var(--brand-hue), 10%, 88%);         /* Gris muy claro */
+  --border-hover: hsl(var(--brand-hue), 10%, 78%);   /* Más oscuro en hover */
+  --border-strong: hsl(var(--brand-hue), 10%, 68%);  /* Fuerte */
 }

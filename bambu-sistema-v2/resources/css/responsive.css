@@ -6,11 +6,7 @@
    📏 BREAKPOINTS DEFINIDOS
    ============================================ */
 
-:root {
-  --mobile: 0px;      /* 0-767px */
-  --tablet: 768px;    /* 768-1023px */
-  --desktop: 1024px;  /* 1024px+ */
-}
+/* Breakpoints movidos a tokens.css según REGLA #10 */
 
 /* ============================================
    🎛️ SIDEBAR RESPONSIVE
