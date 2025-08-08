@@ -45,6 +45,14 @@ html, body {
 - Flexibilidad de theming que Tailwind dark: no ofrece ✅
 - Mantenimiento más sencillo ✅
 
+### ⭐ DOCUMENTOS OBLIGATORIOS PARA FRONTEND
+**IMPORTANTE**: Para todo desarrollo frontend, seguir SIEMPRE estos 3 documentos:
+1. **[BAMBU_COLOR_SYSTEM.md](./BAMBU_COLOR_SYSTEM.md)** - Sistema definitivo de colores dark/light
+2. **[BAMBU_RESPONSIVE_SYSTEM.md](./BAMBU_RESPONSIVE_SYSTEM.md)** - Sistema responsive mobile-first
+3. **[UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md)** - Guía principal v3.0
+
+**NO IMPROVISAR**: Estos documentos son el resultado de lecciones aprendidas y deben seguirse al pie de la letra.
+
 ---
 
 ## 🔧 LARAVEL + VUE SPA SETUP

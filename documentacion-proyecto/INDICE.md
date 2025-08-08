@@ -31,12 +31,19 @@
 | **[🌐 API_ENDPOINTS.md](./API_ENDPOINTS.md)** | 49+ rutas API REST + Sanctum | ✅ OPERATIVA |
 | **[📝 ADR_NUEVAS_DECISIONES_2025.md](./ADR_NUEVAS_DECISIONES_2025.md)** | Decisiones arquitectónicas | ✅ ÚTIL |
 
-### 🎨 **UX/UI Y DISEÑO**
+### 🎨 **UX/UI Y DISEÑO - DOCUMENTOS OBLIGATORIOS FRONTEND**
 | Documento | Propósito | Estado |
 |-----------|-----------|--------|
-| **[🎨 UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md)** | Sistema diseño Vue+Tailwind (Trezo-inspired) | ✅ EN USO ACTIVO |
-| **[🎯 GUIA-RESPONSIVENESS-DEVELOPMENT.md](./GUIA-RESPONSIVENESS-DEVELOPMENT.md)** | Guía completa responsive design | ✅ NUEVA |
-| **[🎨 GUIA-COLORES-UI.md](./GUIA-COLORES-UI.md)** | Guía completa sistema colores | ✅ NUEVA |
+| **[🏗️ BAMBU_FRONTEND_SYSTEM.md](./BAMBU_FRONTEND_SYSTEM.md)** | **CORE TÉCNICO** - CSS reset, utilidades, componentes CRM | ✅ **OBLIGATORIO #1** |
+| **[🎨 BAMBU_COLOR_SYSTEM.md](./BAMBU_COLOR_SYSTEM.md)** | **Sistema definitivo colores dark/light** | ✅ **OBLIGATORIO #2** |
+| **[📱 BAMBU_RESPONSIVE_SYSTEM.md](./BAMBU_RESPONSIVE_SYSTEM.md)** | **Sistema responsive mobile-first completo** | ✅ **OBLIGATORIO #3** |
+| **[🧪 UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md)** | **Patrones UX específicos dominio químico** | ✅ **OBLIGATORIO #4** |
+
+### 📚 **BOILERPLATE FRONTEND SYSTEM**
+| Ubicación | Propósito | Estado |
+|-----------|-----------|--------|
+| **[📁 boilerplate-frontend-system/](../../boilerplate-frontend-system/)** | **Boilerplate reutilizable** - 3 guías genéricas + metodología | ✅ **DISPONIBLE** |
+| **[🚀 METODOLOGIA_FRONTEND_SYSTEM.md](../../boilerplate-frontend-system/METODOLOGIA_FRONTEND_SYSTEM.md)** | Cómo usar boilerplate para crear sistemas específicos | 📚 **METODOLOGÍA** |
 
 ### 📋 **CONTEXTO Y REFERENCIA**
 | Documento | Propósito | Estado |
@@ -63,17 +70,22 @@
 
 ## 🎯 QUICK REFERENCE - POST LIMPIEZA
 
-**ESTADO ACTUAL**: ⚠️ BACKEND COMPLETO - DASHBOARD VACÍO LISTO MOBILE-FIRST  
-**PRÓXIMO PASO**: Implementación responsive usando guías consolidadas  
+**ESTADO ACTUAL**: ⚠️ BACKEND COMPLETO - DASHBOARD VACÍO - SISTEMA DISEÑO CREADO  
+**PRÓXIMO PASO**: Implementar dashboard usando los 4 documentos obligatorios frontend  
 **STACK**: Laravel 11 + Vue 3 + PostgreSQL + Tailwind CSS  
-**DOCUMENTACIÓN**: 12 archivos esenciales, limpia y actualizada  
+**DOCUMENTACIÓN**: 10 archivos específicos Bambú + Boilerplate reutilizable creado  
+**BONUS**: ✅ Boilerplate Frontend System disponible para futuros proyectos  
 
 ---
 
 ## 📚 NAVEGACIÓN RÁPIDA
 
 1. **¿Estado actual?** → [STATUS.md](../STATUS.md) ← **TODO ESTÁ AQUÍ**
-2. **¿Cómo desarrollar responsive?** → [GUIA-RESPONSIVENESS-DEVELOPMENT.md](./GUIA-RESPONSIVENESS-DEVELOPMENT.md)
+2. **¿Cómo hacer el frontend?** → Ver los 4 documentos OBLIGATORIOS (en orden):
+   - [🏗️ BAMBU_FRONTEND_SYSTEM.md](./BAMBU_FRONTEND_SYSTEM.md) - **CORE técnico**
+   - [🎨 BAMBU_COLOR_SYSTEM.md](./BAMBU_COLOR_SYSTEM.md) - Colores
+   - [📱 BAMBU_RESPONSIVE_SYSTEM.md](./BAMBU_RESPONSIVE_SYSTEM.md) - Responsive
+   - [🧪 UX_UI_GUIDELINES_SISTEMA_BAMBU.md](./UX_UI_GUIDELINES_SISTEMA_BAMBU.md) - Patrones UX
 3. **¿Lecciones aprendidas?** → [DEV_HANDBOOK_LARAVEL_VUE.md](./DEV_HANDBOOK_LARAVEL_VUE.md)
 4. **¿Dashboard rebuild?** → [ANALISIS_DASHBOARD_ELEMENTOS_BACKEND.md](./ANALISIS_DASHBOARD_ELEMENTOS_BACKEND.md)
 

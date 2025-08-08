@@ -1,1059 +1,734 @@
-# Guidelines UX/UI - Sistema BAMBU v2.0
-## Inspiración: Dashboard Trezo (Análisis de Screenshots)
+# 🧪 Guidelines UX/UI - Dominio BAMBU CRM Químico
+
+**Especialización**: CRM Productos Químicos - Alto Valle de Río Negro  
+**Versión**: 4.0.0  
+**Actualizado**: 2025-08-08  
+
+## Índice
+- [Contexto del Negocio](#contexto-del-negocio)
+- [Principios UX Bambú](#principios-ux-bambú)
+- [Patrones de Interfaz Específicos](#patrones-de-interfaz-específicos)
+- [Flujos de Trabajo CRM](#flujos-de-trabajo-crm)
+- [Microinteracciones del Dominio](#microinteracciones-del-dominio)
+- [Accesibilidad en Contexto Industrial](#accesibilidad-en-contexto-industrial)
+
+> **📋 DOCUMENTOS TÉCNICOS COMPLEMENTARIOS:**
+> - 🏗️ [BAMBU_FRONTEND_SYSTEM.md](./BAMBU_FRONTEND_SYSTEM.md) - Sistema técnico core
+> - 🎨 [BAMBU_COLOR_SYSTEM.md](./BAMBU_COLOR_SYSTEM.md) - Paleta y variables
+> - 📱 [BAMBU_RESPONSIVE_SYSTEM.md](./BAMBU_RESPONSIVE_SYSTEM.md) - Breakpoints y responsive
 
 ---
 
-## 🎨 ANÁLISIS VISUAL DE REFERENCIAS
+## Contexto del Negocio
 
-### Screenshots Analizadas:
-- **Modo Oscuro**: `chrome_Oj0mMUUDqf.png` - Dashboard Trezo tema dark
-- **Modo Claro**: `chrome_F6YWN8Pb6M.png` - Dashboard Trezo tema light
+### 🧪 Dominio: Productos Químicos Industriales
 
-### Elementos Identificados y Medidas Específicas:
-1. **Sidebar oscura fija** (≈240px) con navegación jerárquica, íconos outline style
-2. **Header superior** (≈64px) con búsqueda prominente centrada y user controls
-3. **Grid de métricas** (4 columnas) con mini-charts integrados y badges de tendencia
-4. **Gráfico principal** área chart con gradientes violeta-azul y tooltip dark
-5. **Donut chart** con centro destacado (868 total) y leyenda color-coded
-6. **Tablas compactas** con headers sticky y row hover states
-7. **Color branding** violeta primario (#6366f1) con variantes para data viz
-8. **Micro-interacciones**: Dropdowns con chevrons, badges redondeados, botones con estado
+**Bambú** opera en el **Alto Valle de Río Negro** distribuyendo productos químicos industriales en bidones de 5L, 20L y contenedores IBC de 1000L.
 
----
+**Usuarios primarios:**
+- **Operarios logística**: Gestión de stock, picking, distribución
+- **Vendedores**: Cotizaciones, seguimiento pedidos, atención clientes
+- **Administración**: KPIs, reportes, facturación
+- **Clientes finales**: Consulta pedidos, stock disponible
 
-## 1. PRINCIPIOS FUNDAMENTALES
+**Contexto geográfico:**
+- **Rutas**: General Roca, Neuquén, Cipolletti, Cinco Saltos
+- **Temporalidad**: Ciclos agrícolas estacionales
+- **Urgencias**: Stock crítico en temporada alta
 
-### 1.1 Filosofía de Diseño
-- **Profesionalismo corporativo**: Estilo sobrio, clean, orientado a productividad
-- **Densidad de información**: Máximo datos útiles, mínimo ruido visual  
-- **Consistencia visual**: Patrones repetibles, elementos predecibles
-- **Accesibilidad**: Contraste alto, navegación clara, responsive
-
-### 1.2 Geometría
-- **Bordes**: Radius mínimo (2-4px) solo para suavizar, nunca "soft UI"
-- **Espaciado**: Sistema consistente basado en múltiplos de 4px o 8px
-- **Alineación**: Grid estricto, elementos perfectamente alineados
-- **Jerarquía**: Tamaños tipográficos y espacios que guíen la vista
+### 🎯 Objetivos UX Clave
+1. **Eficiencia operativa**: Tareas comunes en < 3 clicks
+2. **Prevención errores**: Validaciones críticas en productos peligrosos
+3. **Visibilidad stock**: Estado en tiempo real, alertas automáticas
+4. **Trazabilidad**: Seguimiento completo lote → cliente → entrega
+5. **Movilidad**: Uso efectivo en tablets para logística
 
 ---
 
-## 2. PALETA DE COLORES
+## Principios UX Bambú
 
-### 2.1 Modo Oscuro (Predeterminado)
-```css
-/* Backgrounds - Basado en análisis Trezo */
---bg-primary: #0a0e1a;     /* Fondo principal (más oscuro que Trezo) */
---bg-secondary: #141b2d;   /* Cards y elementos elevados */
---bg-sidebar: #0a0e1a;     /* Sidebar igual al fondo principal */
---bg-tertiary: #1a2332;    /* Elementos menos prominentes */
+### 🚀 Eficiencia Operativa
 
-/* Surfaces */
---surface-1: #1e2936;      /* Bordes y separadores sutiles */
---surface-2: #2a3441;      /* Hover states */
---surface-3: #364153;      /* Active/pressed states */
+**Principio**: **"Minimizar clicks, maximizar información"**
 
-/* Text */
---text-primary: #ffffff;   /* Texto principal (blanco puro para contraste) */
---text-secondary: #c1c9d2; /* Texto secundario */
---text-muted: #8b96a5;     /* Labels y texto terciario */
---text-placeholder: #6b7785; /* Placeholder text */
+- **Dashboard único**: Todo lo crítico en una pantalla
+- **Acciones rápidas**: Bulk operations para tareas masivas
+- **Búsqueda omnipresente**: Buscar por código, cliente, producto instantáneamente
+- **Estado persistente**: Recordar filtros, vistas, preferencias
 
-/* Accent Colors - Esquema de Trezo */
---primary: #6366f1;        /* Violeta principal (branding) */
---primary-hover: #5855eb;  /* Violeta hover */
---primary-light: #818cf8;  /* Violeta claro */
---primary-alpha: rgba(99, 102, 241, 0.1); /* Violeta transparente */
-
-/* Status Colors */
---success: #22c55e;        /* Verde para positivos */
---success-light: #86efac;  /* Verde claro */
---warning: #f59e0b;        /* Amarillo para advertencias */
---warning-light: #fde68a;  /* Amarillo claro */
---danger: #ef4444;         /* Rojo para errores/negativos */
---danger-light: #fca5a5;   /* Rojo claro */
-
-/* Data Visualization Colors */
---chart-1: #6366f1;        /* Violeta principal */
---chart-2: #8b5cf6;        /* Púrpura */
---chart-3: #06b6d4;        /* Cyan */
---chart-4: #10b981;        /* Esmeralda */
---chart-5: #f59e0b;        /* Ámbar */
---chart-6: #ef4444;        /* Rojo */
+```
+✅ BUENO: Ver stock + hacer pedido en 2 clicks
+❌ MALO: Navegar 5 pantallas para ver disponibilidad
 ```
 
-### 2.2 Modo Claro
-```css
-/* Backgrounds */
---bg-primary: #f8fafc;     /* Fondo principal claro pero no blanco */
---bg-secondary: #ffffff;   /* Cards con blanco real */
---bg-sidebar: #0f172a;     /* Sidebar SIEMPRE oscura */
+### 🛡️ Seguridad Industrial
 
-/* Surfaces */
---surface-1: #e2e8f0;      /* Elementos interactivos */
---surface-2: #cbd5e1;      /* Hover states */
+**Principio**: **"Prevenir errores peligrosos"**
 
-/* Text */
---text-primary: #1e293b;   /* Texto principal */
---text-secondary: #475569; /* Texto secundario */
---text-muted: #64748b;     /* Labels y texto terciario */
+- **Productos peligrosos**: Alertas visuales claras (ácidos, bases)
+- **Incompatibilidades**: Avisos automáticos de mezclas prohibidas
+- **Fechas vencimiento**: Destacar productos próximos a vencer
+- **Confirmaciones críticas**: Double-check en operaciones irreversibles
 
-/* Accent Colors (iguales) */
---primary: #6366f1;
---success: #059669;
---warning: #d97706;
---danger: #dc2626;
-```
+### 📊 Visibilidad del Negocio
+
+**Principio**: **"Información crítica siempre visible"**
+
+- **Stock crítico**: Indicadores rojos inmediatos
+- **Pedidos urgentes**: Prioridad visual clara
+- **Métricas clave**: Presentes en todas las vistas
+- **Estado sistema**: Indicadores de sincronización, errores
+
+### 🌐 Contexto Geográfico
+
+**Principio**: **"Optimizar para el Alto Valle"**
+
+- **Rutas predefinidas**: Ciudades y zonas preconfiguradas
+- **Horarios locales**: Considerar horarios comerciales regionales
+- **Clientes frecuentes**: Acceso rápido a clientes regulares
+- **Estacionalidad**: Adaptarse a ciclos agrícolas
 
 ---
 
-## 3. LAYOUT Y ESTRUCTURA
+## Patrones de Interfaz Específicos
 
-### 3.1 Sidebar (Navegación Principal)
-```scss
-.sidebar {
-  width: 280px; // Fijo, no colapsible inicialmente
-  background: var(--bg-sidebar);
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  z-index: 100;
-  
-  // Logo area
-  .brand {
-    padding: 1.5rem 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  
-  // Navigation items
-  .nav-item {
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    margin: 0 0.5rem;
-    
-    &.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    &:hover:not(.active) {
-      background: rgba(255,255,255,0.05);
-    }
-  }
-}
-```
+### 🧪 Tarjeta de Producto Químico
 
-### 3.2 Header
-```scss
-.header {
-  height: 64px;
-  background: var(--bg-primary); // En claro también puede ser oscuro
-  border-bottom: 1px solid var(--surface-1);
-  position: fixed;
-  top: 0;
-  left: 280px; // Offset por sidebar
-  right: 0;
-  z-index: 90;
-  
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
-  
-  .search-bar {
-    width: 100%;
-    max-width: 400px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--surface-1);
-    border-radius: 8px;
-  }
-  
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-}
-```
+**Patrón**: Información esencial + seguridad visual
 
-### 3.3 Main Content
-```scss
-.main-content {
-  margin-left: 280px; // Offset por sidebar
-  margin-top: 64px;    // Offset por header
-  padding: 1.5rem;
-  min-height: calc(100vh - 64px);
-  background: var(--bg-primary);
-}
-```
-
----
-
-## 4. COMPONENTES PRINCIPALES
-
-### 4.1 Metric Cards (KPI Cards)
-**Basado en las 4 cards superiores del dashboard Trezo**
-```scss
-.metric-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--surface-1);
-  border-radius: 8px;
-  padding: 1.5rem;
-  position: relative;
-  transition: var(--transition-fast);
-  
-  &:hover {
-    border-color: var(--surface-2);
-    background: var(--bg-tertiary);
-  }
-  
-  .metric-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    
-    .metric-title {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      text-transform: none; /* Como en Trezo */
-    }
-    
-    .metric-trend {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.25rem 0.5rem;
-      border-radius: 12px; /* Más redondeado como Trezo */
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      
-      &.positive {
-        background: rgba(34, 197, 94, 0.15);
-        color: var(--success-light);
-        
-        &::before {
-          content: "+";
-        }
-      }
-      
-      &.negative {
-        background: rgba(239, 68, 68, 0.15);
-        color: var(--danger-light);
-        
-        &::before {
-          content: "-";
-        }
-      }
-    }
-  }
-  
-  .metric-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    font-variant-numeric: tabular-nums; /* Números tabulares */
-    line-height: 1.1;
-  }
-  
-  .metric-subtitle {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
-  
-  // Mini chart integration - Sparkline style como Trezo
-  .metric-chart {
-    height: 40px;
-    margin-top: 1rem;
-    position: relative;
-    
-    // Gradiente sutil para las líneas
-    .chart-line {
-      stroke: var(--primary);
-      stroke-width: 2;
-      fill: none;
-    }
-    
-    .chart-area {
-      fill: url(#areaGradient);
-      opacity: 0.3;
-    }
-  }
-  
-  // Indicador de métrica en la esquina (como Dashboard icon)
-  &::after {
-    content: "";
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 6px;
-    height: 6px;
-    background: var(--primary);
-    border-radius: 50%;
-    opacity: 0.4;
-  }
-}
-```
-
-### 4.2 Charts Container
-```scss
-.chart-container {
-  background: var(--bg-secondary);
-  border: 1px solid var(--surface-1);
-  border-radius: 8px;
-  padding: 1.5rem;
-  
-  .chart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    
-    .chart-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    
-    .chart-controls {
-      display: flex;
-      gap: 0.5rem;
-    }
-  }
-  
-  .chart-content {
-    height: 300px; // Fixed height for consistency
-  }
-  
-  .chart-legend {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    font-size: 0.875rem;
-  }
-}
-```
-
-### 4.3 Data Tables
-```scss
-.data-table {
-  background: var(--bg-secondary);
-  border: 1px solid var(--surface-1);
-  border-radius: 8px;
-  overflow: hidden;
-  
-  .table-header {
-    background: var(--bg-primary);
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--surface-1);
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    .table-title {
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-  }
-  
-  table {
-    width: 100%;
-    
-    th {
-      background: var(--bg-primary);
-      padding: 0.75rem 1rem;
-      text-align: left;
-      font-weight: 500;
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      border-bottom: 1px solid var(--surface-1);
-    }
-    
-    td {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      color: var(--text-primary);
-      
-      &:last-child {
-        text-align: right;
-      }
-    }
-    
-    tr:hover {
-      background: var(--surface-1);
-    }
-  }
-}
-```
-
----
-
-## 5. SISTEMA TIPOGRÁFICO
-
-### 5.1 Font Stack
-```css
-:root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-}
-```
-
-### 5.2 Scale Tipográfica
-```css
-:root {
-  --text-xs: 0.75rem;    /* 12px - Labels pequeños */
-  --text-sm: 0.875rem;   /* 14px - Texto secundario */
-  --text-base: 1rem;     /* 16px - Texto base */
-  --text-lg: 1.125rem;   /* 18px - Títulos secundarios */
-  --text-xl: 1.25rem;    /* 20px - Títulos principales */
-  --text-2xl: 1.5rem;    /* 24px - Títulos grandes */
-  --text-3xl: 1.875rem;  /* 30px - Métricas */
-  --text-4xl: 2.25rem;   /* 36px - Valores KPI */
-}
-```
-
----
-
-## 6. COMPONENTES DE INTERACCIÓN
-
-### 6.1 Botones (Estilo Trezo)
-```scss
-.btn {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid transparent;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--primary-alpha);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-  
-  &.btn-primary {
-    background: var(--primary);
-    color: white;
-    
-    &:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
-    }
-    
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
-    }
-  }
-  
-  &.btn-secondary {
-    background: transparent;
-    color: var(--text-secondary);
-    border-color: var(--surface-1);
-    
-    &:hover {
-      background: var(--surface-1);
-      color: var(--text-primary);
-      border-color: var(--surface-2);
-    }
-  }
-  
-  &.btn-ghost {
-    background: transparent;
-    color: var(--text-secondary);
-    
-    &:hover {
-      background: var(--surface-1);
-      color: var(--text-primary);
-    }
-  }
-  
-  // Como el botón "Buy Now" de Trezo
-  &.btn-accent {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    font-weight: 600;
-    
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
-    }
-  }
-  
-  &.btn-sm {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-    gap: 0.375rem;
-  }
-  
-  &.btn-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    gap: 0.75rem;
-  }
-  
-  // Loading state
-  &.loading {
-    position: relative;
-    color: transparent;
-    
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 16px;
-      height: 16px;
-      border: 2px solid currentColor;
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 1s linear infinite;
-    }
-  }
-}
-
-@keyframes spin {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-```
-
-### 6.2 Form Controls
-```scss
-.form-control {
-  background: var(--bg-secondary);
-  border: 1px solid var(--surface-1);
-  border-radius: 6px;
-  padding: 0.625rem 0.75rem;
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  
-  &:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-  }
-  
-  &::placeholder {
-    color: var(--text-muted);
-  }
-}
-```
-
----
-
-## 7. SISTEMA DE SPACING
-
-```css
-:root {
-  --spacing-0: 0;
-  --spacing-1: 0.25rem;  /* 4px */
-  --spacing-2: 0.5rem;   /* 8px */
-  --spacing-3: 0.75rem;  /* 12px */
-  --spacing-4: 1rem;     /* 16px */
-  --spacing-5: 1.25rem;  /* 20px */
-  --spacing-6: 1.5rem;   /* 24px */
-  --spacing-8: 2rem;     /* 32px */
-  --spacing-10: 2.5rem;  /* 40px */
-  --spacing-12: 3rem;    /* 48px */
-}
-```
-
----
-
-## 8. RESPONSIVE DESIGN
-
-### 8.1 Breakpoints
-```css
-:root {
-  --screen-sm: 640px;
-  --screen-md: 768px;
-  --screen-lg: 1024px;
-  --screen-xl: 1280px;
-  --screen-2xl: 1536px;
-}
-```
-
-### 8.2 Mobile Adaptations
-```scss
-@media (max-width: 768px) {
-  .sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 280px; /* Mantiene el mismo ancho */
-    box-shadow: 2xl; /* Sombra cuando está abierto */
-    
-    &.open {
-      transform: translateX(0);
-    }
-  }
-  
-  .main-content {
-    margin-left: 0;
-  }
-  
-  .header {
-    left: 0;
-    
-    .hamburger {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      
-      .hamburger-lines {
-        width: 18px;
-        height: 2px;
-        background: var(--text-primary);
-        position: relative;
-        transition: var(--transition-fast);
-        
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
-          width: 100%;
-          height: 2px;
-          background: var(--text-primary);
-          transition: var(--transition-fast);
-        }
-        
-        &::before { top: -6px; }
-        &::after { bottom: -6px; }
-      }
-    }
-  }
-  
-  // Grid de métricas responsive
-  .metrics-grid {
-    grid-template-columns: 1fr 1fr; /* 2 columnas en mobile */
-    gap: 1rem;
-  }
-  
-  // Charts en mobile
-  .chart-container {
-    .chart-content {
-      height: 240px; /* Altura reducida */
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .metrics-grid {
-    grid-template-columns: 1fr; /* 1 columna en móviles pequeños */
-  }
-  
-  .metric-card {
-    padding: 1rem; /* Padding reducido */
-    
-    .metric-value {
-      font-size: 1.5rem; /* Tamaño reducido */
-    }
-  }
-}
-```
-
----
-
-## 9. ANIMACIONES Y TRANSICIONES
-
-### 9.1 Tiempos de Transición
-```css
-:root {
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
-}
-```
-
-### 9.2 Efectos Comunes
-```css
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.slide-up {
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-```
-
----
-
-## 10. IMPLEMENTACIÓN EN VUE.JS
-
-### 10.1 Estructura de Componentes
-```
-resources/js/design/
-├── components/           # Componentes base reutilizables
-│   ├── base/
-│   │   ├── BaseButton.vue
-│   │   ├── BaseCard.vue
-│   │   ├── BaseTable.vue
-│   │   └── BaseInput.vue
-│   ├── charts/
-│   │   ├── LineChart.vue
-│   │   ├── BarChart.vue
-│   │   └── PieChart.vue
-│   └── layout/
-│       ├── Sidebar.vue
-│       ├── Header.vue
-│       └── MainContent.vue
-├── composables/          # Lógica reutilizable
-│   ├── useTheme.js
-│   ├── useBreakpoints.js
-│   └── useCharts.js
-└── tokens/              # Variables de diseño
-    ├── colors.css
-    ├── typography.css
-    └── spacing.css
-```
-
-### 10.2 Composable de Tema
-```javascript
-// composables/useTheme.js
-import { ref, computed } from 'vue'
-
-const isDark = ref(true) // Dark mode por defecto
-
-export function useTheme() {
-  const toggleTheme = () => {
-    isDark.value = !isDark.value
-    updateCSSVariables()
-  }
-  
-  const updateCSSVariables = () => {
-    const root = document.documentElement
-    if (isDark.value) {
-      root.setAttribute('data-theme', 'dark')
-    } else {
-      root.setAttribute('data-theme', 'light')
-    }
-  }
-  
-  const themeClasses = computed(() => ({
-    'theme-dark': isDark.value,
-    'theme-light': !isDark.value
-  }))
-  
-  return {
-    isDark,
-    toggleTheme,
-    themeClasses
-  }
-}
-```
-
----
-
-## 11. PATRONES DE INTERACCIÓN ESPECÍFICOS
-
-### 11.1 Hover States (Basado en Trezo)
-```scss
-// Table rows
-.table-row:hover {
-  background: rgba(99, 102, 241, 0.05);
-  transition: var(--transition-fast);
-}
-
-// Sidebar navigation
-.nav-item:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(2px);
-}
-
-// Cards
-.card:hover {
-  border-color: var(--surface-2);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-```
-
-### 11.2 Loading States
-```scss
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-1) 25%,
-    var(--surface-2) 50%,
-    var(--surface-1) 75%
-  );
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-```
-
-### 11.3 Micro-interacciones
-```scss
-.dropdown-trigger {
-  &::after {
-    content: "▼";
-    font-size: 0.75rem;
-    margin-left: 0.5rem;
-    transition: var(--transition-fast);
-  }
-  
-  &.open::after {
-    transform: rotate(180deg);
-  }
-}
-
-.button {
-  &:active {
-    transform: scale(0.98);
-  }
-}
-```
-
----
-
-## 12. IMPLEMENTACIÓN CON VUE 3 + COMPOSITION API
-
-### 12.1 Composable para Métricas
-```javascript
-// composables/useMetrics.js
-import { ref, computed } from 'vue'
-
-export function useMetrics() {
-  const metrics = ref([])
-  const loading = ref(false)
-  
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS',
-      minimumFractionDigits: 0
-    }).format(value)
-  }
-  
-  const formatPercentage = (value) => {
-    return `${value > 0 ? '+' : ''}${value.toFixed(1)}%`
-  }
-  
-  const getTrendClass = (value) => {
-    return value > 0 ? 'positive' : value < 0 ? 'negative' : 'neutral'
-  }
-  
-  return {
-    metrics,
-    loading,
-    formatCurrency,
-    formatPercentage,
-    getTrendClass
-  }
-}
-```
-
-### 12.2 Componente MetricCard
 ```vue
-<template>
-  <div class="metric-card" :class="{ loading }">
-    <div class="metric-header">
-      <h3 class="metric-title">{{ title }}</h3>
-      <span 
-        v-if="trend" 
-        class="metric-trend"
-        :class="getTrendClass(trend)"
-      >
-        {{ formatPercentage(trend) }}
-      </span>
+<!-- ProductoQuimicoCard.vue -->
+<BambuCard :variant="getTipoVariant(producto.tipo)" clickable>
+  <template #header>
+    <div class="producto-header">
+      <div class="producto-info">
+        <h4>{{ producto.nombre }}</h4>
+        <code class="producto-codigo">{{ producto.codigo }}</code>
+      </div>
+      <div class="producto-alertas">
+        <span v-if="producto.es_peligroso" class="alerta-peligro">⚠️</span>
+        <span v-if="proximoVencimiento" class="alerta-vencimiento">⏰</span>
+      </div>
+    </div>
+  </template>
+  
+  <div class="producto-detalles">
+    <div class="stock-info">
+      <StockIndicator 
+        :cantidad="producto.stock_actual"
+        :minimo="producto.stock_minimo"
+        :unidad="producto.unidad_medida"
+      />
     </div>
     
-    <div class="metric-value">
-      {{ formatValue(value) }}
-    </div>
-    
-    <p class="metric-subtitle">{{ subtitle }}</p>
-    
-    <div v-if="chartData" class="metric-chart">
-      <svg class="w-full h-full" viewBox="0 0 200 40">
-        <defs>
-          <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" :stop-color="primaryColor" stop-opacity="0.4"/>
-            <stop offset="100%" :stop-color="primaryColor" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <path 
-          :d="chartPath" 
-          class="chart-area" 
-        />
-        <path 
-          :d="chartPath" 
-          class="chart-line" 
-        />
-      </svg>
+    <div class="precio-info">
+      <span class="precio">{{ formatPrice(producto.precio_litro) }}/L</span>
+      <span class="contenedor">{{ producto.tipo_contenedor }}</span>
     </div>
   </div>
-</template>
-
-<script setup>
-import { computed } from 'vue'
-import { useMetrics } from '@/composables/useMetrics'
-
-const props = defineProps({
-  title: String,
-  value: Number,
-  subtitle: String,
-  trend: Number,
-  chartData: Array,
-  type: { type: String, default: 'number' },
-  loading: { type: Boolean, default: false }
-})
-
-const { formatCurrency, formatPercentage, getTrendClass } = useMetrics()
-
-const formatValue = (value) => {
-  if (props.type === 'currency') return formatCurrency(value)
-  if (props.type === 'percentage') return `${value}%`
-  return value.toLocaleString()
-}
-
-const primaryColor = 'rgb(99, 102, 241)'
-
-const chartPath = computed(() => {
-  if (!props.chartData || props.chartData.length === 0) return ''
   
-  const data = props.chartData
-  const max = Math.max(...data)
-  const min = Math.min(...data)
-  const range = max - min || 1
-  
-  const points = data.map((value, index) => {
-    const x = (index / (data.length - 1)) * 200
-    const y = 40 - ((value - min) / range) * 30 - 5
-    return `${x},${y}`
-  })
-  
-  return `M ${points.join(' L ')}`
-})
-</script>
+  <template #footer>
+    <div class="acciones-rapidas">
+      <button @click="verStock" class="btn-icon">📊</button>
+      <button @click="hacerPedido" class="btn-icon">🛒</button>
+      <button @click="verFicha" class="btn-icon">📋</button>
+    </div>
+  </template>
+</BambuCard>
 ```
 
----
+**Elementos clave:**
+- **Código visible**: Siempre presente para búsqueda rápida
+- **Alertas inmediatas**: Peligrosidad y vencimientos
+- **Stock contextual**: Color según nivel crítico
+- **Acciones rápidas**: Operaciones comunes sin navegar
 
----
+### 🚨 Patrón de Alertas de Stock
 
-## 13. CONTEXTO ESPECÍFICO SISTEMA BAMBU
+**Patrón**: Estado visual inmediato + información contextual
 
-### 13.1 Pantallas Principales Requeridas
-```scss
-// Dashboard Principal - Métricas de negocio
-.dashboard-home {
-  .metrics-overview {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    
-    // Métricas específicas BAMBU
-    .metric-revenue { --accent: var(--success); }
-    .metric-orders { --accent: var(--primary); }
-    .metric-clients { --accent: var(--chart-3); }
-    .metric-products { --accent: var(--chart-2); }
-  }
-}
-
-// Gestión de Productos
-.products-view {
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
+```vue
+<div class="stock-alert-panel">
+  <div class="alert-header">
+    <h3>⚠️ Productos con Stock Crítico</h3>
+    <span class="alert-count">{{ productosAlerta.length }} productos</span>
+  </div>
   
-  .product-card {
-    .stock-indicator {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
+  <div class="alert-list">
+    <div 
+      v-for="producto in productosAlerta" 
+      :key="producto.id"
+      :class="['alert-item', `alert-${producto.nivel_stock}`]"
+    >
+      <div class="alert-producto">
+        <strong>{{ producto.nombre }}</strong>
+        <code>{{ producto.codigo }}</code>
+      </div>
       
-      &.low-stock { color: var(--warning); }
-      &.out-stock { color: var(--danger); }
-      &.good-stock { color: var(--success); }
-    }
-  }
-}
-
-// Gestión de Pedidos  
-.orders-view {
-  .order-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 0.75rem;
-    border-radius: 16px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    
-    &.borrador { background: rgba(156, 163, 175, 0.15); color: #9ca3af; }
-    &.confirmado { background: var(--primary-alpha); color: var(--primary-light); }
-    &.en_reparto { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-    &.entregado { background: rgba(34, 197, 94, 0.15); color: var(--success); }
-    &.cancelado { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
-    
-    &::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-  }
-}
+      <div class="alert-stock">
+        <span class="cantidad-actual">{{ producto.stock_actual }}L</span>
+        <span class="cantidad-minima">mín: {{ producto.stock_minimo }}L</span>
+      </div>
+      
+      <div class="alert-acciones">
+        <button @click="reponerStock(producto)" class="btn-reponer">
+          🔄 Reponer
+        </button>
+        <button @click="verProveedores(producto)" class="btn-proveedores">
+          📞 Proveedores
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 ```
 
-### 13.2 Plan de Implementación
-**FASE 1: Estructura Base**
-1. Crear tokens CSS (colors, typography, spacing)
-2. Implementar layout components (Sidebar, Header, MainContent)
-3. Desarrollar componentes base (Button, Input, Card, Table)
+**Estados visuales:**
+- **🔴 Crítico**: Stock = 0 (fondo rojo suave)
+- **🟡 Bajo**: Stock < mínimo (fondo amarillo)
+- **🟠 Alerta**: Stock < 20% del mínimo (fondo naranja)
 
-**FASE 2: Componentes Business**
-1. MetricCard con mini-charts
-2. ProductCard con stock indicators
-3. OrderStatus con estados visuales
-4. Cliente cards con tier system
+**Acciones contextuales:**
+- **Reponer**: Link directo a generar orden de compra
+- **Proveedores**: Contactos rápidos de suppliers
+- **Historial**: Ver consumo histórico para proyección
 
-**FASE 3: Pantallas Principales**
-1. Dashboard con métricas BAMBU
-2. Vista productos con grid responsivo  
-3. Gestión pedidos con estados
-4. Panel configuración Filament
+### 📋 Patrón de Pedidos en Proceso
+
+**Patrón**: Timeline visual + acciones contextuales
+
+```vue
+<div class="pedidos-timeline">
+  <div 
+    v-for="pedido in pedidosActivos" 
+    :key="pedido.id"
+    class="pedido-item"
+  >
+    <div class="pedido-timeline">
+      <div class="timeline-dot" :class="getEstadoClass(pedido.estado)"></div>
+      <div class="timeline-line" v-if="!isUltimo"></div>
+    </div>
+    
+    <div class="pedido-content">
+      <div class="pedido-header">
+        <div class="pedido-info">
+          <h4>Pedido #{{ pedido.numero }}</h4>
+          <span class="cliente">{{ pedido.cliente.nombre }}</span>
+          <span class="fecha">{{ formatDate(pedido.fecha_pedido) }}</span>
+        </div>
+        
+        <div class="pedido-estado">
+          <PedidoEstadoBadge :estado="pedido.estado" />
+        </div>
+      </div>
+      
+      <div class="pedido-productos">
+        <div 
+          v-for="item in pedido.items" 
+          :key="item.id"
+          class="producto-item"
+        >
+          <span class="producto-nombre">{{ item.producto.nombre }}</span>
+          <span class="cantidad">{{ item.cantidad }}L</span>
+          <span class="precio">{{ formatPrice(item.subtotal) }}</span>
+        </div>
+      </div>
+      
+      <div class="pedido-acciones">
+        <template v-if="pedido.estado === 'confirmado'">
+          <button @click="prepararPicking(pedido)" class="btn-accion">
+            📦 Preparar
+          </button>
+          <button @click="imprimirRemito(pedido)" class="btn-accion">
+            🖨️ Remito
+          </button>
+        </template>
+        
+        <template v-if="pedido.estado === 'en_preparacion'">
+          <button @click="marcarListo(pedido)" class="btn-accion">
+            ✅ Listo
+          </button>
+          <button @click="asignarTransporte(pedido)" class="btn-accion">
+            🚚 Asignar Transporte
+          </button>
+        </template>
+        
+        <button @click="verDetalle(pedido)" class="btn-secundario">
+          👁️ Ver Detalle
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+**Estados del Timeline:**
+- **Borrador**: Círculo gris
+- **Confirmado**: Círculo azul
+- **En preparación**: Círculo amarillo animado
+- **Listo**: Círculo verde
+- **En reparto**: Círculo naranja
+- **Entregado**: Círculo verde sólido
+
+### 🔍 Patrón de Búsqueda Omnipresente
+
+**Patrón**: Búsqueda inteligente + resultados contextuales
+
+```vue
+<div class="busqueda-global">
+  <div class="search-input-wrapper">
+    <input 
+      v-model="query"
+      type="text"
+      placeholder="Buscar productos, clientes, pedidos..."
+      class="search-input"
+      @focus="mostrarSugerencias = true"
+      @input="buscarEnVivo"
+    />
+    <button class="search-button">
+      🔍
+    </button>
+  </div>
+  
+  <div v-if="mostrarSugerencias" class="search-dropdown">
+    <!-- Productos -->
+    <div v-if="resultados.productos.length" class="search-section">
+      <h5>🧪 Productos</h5>
+      <div 
+        v-for="producto in resultados.productos" 
+        :key="producto.id"
+        class="search-item"
+        @click="irAProducto(producto)"
+      >
+        <div class="item-principal">
+          <strong>{{ producto.nombre }}</strong>
+          <code>{{ producto.codigo }}</code>
+        </div>
+        <div class="item-secundario">
+          <StockIndicator 
+            :cantidad="producto.stock_actual" 
+            :minimo="producto.stock_minimo"
+            size="sm"
+          />
+        </div>
+      </div>
+    </div>
+    
+    <!-- Clientes -->
+    <div v-if="resultados.clientes.length" class="search-section">
+      <h5>👥 Clientes</h5>
+      <div 
+        v-for="cliente in resultados.clientes" 
+        :key="cliente.id"
+        class="search-item"
+        @click="irACliente(cliente)"
+      >
+        <div class="item-principal">
+          <strong>{{ cliente.nombre }}</strong>
+          <span class="cliente-tipo">{{ cliente.tipo }}</span>
+        </div>
+        <div class="item-secundario">
+          <span class="ciudad">{{ cliente.ciudad }}</span>
+          <span class="ultimo-pedido">Último: {{ cliente.ultimo_pedido }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Pedidos -->
+    <div v-if="resultados.pedidos.length" class="search-section">
+      <h5>📋 Pedidos</h5>
+      <div 
+        v-for="pedido in resultados.pedidos" 
+        :key="pedido.id"
+        class="search-item"
+        @click="irAPedido(pedido)"
+      >
+        <div class="item-principal">
+          <strong>Pedido #{{ pedido.numero }}</strong>
+          <span class="cliente">{{ pedido.cliente.nombre }}</span>
+        </div>
+        <div class="item-secundario">
+          <PedidoEstadoBadge :estado="pedido.estado" size="sm" />
+          <span class="fecha">{{ formatDate(pedido.fecha) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+**Características:**
+- **Búsqueda en vivo**: Resultados al escribir (debounced)
+- **Múltiples entidades**: Productos, clientes, pedidos
+- **Información contextual**: Stock, estado, fechas
+- **Navegación directa**: Click → ir a detalle
+- **Accesible**: Funciona con teclado
 
 ---
 
-🎨 **DOCUMENTO FINALIZADO - ITERACIÓN 3/3**  
-🚀 **Sistema de diseño completo para BAMBU v2.0**  
-📋 **Listo para implementación con Vue 3 + Tailwind**
+## Flujos de Trabajo CRM
+
+### 🛒 Flujo: Crear Pedido Nuevo
+
+**Objetivo**: Crear pedido completo en < 2 minutos
+
+```
+PASO 1: Seleccionar Cliente
+├── 🔍 Buscar por nombre/código
+├── 📋 Ver historial pedidos
+└── ➕ Cliente nuevo (si necesario)
+
+PASO 2: Agregar Productos
+├── 🔍 Buscar productos
+├── ✅ Verificar stock disponible
+├── ⚠️ Alertas incompatibilidades
+└── 🧮 Calcular totales automático
+
+PASO 3: Configurar Entrega
+├── 📅 Fecha preferida
+├── 📍 Dirección (autocompletada)
+├── 🚚 Método transporte
+└── 💬 Notas especiales
+
+PASO 4: Confirmación
+├── 📋 Resumen visual completo
+├── 💰 Totales destacados
+├── ⚠️ Últimas validaciones
+└── ✅ Confirmar pedido
+```
+
+**UX Crítico:**
+- **Autocompletado**: Cliente frecuente → datos prellenados
+- **Validaciones en vivo**: Stock, incompatibilidades
+- **Cálculos automáticos**: Precio, peso, volumen
+- **Estado persistente**: Guardar borrador automático
+
+### 📦 Flujo: Preparación de Picking
+
+**Objetivo**: Minimizar errores en preparación física
+
+```
+PASO 1: Lista de Picking Optimizada
+├── 🗺️ Ordenada por ubicación física
+├── 📦 Agrupada por tipo contenedor
+├── ⚠️ Productos peligrosos destacados
+└── ✅ Checkboxes grandes para tablet
+
+PASO 2: Validación de Lotes
+├── 📅 Verificar fechas vencimiento
+├── 🏷️ Escanear códigos lote
+├── ❌ Rechazar productos vencidos
+└── 📝 Registrar observaciones
+
+PASO 3: Control de Calidad
+├── 📋 Checklist visual productos
+├── 🧪 Verificar etiquetas peligrosidad
+├── 📦 Confirmar embalaje correcto
+└── ✅ Aprobar para despacho
+```
+
+**Interfaz Tablet-Friendly:**
+- **Checkboxes grandes**: Mínimo 44px para dedo
+- **Códigos QR grandes**: Fácil escaneo
+- **Estado visual claro**: Verde/rojo inmediato
+- **Scroll horizontal**: Lista larga cómoda
+
+### 🚚 Flujo: Seguimiento de Entrega
+
+**Objetivo**: Visibilidad completa cliente + operaciones
+
+```
+VISTA OPERACIONES:
+├── 🗺️ Mapa rutas tiempo real
+├── 📱 Estado chofer (GPS + confirmación)
+├── ⏰ ETAs actualizados automático
+└── 🚨 Alertas retrasos/problemas
+
+VISTA CLIENTE:
+├── 📧 Notificación automática envío
+├── 🔗 Link tracking público
+├── ⏰ Ventana horaria estimada
+└── 📞 Contacto directo chofer
+
+EVENTOS AUTOMÁTICOS:
+├── 🚚 "Producto despachado"
+├── 📍 "En ruta hacia destino"
+├── 🏠 "Llegó a destino"
+└── ✅ "Entrega confirmada"
+```
+
+**Microinteracciones:**
+- **Estados animados**: Dots pulsantes para "en tránsito"
+- **Mapas interactivos**: Zoom automático a ruta
+- **Notificaciones push**: Updates críticos
+- **Colores semánticos**: Verde = OK, Rojo = Problema
+
+---
+
+## Microinteracciones del Dominio
+
+### 🔄 Actualización de Stock en Vivo
+
+**Trigger**: Cambio en stock de producto
+
+```javascript
+// Animación de cambio de stock
+function animarCambioStock(productoId, stockAnterior, stockNuevo) {
+  const elemento = document.querySelector(`[data-producto-id="${productoId}"]`)
+  const indicador = elemento.querySelector('.stock-indicator')
+  
+  // Animación de "pulso" para indicar cambio
+  indicador.classList.add('stock-update-pulse')
+  
+  // Cambiar color basado en dirección del cambio
+  if (stockNuevo > stockAnterior) {
+    indicador.classList.add('stock-increase') // Verde
+  } else {
+    indicador.classList.add('stock-decrease') // Naranja/Rojo
+  }
+  
+  // Limpiar clases después de animación
+  setTimeout(() => {
+    indicador.classList.remove('stock-update-pulse', 'stock-increase', 'stock-decrease')
+  }, 1000)
+}
+```
+
+### 🚨 Alertas de Productos Peligrosos
+
+**Trigger**: Selección de producto ácido/base/tóxico
+
+```css
+/* Animación de alerta peligrosidad */
+@keyframes peligro-pulse {
+  0% { 
+    border-color: var(--error);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% { 
+    border-color: var(--error-hover);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.1);
+  }
+  100% { 
+    border-color: var(--error);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.producto-peligroso {
+  animation: peligro-pulse 2s infinite;
+  border-left: 4px solid var(--error);
+}
+
+.alerta-incompatibilidad {
+  position: relative;
+}
+
+.alerta-incompatibilidad::after {
+  content: "⚠️ INCOMPATIBLE";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--error);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+```
+
+### ✅ Feedback de Acciones Exitosas
+
+**Patrón**: Confirmación visual inmediata
+
+```javascript
+// Toast de éxito con contexto específico
+function mostrarExitoPedido(pedido) {
+  showToast({
+    tipo: 'success',
+    titulo: '✅ Pedido Creado',
+    mensaje: `Pedido #${pedido.numero} para ${pedido.cliente.nombre}`,
+    acciones: [
+      {
+        texto: '👁️ Ver Pedido',
+        onClick: () => router.push(`/pedidos/${pedido.id}`)
+      },
+      {
+        texto: '🖨️ Imprimir',
+        onClick: () => imprimirPedido(pedido.id)
+      }
+    ],
+    duracion: 5000
+  })
+}
+
+// Animación de botón después de acción
+function animarBotonExito(botonElement) {
+  const textoOriginal = botonElement.textContent
+  const iconoOriginal = botonElement.querySelector('svg')
+  
+  // Cambiar a estado "éxito" temporalmente
+  botonElement.textContent = '✅ ¡Listo!'
+  botonElement.classList.add('btn-success-temp')
+  
+  setTimeout(() => {
+    botonElement.textContent = textoOriginal
+    botonElement.classList.remove('btn-success-temp')
+  }, 2000)
+}
+```
+
+### 🔄 Loading States Específicos
+
+```vue
+<!-- Loading específico para verificación de stock -->
+<div v-if="verificandoStock" class="verificando-stock">
+  <div class="spinner-stock"></div>
+  <span>Verificando disponibilidad...</span>
+</div>
+
+<!-- Loading específico para cálculo de flete -->
+<div v-if="calculandoFlete" class="calculando-flete">
+  <div class="truck-animation">🚚</div>
+  <span>Calculando costo de envío...</span>
+</div>
+
+<!-- Loading específico para validación química -->
+<div v-if="validandoCompatibilidad" class="validando-quimica">
+  <div class="formula-animation">🧪</div>
+  <span>Verificando compatibilidad química...</span>
+</div>
+```
+
+---
+
+## Accesibilidad en Contexto Industrial
+
+### 👓 Consideraciones Visuales
+
+**Contexto**: Operarios con cansancio visual, ambientes con polvo
+
+- **Contraste alto**: Mínimo WCAG AAA para textos críticos
+- **Tamaños grandes**: Información crítica en 18px+
+- **Colores redundantes**: Nunca solo color para transmitir información
+- **Iconografía clara**: Símbolos universales + texto
+
+### 🖱️ Navegación por Teclado
+
+**Contexto**: Uso con guantes industriales, pantallas touch resistivas
+
+```css
+/* Focus states más prominentes para contexto industrial */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  background: var(--primary-bg);
+}
+
+/* Áreas de click más grandes */
+.touch-target {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 12px;
+}
+
+/* Estados hover más evidentes */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+```
+
+### ⚠️ Alertas Críticas Accesibles
+
+```html
+<!-- Alerta de producto peligroso -->
+<div 
+  class="alerta-peligro" 
+  role="alert" 
+  aria-live="polite"
+  tabindex="0"
+>
+  <span aria-hidden="true">⚠️</span>
+  <span class="sr-only">Atención: Producto Peligroso</span>
+  <strong>ÁCIDO MURIÁTICO</strong>
+  <p>Manipular con guantes y protección ocular</p>
+</div>
+
+<!-- Estado de stock crítico -->
+<div 
+  class="stock-critico" 
+  role="status" 
+  aria-live="assertive"
+>
+  <span aria-hidden="true">🔴</span>
+  <span class="sr-only">Stock crítico:</span>
+  <span>{{ producto.nombre }} - Solo {{ stock }} unidades restantes</span>
+</div>
+```
+
+---
+
+## Validación UX Bambú
+
+### ✅ Checklist Específico CRM Químico
+
+**🧪 Seguridad Industrial:**
+- [ ] Productos peligrosos destacados visualmente
+- [ ] Incompatibilidades químicas alertadas
+- [ ] Fechas de vencimiento prominentes
+- [ ] Confirmaciones dobles para acciones críticas
+
+**📦 Operaciones Logísticas:**
+- [ ] Stock visible en todas las vistas de productos
+- [ ] Rutas de entrega precargadas para Alto Valle
+- [ ] Estados de pedido claros y actualizados
+- [ ] Picking lists optimizadas por ubicación física
+
+**👥 Experiencia Cliente:**
+- [ ] Historial de pedidos accesible
+- [ ] Búsqueda funciona con códigos internos
+- [ ] Precios actualizados y visibles
+- [ ] Contacto directo con vendedor asignado
+
+**📱 Uso Móvil/Tablet:**
+- [ ] Interfaz funciona con dedos (no stylus)
+- [ ] Códigos QR escaneables fácilmente
+- [ ] Formularios completables en vertical
+- [ ] Tablas con scroll horizontal fluido
+
+### 🎯 Métricas de Éxito UX
+
+- **Tiempo crear pedido**: < 2 minutos
+- **Errores en picking**: < 1% mensual
+- **Satisfacción usuario**: > 4.5/5
+- **Adopción móvil**: > 60% operarios
+- **Reducción consultas**: -30% llamadas por estado pedidos
+
+---
+
+## Recursos y Referencias
+
+### 📚 Documentos Técnicos Relacionados
+- 🏗️ [BAMBU_FRONTEND_SYSTEM.md](./BAMBU_FRONTEND_SYSTEM.md) - Componentes y arquitectura
+- 🎨 [BAMBU_COLOR_SYSTEM.md](./BAMBU_COLOR_SYSTEM.md) - Paleta y variables completas
+- 📱 [BAMBU_RESPONSIVE_SYSTEM.md](./BAMBU_RESPONSIVE_SYSTEM.md) - Sistema responsive
+- 🛠️ [DEV_HANDBOOK_LARAVEL_VUE.md](./DEV_HANDBOOK_LARAVEL_VUE.md) - Implementación técnica
+
+### 🎯 Contexto del Negocio
+- 🏢 [INFORMACION_NEGOCIO_BAMBU.md](./INFORMACION_NEGOCIO_BAMBU.md) - Conocimiento del dominio
+- 🗂️ [SYSTEM_ARCHITECTURE.md](./SYSTEM_ARCHITECTURE.md) - Arquitectura general
+
+---
+
+**🧪 Guidelines UX específicas para CRM Químico Bambú**  
+**📅 Actualizado**: 2025-08-08  
+**🎯 Optimizado para**: Alto Valle, Productos Químicos, Operaciones Industriales

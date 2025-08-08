@@ -59,13 +59,15 @@ bambu_crm_full/
    - `CLAUDE.md`
    - Reglas imperativas vigentes
 
-2. **Si en `STATUS.md` la sección “Siguiente” implica una tarea de desarrollo**  
+2. **Si en `STATUS.md` la sección "Siguiente" implica una tarea de desarrollo**  
    (p. ej., *frontend*, *UI*, *UX*, *CSS*, *componente*, *vista*, *layout*, *JavaScript*, *Vue*, *Laravel*, *refactor*), leer además, en este orden:
    - `documentacion-proyecto/STACK_TECH.md`
    - `documentacion-proyecto/SYSTEM_ARCHITECTURE.md`
-   - `documentacion-proyecto/DESIGN_SYSTEM.md`
-   - `documentacion-proyecto/DEV_HANDBOOK_LARAVEL_VUE.md`
+   - `documentacion-proyecto/BAMBU_FRONTEND_SYSTEM.md` **[CORE OBLIGATORIO]**
+   - `documentacion-proyecto/BAMBU_COLOR_SYSTEM.md`
+   - `documentacion-proyecto/BAMBU_RESPONSIVE_SYSTEM.md`
    - `documentacion-proyecto/UX_UI_GUIDELINES_SISTEMA_BAMBU.md`
+   - `documentacion-proyecto/DEV_HANDBOOK_LARAVEL_VUE.md`
 
 3. Si tras leer lo anterior falta contexto específico del módulo/flujo mencionado en `STATUS.md`, leer los archivos relevantes dentro de `documentacion-proyecto/` indicados por ese estado (solo los necesarios).
 
@@ -73,6 +75,59 @@ bambu_crm_full/
 
 5. Confirmar: "Contexto actualizado desde `STATUS.md` y `CLAUDE.md`
 
+
+### 🚨 REGLA IMPERATIVA #6: SISTEMA DE DISEÑO OBLIGATORIO
+
+**Trigger:** Cualquier desarrollo frontend (componentes, vistas, estilos)
+
+**Documentos OBLIGATORIOS a seguir (en orden):**
+1. **BAMBU_FRONTEND_SYSTEM.md** - Sistema técnico CORE (CSS reset, utilidades, componentes)
+2. **BAMBU_COLOR_SYSTEM.md** - Paleta y variables de colores
+3. **BAMBU_RESPONSIVE_SYSTEM.md** - Breakpoints y sistema responsive
+4. **UX_UI_GUIDELINES_SISTEMA_BAMBU.md** - Patrones UX específicos del dominio
+
+**Prohibiciones ABSOLUTAS:**
+- NUNCA hardcodear colores (usar SIEMPRE variables CSS)
+- NUNCA empezar por desktop (SIEMPRE mobile-first)
+- NUNCA border-radius mayor a 4px
+- NUNCA improvisar breakpoints (usar los definidos)
+- NUNCA omitir CSS reset del BAMBU_FRONTEND_SYSTEM.md
+- NUNCA crear componentes sin seguir los patrones definidos
+
+### 🚨 REGLA IMPERATIVA #7: DESARROLLO MOBILE-FIRST
+
+**Procedimiento obligatorio:**
+1. Diseñar y codear para 320px-375px PRIMERO
+2. Agregar tablet styles con @media (min-width: 768px)
+3. Agregar desktop styles con @media (min-width: 1024px)
+4. Testear en los 5 viewports críticos antes de continuar
+
+### 🚨 REGLA IMPERATIVA #8: ESTRUCTURA DE ARCHIVOS CSS/VUE
+
+**Ubicación obligatoria:**
+```
+bambu-sistema-v2/resources/
+├── css/
+│   ├── app.css           # Variables de colores
+│   ├── responsive.css    # Media queries
+│   └── components.css    # Estilos componentes
+└── js/
+    ├── composables/
+    │   ├── useTheme.js
+    │   └── useResponsive.js
+    └── components/
+        └── [componentes].vue
+```
+
+### 🚨 REGLA IMPERATIVA #9: CHECKLIST PRE-COMMIT FRONTEND
+
+**Antes de CUALQUIER commit con cambios frontend:**
+- Verificar dark mode funciona
+- Verificar light mode funciona
+- Testear en 320px, 768px, 1024px
+- Sin colores hardcodeados
+- Sin console.log()
+- Componentes siguen nomenclatura PascalCase
 
 ## 🛠️ COMANDOS DE DESARROLLO
 
